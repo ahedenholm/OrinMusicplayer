@@ -12,7 +12,6 @@ import java.util.Comparator;
 import android.net.Uri;
 import android.content.ContentResolver;
 import android.database.Cursor;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.os.IBinder;
 import android.content.ComponentName;
@@ -33,10 +32,6 @@ public class Main_Activity extends AppCompatActivity {
     private boolean musicBound = false;
 
     UserController userController = new UserController();
-    private ImageButton imageButtonOpen;
-    private ImageButton imageButtonPlay;
-    private ImageButton imageButtonPause;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,8 +49,7 @@ public class Main_Activity extends AppCompatActivity {
         SongAdapter songAdt = new SongAdapter(this, songList);
         songView.setAdapter(songAdt);
         activateSongList();
-        play();
-
+        userController.play(musicSrv);
     }
 
     private ServiceConnection musicConnection = new ServiceConnection() {
@@ -90,29 +84,12 @@ public class Main_Activity extends AppCompatActivity {
     }
 
     public void activateSongList() {
-        userController.getImagetButtonOpen().setOnClickListener(new View.OnClickListener() {
+        userController.getImageButtonOpen().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 animation.animationFade(songView);
             }
         });
-    }
-
-    public void play() {
-        imageButtonPlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!musicSrv.getIsPlaying()) {
-                    musicSrv.playSong();
-                    userController.getImageButtonPlay().setBackgroundResource(R.drawable.button_pause);
-                }
-                else {
-                    musicSrv.pauseSong();
-                    userController.getImageButtonPlay().setBackgroundResource(R.drawable.button_play);
-                }
-            }
-        });
-
     }
 
     public void getSongList() {
