@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/orin_bg2v2_720x1280"
+    android:layout_height="match_parent"
+    android:id="@+id/main_layout"
+    >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Space
+            android:layout_width="291dp"
+            android:layout_height="260dp" />
+        <ImageButton
+            android:id="@+id/imageButtonMenu"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:adjustViewBounds="false"
+            android:background="@drawable/circle002gradientmenu04100x100"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Space
+            android:layout_width="35dp"
+            android:layout_height="match_parent" />
+
+        <ImageButton
+            android:id="@+id/imageButtonPrev"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/circle002gradientprevious02100x100" />
+        <ImageButton
+            android:id="@+id/imageButtonOpen"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:background="@drawable/circle002gradientopen02100x100" />
+
+
+        <ImageButton
+            android:id="@+id/imageButtonPlay"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/button_play"
+        />
+        <ImageButton
+            android:id="@+id/imageButtonNext"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/circle002gradientnext02100x100" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Space
+            android:layout_width="120dp"
+            android:layout_height="30dp" />
+
+        <!--
+        <ImageButton
+            android:id="@+id/imageButtonPause"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/circle002gradientpause01100x100" />
+        <ImageButton
+            android:id="@+id/imageButtonStop"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/circle002gradientstop01100x100" />
+        -->
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <ListView
+            android:id="@+id/song_list"
+            android:alpha="0"
+            android:layout_width="match_parent"
+            android:layout_height="213dp" />
+    </LinearLayout>
+
+
+</LinearLayout>

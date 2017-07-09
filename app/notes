@@ -1,0 +1,32 @@
+Orin musicplayer
+
+intent: simple in functions with a clean nice visual design
+
+name: Orin
+motto: a clean player
+visuella teman: Hexagon (boc inspirerat), Tyrone (grått, Gravity’s Rainbow)
+Clean architecture
+SOLID
+https://medium.com/mobile-development-weltn24/keep-your-droid-clean-e9c093140eb6
+
+---------------------------------------------------------------------
+v0.1
+features:
+portrait design,
+2 visual themes.
+choose one track from device.
+play, pause, stop, next, previous.
+mp3 support.
+show track name, track artist, not time played
+
+buttons: play, pause, stop, next, previous, menu, open track
+images: 2 background images.
+animations: open app, open songlist, open menu, switch theme
+
+
+---------------------------------------------------------------------
+v0.2
+features:
+
+
+
