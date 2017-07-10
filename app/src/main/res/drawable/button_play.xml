@@ -3,5 +3,4 @@
     <item android:drawable="@drawable/circle002gradientplay03pressed"
         android:state_pressed="true" />
     <item android:drawable="@drawable/circle002gradientplay03100x100" />
-
 </selector>

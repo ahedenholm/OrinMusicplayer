@@ -12,6 +12,7 @@ import java.util.Comparator;
 import android.net.Uri;
 import android.content.ContentResolver;
 import android.database.Cursor;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.os.IBinder;
 import android.content.ComponentName;
@@ -31,7 +32,8 @@ public class Main_Activity extends AppCompatActivity {
     private Intent playIntent;
     private boolean musicBound = false;
 
-    UserController userController = new UserController();
+    private ImageButton imageButtonOpen;
+    private ImageButton imageButtonPlay;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,6 +41,8 @@ public class Main_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         songView = (ListView) findViewById(R.id.song_list);
         songList = new ArrayList<Song>();
+        imageButtonOpen = (ImageButton) findViewById(R.id.imageButtonOpen);
+        imageButtonPlay = (ImageButton) findViewById(R.id.imageButtonPlay);
 
         getSongList();
         Collections.sort(songList, new Comparator<Song>() {
@@ -49,7 +53,7 @@ public class Main_Activity extends AppCompatActivity {
         SongAdapter songAdt = new SongAdapter(this, songList);
         songView.setAdapter(songAdt);
         activateSongList();
-        userController.play(musicSrv);
+        play();
     }
 
     private ServiceConnection musicConnection = new ServiceConnection() {
@@ -83,11 +87,28 @@ public class Main_Activity extends AppCompatActivity {
         super.onDestroy();
     }
 
+
     public void activateSongList() {
-        userController.getImageButtonOpen().setOnClickListener(new View.OnClickListener() {
+        imageButtonOpen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 animation.animationFade(songView);
+            }
+        });
+    }
+
+    public void play() {
+        imageButtonPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!musicSrv.getIsPlaying()) {
+                    musicSrv.playSong();
+                    imageButtonPlay.setBackgroundResource(R.drawable.circle002gradientstop01100x100);
+                }
+                else {
+                    musicSrv.pauseSong();
+                    imageButtonPlay.setBackgroundResource(R.drawable.button_play);
+                }
             }
         });
     }
@@ -121,5 +142,6 @@ public class Main_Activity extends AppCompatActivity {
 
     public void songPicked(View view) {
         musicSrv.setSong(Integer.parseInt(view.getTag().toString()));
+        imageButtonPlay.setBackgroundResource(R.drawable.button_play);
     }
 }

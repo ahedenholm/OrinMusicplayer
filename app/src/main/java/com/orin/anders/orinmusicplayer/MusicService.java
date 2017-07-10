@@ -25,6 +25,7 @@ public class MusicService extends Service implements
     private ArrayList<Song> songs;
     private int songPosn;
     private final IBinder musicBind = new MusicBinder();
+    UserInterface userInterface = new UserInterface();
 
     public void onCreate(){
         super.onCreate();
