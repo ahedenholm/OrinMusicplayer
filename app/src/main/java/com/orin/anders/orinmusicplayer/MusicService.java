@@ -62,7 +62,7 @@ public class MusicService extends Service implements
 
     @Override
     public boolean onUnbind(Intent intent){
-        player.stop();
+        player.pause();
         player.release();
         return false;
     }
@@ -82,6 +82,7 @@ public class MusicService extends Service implements
     }
 
 
+    //listens for audio_noisy intent, resets player, get chosen song
     public void playSong(){
         registerReceiver(myNoisyAudioStreamReceiver,intentFilter);
         player.reset();
@@ -100,6 +101,7 @@ public class MusicService extends Service implements
     }
 
     public void pauseSong(){
+        unregisterReceiver(myNoisyAudioStreamReceiver);
         player.pause();
     }
 
