@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <Space
-            android:layout_width="35dp"
+            android:layout_width="110dp"
             android:layout_height="match_parent" />
         <ImageButton
             android:id="@+id/imageButtonOpen"
