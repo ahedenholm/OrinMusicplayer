@@ -15,18 +15,19 @@ features:
 portrait design,
 2 visual themes.
 choose one track from device.
-play, pause, stop, next, previous.
+play, stop.
 mp3 support.
-show track name, track artist, time, not time played
+show track name, track artist, track length
 
-buttons: play, pause, stop, next, previous, menu, open track
+buttons: play, stop, menu, open track
 images: 2 background images.
-animations: open app, open songlist, open menu, switch theme
+animations: open songlist, open menu, switch theme
 
 
 ---------------------------------------------------------------------
 v0.2
-features:
+added features:
+pause, next, previous.
 
 
 

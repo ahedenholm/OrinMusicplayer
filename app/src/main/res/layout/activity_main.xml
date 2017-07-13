@@ -35,14 +35,14 @@
             android:layout_height="70dp"
             android:background="@drawable/circle002gradientopen02100x100" />
 
-
+        <!--
         <ImageButton
             android:id="@+id/imageButtonPrev"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:adjustViewBounds="true"
             android:background="@drawable/circle002gradientprevious02100x100" />
-
+        -->
         <ImageButton
             android:id="@+id/imageButtonPlay"
             android:layout_width="70dp"
@@ -50,12 +50,14 @@
             android:adjustViewBounds="true"
             android:background="@drawable/button_play"
         />
+        <!--
         <ImageButton
             android:id="@+id/imageButtonNext"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:adjustViewBounds="true"
             android:background="@drawable/circle002gradientnext02100x100" />
+        -->
     </LinearLayout>
 
     <LinearLayout
