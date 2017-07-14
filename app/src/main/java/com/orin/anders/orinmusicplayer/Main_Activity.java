@@ -115,7 +115,6 @@ public class Main_Activity extends AppCompatActivity {
     }
 
     public void playNext(){
-        musicSrv.playNext();
     }
 
     public void getSongList() {

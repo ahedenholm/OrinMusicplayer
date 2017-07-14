@@ -28,13 +28,15 @@ public class MusicService extends Service implements
     private AudioManager.OnAudioFocusChangeListener onAudioFocusChangeListener;
     private AudioManager audioManager;
 
-    private static final String TAG = "YOUR-TAG-NAME";
+    private static final String TAG = "";
     private MediaPlayer player;
     private ArrayList<Song> songs;
     private int songPosn;
     private final IBinder musicBind = new MusicBinder();
     private IntentFilter intentFilter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
-    private BecomingNoisyReceiver myNoisyAudioStreamReceiver = new BecomingNoisyReceiver();
+
+    //TODO broadcast receiver causing crashes, stack overflow
+    //private BecomingNoisyReceiver myNoisyAudioStreamReceiver = new BecomingNoisyReceiver();
 
     public void onCreate() {
         super.onCreate();
@@ -128,8 +130,10 @@ public class MusicService extends Service implements
         int result = audioManager.requestAudioFocus(onAudioFocusChangeListener,
                 AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
 
+
+        //TODO broadcast receiver causing crashes, stack overflow
         //listen for noise, i.e unplugged headphones
-        registerReceiver(myNoisyAudioStreamReceiver, intentFilter);
+        //registerReceiver(myNoisyAudioStreamReceiver, intentFilter);
 
         player.reset();
         Song playSong = songs.get(songPosn);
@@ -142,22 +146,19 @@ public class MusicService extends Service implements
         } catch (Exception e) {
             Log.e("MUSIC SERVICE", "Error setting data source.");
         }
-
+        //onPrepared() calls player.Start()
         player.prepareAsync();
     }
 
+    //TODO crashes when called from main activity
     public void playNext(){
-        if (songPosn < songs.size()) {
             songPosn++;
             playSong();
-        } else {
-            songPosn = 1;
-            playSong();
-        }
     }
 
     public void pauseSong() {
-        unregisterReceiver(myNoisyAudioStreamReceiver);
+        //TODO broadcast receiver causing crashes, stack overflow
+        //unregisterReceiver(myNoisyAudioStreamReceiver);
         player.pause();
     }
 
