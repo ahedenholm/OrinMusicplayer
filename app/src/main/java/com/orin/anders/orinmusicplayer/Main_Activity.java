@@ -104,7 +104,7 @@ public class Main_Activity extends AppCompatActivity {
             public void onClick(View view) {
                 if (!musicSrv.getIsPlaying()) {
                     musicSrv.playSong();
-                    imageButtonPlay.setBackgroundResource(R.drawable.circle002gradientStop02);
+                    imageButtonPlay.setBackgroundResource(R.drawable.button_pause);
                 }
                 else {
                     musicSrv.pauseSong();
