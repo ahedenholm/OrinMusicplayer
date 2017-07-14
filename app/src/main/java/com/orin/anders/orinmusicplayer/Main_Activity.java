@@ -54,6 +54,7 @@ public class Main_Activity extends AppCompatActivity {
         songView.setAdapter(songAdt);
         activateSongList();
         play();
+        playNext();
     }
 
     private ServiceConnection musicConnection = new ServiceConnection() {
@@ -111,6 +112,10 @@ public class Main_Activity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void playNext(){
+        musicSrv.playNext();
     }
 
     public void getSongList() {

@@ -43,13 +43,14 @@ public class MusicService extends Service implements
         initMusicPlayer();
     }
 
-    //initialize listeners, audio focus,
+    //initialize listeners, audio focus, mediaplayer
     public void initMusicPlayer() {
         player.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
         player.setAudioStreamType(AudioManager.STREAM_MUSIC);
         player.setOnPreparedListener(this);
         player.setOnCompletionListener(this);
         player.setOnErrorListener(this);
+        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         onAudioFocusChangeListener = new AudioManager.OnAudioFocusChangeListener(){
             @Override
             public void onAudioFocusChange(int focusChange) {
@@ -79,7 +80,6 @@ public class MusicService extends Service implements
                 }
             }
         };
-        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
     }
 
     public void setList(ArrayList<Song> theSongs) {
@@ -143,6 +143,11 @@ public class MusicService extends Service implements
         }
 
         player.prepareAsync();
+    }
+
+    public void playNext(){
+        songPosn++;
+        playSong();
     }
 
     public void pauseSong() {
