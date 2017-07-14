@@ -37,6 +37,19 @@ public class MusicService extends Service implements
     private BecomingNoisyReceiver myNoisyAudioStreamReceiver = new BecomingNoisyReceiver();
 
     public void onCreate() {
+        super.onCreate();
+        songPosn = 0;
+        player = new MediaPlayer();
+        initMusicPlayer();
+    }
+
+    //initialize listeners, audio focus,
+    public void initMusicPlayer() {
+        player.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
+        player.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        player.setOnPreparedListener(this);
+        player.setOnCompletionListener(this);
+        player.setOnErrorListener(this);
         onAudioFocusChangeListener = new AudioManager.OnAudioFocusChangeListener(){
             @Override
             public void onAudioFocusChange(int focusChange) {
@@ -67,18 +80,6 @@ public class MusicService extends Service implements
             }
         };
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        super.onCreate();
-        songPosn = 0;
-        player = new MediaPlayer();
-        initMusicPlayer();
-    }
-
-    public void initMusicPlayer() {
-        player.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
-        player.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        player.setOnPreparedListener(this);
-        player.setOnCompletionListener(this);
-        player.setOnErrorListener(this);
     }
 
     public void setList(ArrayList<Song> theSongs) {
