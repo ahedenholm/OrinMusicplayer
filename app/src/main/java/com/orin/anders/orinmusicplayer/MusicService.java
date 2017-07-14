@@ -147,8 +147,13 @@ public class MusicService extends Service implements
     }
 
     public void playNext(){
-        songPosn++;
-        playSong();
+        if (songPosn < songs.size()) {
+            songPosn++;
+            playSong();
+        } else {
+            songPosn = 1;
+            playSong();
+        }
     }
 
     public void pauseSong() {
