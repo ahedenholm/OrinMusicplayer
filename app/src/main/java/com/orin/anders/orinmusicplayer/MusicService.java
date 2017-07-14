@@ -107,6 +107,7 @@ public class MusicService extends Service implements
 
     @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
+        playNext();
     }
 
     @Override
