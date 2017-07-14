@@ -54,7 +54,6 @@ public class Main_Activity extends AppCompatActivity {
         songView.setAdapter(songAdt);
         activateSongList();
         play();
-        playNext();
     }
 
     private ServiceConnection musicConnection = new ServiceConnection() {
@@ -71,6 +70,7 @@ public class Main_Activity extends AppCompatActivity {
             musicBound = false;
         }
     };
+
 
     @Override
     protected void onStart() {
@@ -112,10 +112,6 @@ public class Main_Activity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    //TODO
-    public void playNext(){
     }
 
     public void getSongList() {

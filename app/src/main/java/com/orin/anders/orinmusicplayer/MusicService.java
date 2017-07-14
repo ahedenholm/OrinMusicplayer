@@ -152,10 +152,10 @@ public class MusicService extends Service implements
 
     //TODO crashes when called from main activity
     public void playNext(){
-        if (songPosn < songs.size()) {
+        if (songPosn > 0 || songPosn < songs.size()) {
             songPosn++;
             playSong();
-        } else {
+        } else if (songPosn > 0){
             songPosn = 1;
             playSong();
         }
