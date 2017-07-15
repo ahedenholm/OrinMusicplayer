@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.os.IBinder;
 import android.content.ComponentName;
@@ -29,11 +30,14 @@ public class Main_Activity extends AppCompatActivity {
     private ArrayList<Song> songList;
     private ListView songView;
     private MusicService musicSrv;
+    private LayoutThemeController layoutThemeController;
     private Intent playIntent;
     private boolean musicBound = false;
+    LinearLayout linearLayout;
 
     private ImageButton imageButtonOpen;
     private ImageButton imageButtonPlay;
+    private ImageButton imageButtonMenu;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,8 +45,11 @@ public class Main_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         songView = (ListView) findViewById(R.id.song_list);
         songList = new ArrayList<Song>();
+        layoutThemeController = new LayoutThemeController();
         imageButtonOpen = (ImageButton) findViewById(R.id.imageButtonOpen);
         imageButtonPlay = (ImageButton) findViewById(R.id.imageButtonPlay);
+        imageButtonMenu = (ImageButton) findViewById(R.id.imageButtonMenu);
+        linearLayout = (LinearLayout)findViewById(R.id.main_layout);
 
         getSongList();
         Collections.sort(songList, new Comparator<Song>() {
@@ -54,6 +61,7 @@ public class Main_Activity extends AppCompatActivity {
         songView.setAdapter(songAdt);
         activateSongList();
         play();
+        menu();
     }
 
     private ServiceConnection musicConnection = new ServiceConnection() {
@@ -139,6 +147,15 @@ public class Main_Activity extends AppCompatActivity {
             }
             while (musicCursor.moveToNext());
         }
+    }
+
+    public void menu(){
+        imageButtonMenu.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                layoutThemeController.setThemeRandom(linearLayout);
+            }
+        });
     }
 
     public void songPicked(View view) {

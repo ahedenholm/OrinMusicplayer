@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/orin_bg4_720x1280"
+    android:background="@drawable/green"
     android:layout_height="match_parent"
     android:id="@+id/main_layout"
     >
