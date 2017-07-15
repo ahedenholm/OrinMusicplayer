@@ -160,6 +160,7 @@ public class Main_Activity extends AppCompatActivity {
 
     public void songPicked(View view) {
         musicSrv.setSong(Integer.parseInt(view.getTag().toString()));
-        imageButtonPlay.setBackgroundResource(R.drawable.button_play);
+        musicSrv.playSong();
+        imageButtonPlay.setBackgroundResource(R.drawable.button_pause);
     }
 }

@@ -13,7 +13,6 @@ import java.util.ArrayList;
 
 import android.content.ContentUris;
 import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.PowerManager;
@@ -31,6 +30,7 @@ public class MusicService extends Service implements
     private ArrayList<Song> songs;
     private int songPosn;
     private int songPausedAt;
+    int audioFocusResult;
     private final IBinder musicBind = new MusicBinder();
     private IntentFilter intentFilter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
 
@@ -41,7 +41,7 @@ public class MusicService extends Service implements
         super.onCreate();
         songPosn = 0;
 
-        //songPausedAt set to 0 in onCreate and onCompletion
+        //songPausedAt set to 0 in onCreate, onCompletion and setSong
         songPausedAt = 0;
         player = new MediaPlayer();
         myNoisyAudioStreamReceiver = new BecomingNoisyReceiver();
@@ -56,7 +56,7 @@ public class MusicService extends Service implements
         player.setOnCompletionListener(this);
         player.setOnErrorListener(this);
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        onAudioFocusChangeListener = new AudioManager.OnAudioFocusChangeListener(){
+        onAudioFocusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
             @Override
             public void onAudioFocusChange(int focusChange) {
                 switch (focusChange) {
@@ -79,6 +79,7 @@ public class MusicService extends Service implements
                         pauseSong();
                         break;
                     case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
+                        pauseSong();
                         Log.e(TAG, "AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK");
                         // Lower the volume
                         break;
@@ -124,7 +125,7 @@ public class MusicService extends Service implements
 
     @Override
     public void onPrepared(MediaPlayer mediaPlayer) {
-        mediaPlayer.seekTo(songPausedAt);
+        player.seekTo(songPausedAt);
         mediaPlayer.start();
     }
 
@@ -132,28 +133,29 @@ public class MusicService extends Service implements
     //listens for audio_noisy intent, resets player, get chosen song
     public void playSong() {
         //request audio focus
-        int result = audioManager.requestAudioFocus(onAudioFocusChangeListener,
+        audioFocusResult = audioManager.requestAudioFocus(onAudioFocusChangeListener,
                 AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
 
-        //listen for noise, i.e unplugged headphones
-        registerReceiver(myNoisyAudioStreamReceiver, intentFilter);
+        if (audioFocusResult == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
 
-        player.reset();
-        Song playSong = songs.get(songPosn);
-        long currSong = playSong.getId();
-        Uri trackUri = ContentUris.withAppendedId(
-                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, currSong);
-
-        try {
-            player.setDataSource(getApplicationContext(), trackUri);
-        } catch (Exception e) {
-            Log.e("MUSIC SERVICE", "Error setting data source.");
+            //listen for noise, i.e unplugged headphones
+            registerReceiver(myNoisyAudioStreamReceiver, intentFilter);
+            player.reset();
+            Song playSong = songs.get(songPosn);
+            long currSong = playSong.getId();
+            Uri trackUri = ContentUris.withAppendedId(
+                    MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, currSong);
+            try {
+                player.setDataSource(getApplicationContext(), trackUri);
+            } catch (Exception e) {
+                Log.e("MUSIC SERVICE", "Error setting data source.");
+            }
+            //onPrepared() calls mediaPlayer.Start()
+            player.prepareAsync();
         }
-        //onPrepared() calls mediaPlayer.Start()
-        player.prepareAsync();
     }
 
-    public void playNext(){
+    public void playNext() {
         if (songPosn < songs.size()) {
             songPosn++;
             playSong();
@@ -171,6 +173,7 @@ public class MusicService extends Service implements
 
     public void setSong(int songIndex) {
         songPosn = songIndex;
+        songPausedAt = 0;
     }
 
     public boolean getIsPlaying() {
