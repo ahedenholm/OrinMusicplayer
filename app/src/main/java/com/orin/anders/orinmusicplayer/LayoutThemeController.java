@@ -25,19 +25,20 @@ public class LayoutThemeController {
     }
 
     public void setThemeRandom(LinearLayout linearLayout) {
-        int a = ran.nextInt(4);
-        switch (a) {
-            case 1:
+        switch (ran.nextInt(4)) {
+            case 0:
                 linearLayout.setBackgroundResource(R.drawable.orin_bg1_720x1280);
                 break;
-            case 2:
+            case 1:
                 linearLayout.setBackgroundResource(R.drawable.orin_bg2v2_720x1280);
                 break;
-            case 3:
+            case 2:
                 linearLayout.setBackgroundResource(R.drawable.orin_bg3_720x1280);
                 break;
-            case 0:
+            case 3:
                 linearLayout.setBackgroundResource(R.drawable.orin_bg4_720x1280);
+                break;
+            default:
                 break;
         }
     }
