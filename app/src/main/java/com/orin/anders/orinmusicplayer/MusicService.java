@@ -18,8 +18,6 @@ import android.net.Uri;
 import android.os.Binder;
 import android.os.PowerManager;
 import android.util.Log;
-import android.view.View;
-import android.widget.ImageButton;
 
 public class MusicService extends Service implements
         MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener,
@@ -32,16 +30,21 @@ public class MusicService extends Service implements
     private MediaPlayer player;
     private ArrayList<Song> songs;
     private int songPosn;
+    private int songPausedAt;
     private final IBinder musicBind = new MusicBinder();
     private IntentFilter intentFilter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
 
     //TODO broadcast receiver causing crashes, stack overflow
-    //private BecomingNoisyReceiver myNoisyAudioStreamReceiver = new BecomingNoisyReceiver();
+    private BecomingNoisyReceiver myNoisyAudioStreamReceiver;
 
     public void onCreate() {
         super.onCreate();
         songPosn = 0;
+
+        //songPausedAt set to 0 in onCreate and onCompletion
+        songPausedAt = 0;
         player = new MediaPlayer();
+        myNoisyAudioStreamReceiver = new BecomingNoisyReceiver();
         initMusicPlayer();
     }
 
@@ -109,6 +112,8 @@ public class MusicService extends Service implements
 
     @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
+        //set songPausedAt to 0 so next song will actually start from the beginning
+        songPausedAt = 0;
         playNext();
     }
 
@@ -119,21 +124,19 @@ public class MusicService extends Service implements
 
     @Override
     public void onPrepared(MediaPlayer mediaPlayer) {
+        mediaPlayer.seekTo(songPausedAt);
         mediaPlayer.start();
     }
 
 
     //listens for audio_noisy intent, resets player, get chosen song
     public void playSong() {
-
         //request audio focus
         int result = audioManager.requestAudioFocus(onAudioFocusChangeListener,
                 AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
 
-
-        //TODO broadcast receiver causing crashes, stack overflow
         //listen for noise, i.e unplugged headphones
-        //registerReceiver(myNoisyAudioStreamReceiver, intentFilter);
+        registerReceiver(myNoisyAudioStreamReceiver, intentFilter);
 
         player.reset();
         Song playSong = songs.get(songPosn);
@@ -146,11 +149,10 @@ public class MusicService extends Service implements
         } catch (Exception e) {
             Log.e("MUSIC SERVICE", "Error setting data source.");
         }
-        //onPrepared() calls player.Start()
+        //onPrepared() calls mediaPlayer.Start()
         player.prepareAsync();
     }
 
-    //TODO crashes when called from main activity
     public void playNext(){
         if (songPosn < songs.size()) {
             songPosn++;
@@ -162,9 +164,9 @@ public class MusicService extends Service implements
     }
 
     public void pauseSong() {
-        //TODO broadcast receiver causing crashes, stack overflow
-        //unregisterReceiver(myNoisyAudioStreamReceiver);
+        unregisterReceiver(myNoisyAudioStreamReceiver);
         player.pause();
+        songPausedAt = player.getCurrentPosition();
     }
 
     public void setSong(int songIndex) {
@@ -174,4 +176,6 @@ public class MusicService extends Service implements
     public boolean getIsPlaying() {
         return player.isPlaying();
     }
+
+
 }
