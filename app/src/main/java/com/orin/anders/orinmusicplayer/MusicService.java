@@ -33,8 +33,6 @@ public class MusicService extends Service implements
     int audioFocusResult;
     private final IBinder musicBind = new MusicBinder();
     private IntentFilter intentFilter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
-
-    //TODO broadcast receiver causing crashes, stack overflow
     private BecomingNoisyReceiver myNoisyAudioStreamReceiver;
 
     public void onCreate() {
@@ -92,7 +90,7 @@ public class MusicService extends Service implements
         songs = theSongs;
     }
 
-    public class MusicBinder extends Binder {
+    class MusicBinder extends Binder {
         MusicService getService() {
             return MusicService.this;
         }
@@ -152,6 +150,7 @@ public class MusicService extends Service implements
             }
             //onPrepared() calls mediaPlayer.Start()
             player.prepareAsync();
+            //TODO should also set button to button_play
         }
     }
 
@@ -169,6 +168,7 @@ public class MusicService extends Service implements
         unregisterReceiver(myNoisyAudioStreamReceiver);
         player.pause();
         songPausedAt = player.getCurrentPosition();
+        //TODO should also set button to button_pause
     }
 
     public void setSong(int songIndex) {

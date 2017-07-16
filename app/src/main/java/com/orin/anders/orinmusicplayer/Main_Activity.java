@@ -124,9 +124,8 @@ public class Main_Activity extends AppCompatActivity {
 
     public void getSongList() {
         ContentResolver musicResolver = getContentResolver();
-        Uri musicUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-        Cursor musicCursor = musicResolver.query(musicUri, null, null, null, null);
-
+        Cursor musicCursor = musicResolver.query(
+                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null, null, null, null);
         if (musicCursor != null && musicCursor.moveToFirst()) {
             //get columns
             int titleColumn = musicCursor.getColumnIndex
