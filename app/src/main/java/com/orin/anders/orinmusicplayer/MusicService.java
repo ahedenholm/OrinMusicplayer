@@ -113,7 +113,7 @@ public class MusicService extends Service implements
     public void onCompletion(MediaPlayer mediaPlayer) {
         //set songPausedAt to 0 so next song will actually start from the beginning
         songPausedAt = 0;
-        playNext();
+        nextSong();
     }
 
     @Override
@@ -154,7 +154,7 @@ public class MusicService extends Service implements
         }
     }
 
-    public void playNext() {
+    public void nextSong() {
         if (songPosn < songs.size()) {
             songPosn++;
             playSong();
@@ -164,7 +164,7 @@ public class MusicService extends Service implements
         }
     }
 	
-	public void playPrev() {
+	public void prevSong() {
         if (songPausedAt > 1000) {
             songPausedAt = 0;
             playSong();

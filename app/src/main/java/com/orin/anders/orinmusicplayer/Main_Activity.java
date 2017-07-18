@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import android.net.Uri;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.widget.ImageButton;
@@ -148,7 +147,7 @@ public class Main_Activity extends AppCompatActivity {
 		imageButtonNext.setOnClickListener(new View.OnClickListener(){
 			@Override
 			public void onClick(View view){
-				musicSrv.playPrev();
+				musicSrv.nextSong();
 			}
 		});
 	}	
@@ -156,7 +155,7 @@ public class Main_Activity extends AppCompatActivity {
 		imageButtonNext.setOnClickListener(new View.OnClickListener(){
 			@Override
 			public void onClick(View view){
-				musicSrv.playNext();
+				musicSrv.prevSong();
 			}
 		});
 	}
@@ -165,7 +164,7 @@ public class Main_Activity extends AppCompatActivity {
 		imageButtonStop.setOnClickListener(new View.OnClickListener(){
 			@Override
 			public void onClick(View view){
-				musicSrv.songStop();
+				musicSrv.stopSong();
 			}
 		});
 	}
