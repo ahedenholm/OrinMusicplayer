@@ -38,7 +38,10 @@ public class Main_Activity extends AppCompatActivity {
     private ImageButton imageButtonOpen;
     private ImageButton imageButtonPlay;
     private ImageButton imageButtonMenu;
-
+    private ImageButton imageButtonNext;
+    private ImageButton imageButtonPrev;
+    private ImageButton imageButtonStop;
+	
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +52,9 @@ public class Main_Activity extends AppCompatActivity {
         imageButtonOpen = (ImageButton) findViewById(R.id.imageButtonOpen);
         imageButtonPlay = (ImageButton) findViewById(R.id.imageButtonPlay);
         imageButtonMenu = (ImageButton) findViewById(R.id.imageButtonMenu);
+        imageButtonNext = (ImageButton) findViewById(R.id.imageButtonNext);
+        imageButtonPrev = (ImageButton) findViewById(R.id.imageButtonPrev);
+        imageButtonStop = (ImageButton) findViewById(R.id.imageButtonStop);
         linearLayout = (LinearLayout)findViewById(R.id.main_layout);
 
         getSongList();
@@ -62,6 +68,8 @@ public class Main_Activity extends AppCompatActivity {
         activateSongList();
         play();
         menu();
+		pressedNext();
+		pressedPrev();
     }
 
     private ServiceConnection musicConnection = new ServiceConnection() {
@@ -95,7 +103,12 @@ public class Main_Activity extends AppCompatActivity {
         musicSrv = null;
         super.onDestroy();
     }
-
+	
+	public void songPicked(View view) {
+        musicSrv.setSong(Integer.parseInt(view.getTag().toString()));
+        musicSrv.playSong();
+        imageButtonPlay.setBackgroundResource(R.drawable.button_pause);
+    }
 
     public void activateSongList() {
         imageButtonOpen.setOnClickListener(new View.OnClickListener() {
@@ -121,6 +134,41 @@ public class Main_Activity extends AppCompatActivity {
             }
         });
     }
+	
+    public void menu(){
+        imageButtonMenu.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                layoutThemeController.setThemeRandom(linearLayout);
+            }
+        });
+    }
+	
+	public void pressedNext(){
+		imageButtonNext.setOnClickListener(new View.OnClickListener(){
+			@Override
+			public void onClick(View view){
+				musicSrv.playPrev();
+			}
+		});
+	}	
+	public void pressedPrev(){
+		imageButtonNext.setOnClickListener(new View.OnClickListener(){
+			@Override
+			public void onClick(View view){
+				musicSrv.playNext();
+			}
+		});
+	}
+	
+	public void pressedStop(){
+		imageButtonStop.setOnClickListener(new View.OnClickListener(){
+			@Override
+			public void onClick(View view){
+				musicSrv.songStop();
+			}
+		});
+	}
 
     public void getSongList() {
         ContentResolver musicResolver = getContentResolver();
@@ -148,18 +196,6 @@ public class Main_Activity extends AppCompatActivity {
         }
     }
 
-    public void menu(){
-        imageButtonMenu.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                layoutThemeController.setThemeRandom(linearLayout);
-            }
-        });
-    }
 
-    public void songPicked(View view) {
-        musicSrv.setSong(Integer.parseInt(view.getTag().toString()));
-        musicSrv.playSong();
-        imageButtonPlay.setBackgroundResource(R.drawable.button_pause);
-    }
+    
 }

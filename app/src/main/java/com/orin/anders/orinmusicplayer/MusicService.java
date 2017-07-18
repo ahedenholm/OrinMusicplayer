@@ -59,26 +59,26 @@ public class MusicService extends Service implements
             public void onAudioFocusChange(int focusChange) {
                 switch (focusChange) {
                     case AudioManager.AUDIOFOCUS_GAIN:
-                        Log.i(TAG, "AUDIOFOCUS_GAIN");
+                        //Log.i(TAG, "AUDIOFOCUS_GAIN");
                         break;
                     case AudioManager.AUDIOFOCUS_GAIN_TRANSIENT:
-                        Log.i(TAG, "AUDIOFOCUS_GAIN_TRANSIENT");
+                        //Log.i(TAG, "AUDIOFOCUS_GAIN_TRANSIENT");
                         break;
                     case AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK:
-                        Log.i(TAG, "AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK");
+                        //Log.i(TAG, "AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK");
                         break;
                     case AudioManager.AUDIOFOCUS_LOSS:
-                        Log.e(TAG, "AUDIOFOCUS_LOSS");
-                        pauseSong();
-                        break;
+						pauseSong();
+                        //Log.e(TAG, "AUDIOFOCUS_LOSS");
+						break;
                     case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
-                        Log.e(TAG, "AUDIOFOCUS_LOSS_TRANSIENT");
+						pauseSong();
+                        //Log.e(TAG, "AUDIOFOCUS_LOSS_TRANSIENT");
                         // Temporary loss of audio focus - expect to get it back - you can keep your resources around
-                        pauseSong();
                         break;
                     case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
                         pauseSong();
-                        Log.e(TAG, "AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK");
+                        //Log.e(TAG, "AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK");
                         // Lower the volume
                         break;
                 }
@@ -163,6 +163,19 @@ public class MusicService extends Service implements
             playSong();
         }
     }
+	
+	public void playPrev() {
+        if (songPausedAt > 1000) {
+            songPausedAt = 0;
+            playSong();
+        } else if (songPosn > 1) {
+            songPosn--;
+            playSong();
+        } else if (songPosn == 1){
+			songPosn = 1;
+			playSong();
+		}
+    }
 
     public void pauseSong() {
         unregisterReceiver(myNoisyAudioStreamReceiver);
@@ -170,6 +183,11 @@ public class MusicService extends Service implements
         songPausedAt = player.getCurrentPosition();
         //TODO should also set button to button_pause
     }
+	
+	public void stopSong(){
+		unregisterReceiver(myNoisyAudioStreamReceiver);
+		player.pause();
+	}
 
     public void setSong(int songIndex) {
         songPosn = songIndex;
