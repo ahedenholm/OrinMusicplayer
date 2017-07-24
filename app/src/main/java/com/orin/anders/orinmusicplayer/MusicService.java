@@ -17,6 +17,7 @@ import android.net.Uri;
 import android.os.Binder;
 import android.os.PowerManager;
 import android.util.Log;
+import android.widget.Toast;
 
 public class MusicService extends Service implements
         MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener,
@@ -156,10 +157,10 @@ public class MusicService extends Service implements
 
     public void nextSong() {
         if (songPosn < songs.size()) {
-            songPosn++;
+            songPosn--;
             playSong();
         } else {
-            songPosn = 1;
+            songPosn = 2;
             playSong();
         }
     }

@@ -69,6 +69,7 @@ public class Main_Activity extends AppCompatActivity {
         menu();
 		pressedNext();
 		pressedPrev();
+        pressedStop();
     }
 
     private ServiceConnection musicConnection = new ServiceConnection() {
@@ -152,7 +153,7 @@ public class Main_Activity extends AppCompatActivity {
 		});
 	}	
 	public void pressedPrev(){
-		imageButtonNext.setOnClickListener(new View.OnClickListener(){
+		imageButtonPrev.setOnClickListener(new View.OnClickListener(){
 			@Override
 			public void onClick(View view){
 				musicSrv.prevSong();
