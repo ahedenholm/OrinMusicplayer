@@ -21,7 +21,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.view.View;
-import android.widget.Toast;
 
 import com.orin.anders.orinmusicplayer.MusicService.MusicBinder;
 
@@ -30,7 +29,7 @@ public class Main_Activity extends AppCompatActivity {
     private Animation animation = new Animation();
     private ArrayList<Song> songList;
     private ListView songView;
-    private MusicService musicSrv;
+    private MusicService musicService;
     private LayoutThemeController layoutThemeController;
     private Intent playIntent;
     private boolean musicBound = false;
@@ -80,8 +79,8 @@ public class Main_Activity extends AppCompatActivity {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             MusicBinder musicBinder = (MusicBinder) service;
-            musicSrv = musicBinder.getService();
-            musicSrv.setList(songList);
+            musicService = musicBinder.getService();
+            musicService.setList(songList);
             musicBound = true;
         }
 
@@ -104,14 +103,14 @@ public class Main_Activity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         stopService(playIntent);
-        musicSrv = null;
+        musicService = null;
         super.onDestroy();
     }
 	
 	public void songPicked(View view) {
-        musicSrv.setSong(Integer.parseInt(view.getTag().toString()));
+        musicService.setSong(Integer.parseInt(view.getTag().toString()));
         Log.i(TAG, "songPicked()" + view.getTag().toString());
-        musicSrv.playSong();
+        musicService.playSong();
         imageButtonPlay.setBackgroundResource(R.drawable.button_pause);
     }
 
@@ -128,12 +127,12 @@ public class Main_Activity extends AppCompatActivity {
         imageButtonPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!musicSrv.getIsPlaying()) {
-                    musicSrv.playSong();
+                if (!musicService.getIsPlaying()) {
+                    musicService.playSong();
                     imageButtonPlay.setBackgroundResource(R.drawable.button_pause);
                 }
                 else {
-                    musicSrv.pauseSong();
+                    musicService.pauseSong();
                     imageButtonPlay.setBackgroundResource(R.drawable.button_play);
                 }
             }
@@ -153,7 +152,7 @@ public class Main_Activity extends AppCompatActivity {
 		imageButtonNext.setOnClickListener(new View.OnClickListener(){
 			@Override
 			public void onClick(View view){
-				musicSrv.nextSong();
+				musicService.nextSong();
 			}
 		});
 	}	
@@ -161,7 +160,7 @@ public class Main_Activity extends AppCompatActivity {
 		imageButtonPrev.setOnClickListener(new View.OnClickListener(){
 			@Override
 			public void onClick(View view){
-				musicSrv.prevSong();
+				musicService.prevSong();
 			}
 		});
 	}
@@ -170,7 +169,7 @@ public class Main_Activity extends AppCompatActivity {
 		imageButtonStop.setOnClickListener(new View.OnClickListener(){
 			@Override
 			public void onClick(View view){
-				musicSrv.stopSong();
+				musicService.stopSong();
 			}
 		});
 	}

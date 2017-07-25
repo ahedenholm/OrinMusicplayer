@@ -17,7 +17,6 @@ import android.net.Uri;
 import android.os.Binder;
 import android.os.PowerManager;
 import android.util.Log;
-import android.widget.Toast;
 
 public class MusicService extends Service implements
         MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener,
@@ -27,33 +26,33 @@ public class MusicService extends Service implements
     private AudioManager audioManager;
 
     private static final String TAG = "";
-    private MediaPlayer player;
+    private MediaPlayer mediaPlayer;
     private ArrayList<Song> songs;
-    private int songPosn;
+    private int songPosition;
     private int songPausedAt;
-    int audioFocusResult;
+    private int audioFocusResult;
     private final IBinder musicBind = new MusicBinder();
     private IntentFilter intentFilter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
-    private BecomingNoisyReceiver myNoisyAudioStreamReceiver;
+    private BecomingNoisyReceiver becomingNoisyReceiver;
 
     public void onCreate() {
         super.onCreate();
-        songPosn = 0;
+        songPosition = 0;
 
         //songPausedAt set to 0 in onCreate, onCompletion and setSong
         songPausedAt = 0;
-        player = new MediaPlayer();
-        myNoisyAudioStreamReceiver = new BecomingNoisyReceiver();
+        mediaPlayer = new MediaPlayer();
+        becomingNoisyReceiver = new BecomingNoisyReceiver();
         initMusicPlayer();
     }
 
     //initialize listeners, audio focus, mediaplayer
     public void initMusicPlayer() {
-        player.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
-        player.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        player.setOnPreparedListener(this);
-        player.setOnCompletionListener(this);
-        player.setOnErrorListener(this);
+        mediaPlayer.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
+        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        mediaPlayer.setOnPreparedListener(this);
+        mediaPlayer.setOnCompletionListener(this);
+        mediaPlayer.setOnErrorListener(this);
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         onAudioFocusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
             @Override
@@ -105,8 +104,8 @@ public class MusicService extends Service implements
 
     @Override
     public boolean onUnbind(Intent intent) {
-        player.pause();
-        player.release();
+        mediaPlayer.pause();
+        mediaPlayer.release();
         return false;
     }
 
@@ -124,12 +123,12 @@ public class MusicService extends Service implements
 
     @Override
     public void onPrepared(MediaPlayer mediaPlayer) {
-        player.seekTo(songPausedAt);
+        this.mediaPlayer.seekTo(songPausedAt);
         mediaPlayer.start();
     }
 
 
-    //listens for audio_noisy intent, resets player, get chosen song
+    //listens for audio_noisy intent, resets mediaPlayer, get chosen song
     public void playSong() {
         //request audio focus
         audioFocusResult = audioManager.requestAudioFocus(onAudioFocusChangeListener,
@@ -138,32 +137,32 @@ public class MusicService extends Service implements
         if (audioFocusResult == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
 
             //listen for noise, i.e unplugged headphones
-            registerReceiver(myNoisyAudioStreamReceiver, intentFilter);
-            player.reset();
-            Song playSong = songs.get(songPosn);
+            registerReceiver(becomingNoisyReceiver, intentFilter);
+            mediaPlayer.reset();
+            Song playSong = songs.get(songPosition);
             long currSong = playSong.getId();
             Uri trackUri = ContentUris.withAppendedId(
                     MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, currSong);
             try {
-                player.setDataSource(getApplicationContext(), trackUri);
+                mediaPlayer.setDataSource(getApplicationContext(), trackUri);
             } catch (Exception e) {
                 Log.e("MUSIC SERVICE", "Error setting data source.");
             }
             //onPrepared() calls mediaPlayer.Start()
-            player.prepareAsync();
+            mediaPlayer.prepareAsync();
             //TODO should also set button to button_play
         }
     }
 
     public void nextSong() {
-        if (songPosn < songs.size()) {
-            Log.i(TAG, "nextSong() before : " + String.valueOf(songPosn));
-            songPosn++;
-            Log.i(TAG, "nextSong() after ++ : " + String.valueOf(songPosn));
+        if (songPosition < songs.size()) {
+            Log.i(TAG, "nextSong() before : " + String.valueOf(songPosition));
+            songPosition++;
+            Log.i(TAG, "nextSong() after ++ : " + String.valueOf(songPosition));
             playSong();
         } else {
-            Log.i(TAG, "nextSong() !songPosn < songs.size, songPosn: " + String.valueOf(songPosn));
-            songPosn = 1;
+            Log.i(TAG, "nextSong() !songPosition < songs.size, songPosition: " + String.valueOf(songPosition));
+            songPosition = 1;
             playSong();
         }
     }
@@ -172,34 +171,34 @@ public class MusicService extends Service implements
         if (songPausedAt > 1000) {
             songPausedAt = 0;
             playSong();
-        } else if (songPosn > 1) {
-            songPosn--;
+        } else if (songPosition > 1) {
+            songPosition--;
             playSong();
-        } else if (songPosn == 1){
-			songPosn = 1;
+        } else if (songPosition == 1){
+			songPosition = 1;
 			playSong();
 		}
     }
 
     public void pauseSong() {
-        unregisterReceiver(myNoisyAudioStreamReceiver);
-        player.pause();
-        songPausedAt = player.getCurrentPosition();
+        unregisterReceiver(becomingNoisyReceiver);
+        mediaPlayer.pause();
+        songPausedAt = mediaPlayer.getCurrentPosition();
         //TODO should also set button to button_pause
     }
 	
 	public void stopSong(){
-		unregisterReceiver(myNoisyAudioStreamReceiver);
-		player.pause();
+		unregisterReceiver(becomingNoisyReceiver);
+		mediaPlayer.pause();
 	}
 
     public void setSong(int songIndex) {
-        songPosn = songIndex;
+        songPosition = songIndex;
         songPausedAt = 0;
     }
 
     public boolean getIsPlaying() {
-        return player.isPlaying();
+        return mediaPlayer.isPlaying();
     }
 
 
