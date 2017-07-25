@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import android.util.Log;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.widget.ImageButton;
@@ -20,6 +21,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.view.View;
+import android.widget.Toast;
 
 import com.orin.anders.orinmusicplayer.MusicService.MusicBinder;
 
@@ -40,6 +42,8 @@ public class Main_Activity extends AppCompatActivity {
     private ImageButton imageButtonNext;
     private ImageButton imageButtonPrev;
     private ImageButton imageButtonStop;
+
+    private static final String TAG = "";
 	
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -106,6 +110,7 @@ public class Main_Activity extends AppCompatActivity {
 	
 	public void songPicked(View view) {
         musicSrv.setSong(Integer.parseInt(view.getTag().toString()));
+        Log.i(TAG, "songPicked()" + view.getTag().toString());
         musicSrv.playSong();
         imageButtonPlay.setBackgroundResource(R.drawable.button_pause);
     }

@@ -157,10 +157,13 @@ public class MusicService extends Service implements
 
     public void nextSong() {
         if (songPosn < songs.size()) {
-            songPosn--;
+            Log.i(TAG, "nextSong() before : " + String.valueOf(songPosn));
+            songPosn++;
+            Log.i(TAG, "nextSong() after ++ : " + String.valueOf(songPosn));
             playSong();
         } else {
-            songPosn = 2;
+            Log.i(TAG, "nextSong() !songPosn < songs.size, songPosn: " + String.valueOf(songPosn));
+            songPosn = 1;
             playSong();
         }
     }
