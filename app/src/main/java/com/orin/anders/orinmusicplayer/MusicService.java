@@ -30,7 +30,6 @@ public class MusicService extends Service implements
     private MediaPlayer mediaPlayer;
     private ArrayList<Song> songs;
     private int songPosition;
-    private int songCurrentTimeMillisec;
     private int audioFocusResult;
     private final IBinder musicBind = new MusicBinder();
     private IntentFilter intentFilter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
@@ -40,8 +39,8 @@ public class MusicService extends Service implements
         super.onCreate();
         songPosition = 0;
 
-        //songCurrentTimeMillisec set to 0 in onCreate, onCompletion and setSong
-        songCurrentTimeMillisec = 0;
+        //mediaPlayer.seekTo set to 0 in onCreate, onCompletion and setSong
+        mediaPlayer.seekTo(0);
         mediaPlayer = new MediaPlayer();
         becomingNoisyReceiver = new BecomingNoisyReceiver();
         initMusicPlayer();
@@ -113,7 +112,7 @@ public class MusicService extends Service implements
     @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
         //set songCurrentTimeMillisec to 0 so next song will actually start from the beginning
-        songCurrentTimeMillisec = 0;
+        mediaPlayer.seekTo(0);
         nextSong();
     }
 
@@ -124,7 +123,7 @@ public class MusicService extends Service implements
 
     @Override
     public void onPrepared(MediaPlayer mediaPlayer) {
-        this.mediaPlayer.seekTo(songCurrentTimeMillisec);
+        this.mediaPlayer.seekTo(mediaPlayer.getCurrentPosition());
         mediaPlayer.start();
     }
 
@@ -156,35 +155,37 @@ public class MusicService extends Service implements
     }
 
     public void nextSong() {
-        Log.d(TAG, "songPasedAt value: " + String.valueOf(songCurrentTimeMillisec));
-        if (songPosition < songs.size()) {
+        Log.d(TAG, "getCurrentPosition value: " + String.valueOf(mediaPlayer.getCurrentPosition()));
+        Log.d(TAG, "songlist size value: " + String.valueOf(songs.size()));
+        if (songPosition < (songs.size() - 1)) {
             Log.d(TAG, "nextSong() value before : " + String.valueOf(songPosition));
             songPosition++;
             Log.d(TAG, "nextSong() value after ++ : " + String.valueOf(songPosition));
             playSong();
         } else {
             Log.d(TAG, "nextSong() !songPosition < songs.size, songPosition: " + String.valueOf(songPosition));
-            songPosition = 1;
+            songPosition = 0;
             playSong();
         }
     }
 	
 	public void prevSong() {
-        Log.d(TAG, "songPasedAt value: " + String.valueOf(songCurrentTimeMillisec));
-        if (songCurrentTimeMillisec > 1000) {
-            Log.d(TAG, "songPasedAt value > 1000: " + String.valueOf(songCurrentTimeMillisec));
-            songCurrentTimeMillisec = 0;
+        Log.d(TAG, "getCurrentPosition value: " + String.valueOf(mediaPlayer.getCurrentPosition()));
+        if (mediaPlayer.getCurrentPosition() > 1000) {
+            Log.d(TAG, "getCurrentPosition value > 1000: " + String.valueOf(mediaPlayer.getCurrentPosition()));
+            mediaPlayer.seekTo(0);
             Log.d(TAG, "song restarted, songPosition: " + String.valueOf(songPosition));
             playSong();
-        } else if (songPosition > 0) {
+        } else if (mediaPlayer.getCurrentPosition() <= 1000 && songPosition > 0) {
             Log.d(TAG, "songPosition value before: " + String.valueOf(songPosition));
             songPosition--;
-            songCurrentTimeMillisec = 0;
+            mediaPlayer.seekTo(0);
             Log.d(TAG, "songPosition value after: " + String.valueOf(songPosition));
             playSong();
-        } else if (songPosition == 0){
-            Log.d(TAG, "songPosition == 0, restart first song, songPosition: " + String.valueOf(songPosition));
-			songCurrentTimeMillisec = 0;
+        } else if (mediaPlayer.getCurrentPosition() <= 1000 && songPosition == 0){
+            songPosition = songs.size() - 1;
+            Log.d(TAG, "songPosition == 0, play last song on list, songPosition: " + String.valueOf(songPosition));
+			mediaPlayer.seekTo(0);
 			playSong();
 		}
     }
@@ -192,8 +193,8 @@ public class MusicService extends Service implements
     public void pauseSong() {
         unregisterReceiver(becomingNoisyReceiver);
         mediaPlayer.pause();
-        songCurrentTimeMillisec = mediaPlayer.getCurrentPosition();
-        Log.d(TAG, "songPasedAt value: " + String.valueOf(songCurrentTimeMillisec));
+        Log.d(TAG, "songPosition value: " + String.valueOf(songPosition));
+        Log.d(TAG, "getCurrentPosition value: " + String.valueOf(mediaPlayer.getCurrentPosition()));
         //TODO should also set button to button_pause
     }
 	
@@ -204,7 +205,7 @@ public class MusicService extends Service implements
 
     public void setSong(int songIndex) {
         songPosition = songIndex;
-        songCurrentTimeMillisec = 0;
+        mediaPlayer.seekTo(0);
     }
 
     public boolean getIsPlaying() {
