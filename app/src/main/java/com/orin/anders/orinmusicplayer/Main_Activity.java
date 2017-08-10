@@ -34,6 +34,7 @@ public class Main_Activity extends AppCompatActivity {
     private Intent playIntent;
     private boolean musicBound = false;
     LinearLayout linearLayout;
+    private static final String TAG = "Debug Message";
 
     private ImageButton imageButtonOpen;
     private ImageButton imageButtonPlay;
@@ -42,12 +43,12 @@ public class Main_Activity extends AppCompatActivity {
     private ImageButton imageButtonPrev;
     private ImageButton imageButtonStop;
 
-    private static final String TAGDEBUG = "";
-	
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.i(TAG,"onCreate called");
         songView = (ListView) findViewById(R.id.song_list);
         songList = new ArrayList<Song>();
         layoutThemeController = new LayoutThemeController();
@@ -109,7 +110,7 @@ public class Main_Activity extends AppCompatActivity {
 	
 	public void songPicked(View view) {
         musicService.setSong(Integer.parseInt(view.getTag().toString()));
-        Log.d(TAGDEBUG, "songPicked()" + view.getTag().toString());
+        Log.d(TAG, "songPicked() value:" + view.getTag().toString());
         musicService.playSong();
         imageButtonPlay.setBackgroundResource(R.drawable.button_pause);
     }
