@@ -30,6 +30,7 @@ public class MusicService extends Service implements
     private MediaPlayer mediaPlayer;
     private ArrayList<Song> songs;
     private int songPosition;
+    private int songCurrentPositionMillisec;
     private int audioFocusResult;
     private final IBinder musicBind = new MusicBinder();
     private IntentFilter intentFilter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
@@ -39,9 +40,10 @@ public class MusicService extends Service implements
         super.onCreate();
         songPosition = 0;
 
-        //mediaPlayer.seekTo set to 0 in onCreate, onCompletion and setSong
-        mediaPlayer.seekTo(0);
+        //songCurrentPositionMillisec set to 0 in onCreate, onCompletion and setSong
+
         mediaPlayer = new MediaPlayer();
+        songCurrentPositionMillisec = 0;
         becomingNoisyReceiver = new BecomingNoisyReceiver();
         initMusicPlayer();
     }
@@ -79,11 +81,12 @@ public class MusicService extends Service implements
                     case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
                         pauseSong();
                         Log.e(TAG, "AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK");
-                        // Lower the volume
+                        // Lower the volume or pause
                         break;
                 }
             }
         };
+
     }
 
     public void setList(ArrayList<Song> theSongs) {
@@ -112,8 +115,8 @@ public class MusicService extends Service implements
     @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
         //set songCurrentTimeMillisec to 0 so next song will actually start from the beginning
-        mediaPlayer.seekTo(0);
-        nextSong();
+        songCurrentPositionMillisec = 0;
+        //nextSong(); //TODO nextsong() throws nullpointer at this point
     }
 
     @Override
@@ -123,7 +126,7 @@ public class MusicService extends Service implements
 
     @Override
     public void onPrepared(MediaPlayer mediaPlayer) {
-        this.mediaPlayer.seekTo(mediaPlayer.getCurrentPosition());
+        this.mediaPlayer.seekTo(songCurrentPositionMillisec);
         mediaPlayer.start();
     }
 
@@ -156,7 +159,7 @@ public class MusicService extends Service implements
 
     public void nextSong() {
         Log.d(TAG, "getCurrentPosition value: " + String.valueOf(mediaPlayer.getCurrentPosition()));
-        Log.d(TAG, "songlist size value: " + String.valueOf(songs.size()));
+        //Log.d(TAG, "songlist size value: " + String.valueOf(songs.size()));
         if (songPosition < (songs.size() - 1)) {
             Log.d(TAG, "nextSong() value before : " + String.valueOf(songPosition));
             songPosition++;
@@ -171,21 +174,21 @@ public class MusicService extends Service implements
 	
 	public void prevSong() {
         Log.d(TAG, "getCurrentPosition value: " + String.valueOf(mediaPlayer.getCurrentPosition()));
-        if (mediaPlayer.getCurrentPosition() > 1000) {
+        if (mediaPlayer.getCurrentPosition() > 1500) {
             Log.d(TAG, "getCurrentPosition value > 1000: " + String.valueOf(mediaPlayer.getCurrentPosition()));
-            mediaPlayer.seekTo(0);
+            songCurrentPositionMillisec = 0;
             Log.d(TAG, "song restarted, songPosition: " + String.valueOf(songPosition));
             playSong();
-        } else if (mediaPlayer.getCurrentPosition() <= 1000 && songPosition > 0) {
+        } else if (mediaPlayer.getCurrentPosition() <= 1500 && songPosition > 0) {
             Log.d(TAG, "songPosition value before: " + String.valueOf(songPosition));
             songPosition--;
-            mediaPlayer.seekTo(0);
+            songCurrentPositionMillisec = 0;
             Log.d(TAG, "songPosition value after: " + String.valueOf(songPosition));
             playSong();
-        } else if (mediaPlayer.getCurrentPosition() <= 1000 && songPosition == 0){
+        } else if (mediaPlayer.getCurrentPosition() <= 1500 && songPosition == 0){
             songPosition = songs.size() - 1;
             Log.d(TAG, "songPosition == 0, play last song on list, songPosition: " + String.valueOf(songPosition));
-			mediaPlayer.seekTo(0);
+            songCurrentPositionMillisec = 0;
 			playSong();
 		}
     }
@@ -205,7 +208,7 @@ public class MusicService extends Service implements
 
     public void setSong(int songIndex) {
         songPosition = songIndex;
-        mediaPlayer.seekTo(0);
+        songCurrentPositionMillisec = 0;
     }
 
     public boolean getIsPlaying() {
