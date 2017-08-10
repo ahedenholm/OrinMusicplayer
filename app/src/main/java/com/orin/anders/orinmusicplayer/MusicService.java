@@ -30,7 +30,7 @@ public class MusicService extends Service implements
     private MediaPlayer mediaPlayer;
     private ArrayList<Song> songs;
     private int songPosition;
-    private int songCurrentPositionMillisec;
+    private int songCurrentTimeMillisec;
     private int audioFocusResult;
     private final IBinder musicBind = new MusicBinder();
     private IntentFilter intentFilter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
@@ -40,10 +40,10 @@ public class MusicService extends Service implements
         super.onCreate();
         songPosition = 0;
 
-        //songCurrentPositionMillisec set to 0 in onCreate, onCompletion and setSong
+        //songCurrentTimeMillisec set to 0 in onCreate, onCompletion and setSong
 
         mediaPlayer = new MediaPlayer();
-        songCurrentPositionMillisec = 0;
+        songCurrentTimeMillisec = 0;
         becomingNoisyReceiver = new BecomingNoisyReceiver();
         initMusicPlayer();
     }
@@ -115,7 +115,7 @@ public class MusicService extends Service implements
     @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
         //set songCurrentTimeMillisec to 0 so next song will actually start from the beginning
-        songCurrentPositionMillisec = 0;
+        songCurrentTimeMillisec = 0;
         //nextSong(); //TODO nextsong() throws nullpointer at this point
     }
 
@@ -126,7 +126,7 @@ public class MusicService extends Service implements
 
     @Override
     public void onPrepared(MediaPlayer mediaPlayer) {
-        this.mediaPlayer.seekTo(songCurrentPositionMillisec);
+        this.mediaPlayer.seekTo(songCurrentTimeMillisec);
         mediaPlayer.start();
     }
 
@@ -176,19 +176,19 @@ public class MusicService extends Service implements
         Log.d(TAG, "getCurrentPosition value: " + String.valueOf(mediaPlayer.getCurrentPosition()));
         if (mediaPlayer.getCurrentPosition() > 1500) {
             Log.d(TAG, "getCurrentPosition value > 1000: " + String.valueOf(mediaPlayer.getCurrentPosition()));
-            songCurrentPositionMillisec = 0;
+            songCurrentTimeMillisec = 0;
             Log.d(TAG, "song restarted, songPosition: " + String.valueOf(songPosition));
             playSong();
         } else if (mediaPlayer.getCurrentPosition() <= 1500 && songPosition > 0) {
             Log.d(TAG, "songPosition value before: " + String.valueOf(songPosition));
             songPosition--;
-            songCurrentPositionMillisec = 0;
+            songCurrentTimeMillisec = 0;
             Log.d(TAG, "songPosition value after: " + String.valueOf(songPosition));
             playSong();
         } else if (mediaPlayer.getCurrentPosition() <= 1500 && songPosition == 0){
             songPosition = songs.size() - 1;
             Log.d(TAG, "songPosition == 0, play last song on list, songPosition: " + String.valueOf(songPosition));
-            songCurrentPositionMillisec = 0;
+            songCurrentTimeMillisec = 0;
 			playSong();
 		}
     }
@@ -196,6 +196,7 @@ public class MusicService extends Service implements
     public void pauseSong() {
         unregisterReceiver(becomingNoisyReceiver);
         mediaPlayer.pause();
+        songCurrentTimeMillisec = mediaPlayer.getCurrentPosition();
         Log.d(TAG, "songPosition value: " + String.valueOf(songPosition));
         Log.d(TAG, "getCurrentPosition value: " + String.valueOf(mediaPlayer.getCurrentPosition()));
         //TODO should also set button to button_pause
@@ -208,7 +209,7 @@ public class MusicService extends Service implements
 
     public void setSong(int songIndex) {
         songPosition = songIndex;
-        songCurrentPositionMillisec = 0;
+        songCurrentTimeMillisec = 0;
     }
 
     public boolean getIsPlaying() {
