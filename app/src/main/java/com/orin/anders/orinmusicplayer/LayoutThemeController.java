@@ -9,34 +9,34 @@ public class LayoutThemeController {
 
 
     public void setThemeField(LinearLayout linearLayout){
-        linearLayout.setBackgroundResource(R.drawable.orin_bg1_720x1280);
+        linearLayout.setBackgroundResource(R.drawable.bg_greenfield);
     }
 
     public void setThemeBG2(LinearLayout linearLayout){
-        linearLayout.setBackgroundResource(R.drawable.orin_bg2v2_720x1280);
+        linearLayout.setBackgroundResource(R.drawable.bg_purplegrad);
     }
 
     public void setThemeBG3(LinearLayout linearLayout){
-        linearLayout.setBackgroundResource(R.drawable.orin_bg3_720x1280);
+        linearLayout.setBackgroundResource(R.drawable.bg_bluesky);
     }
 
     public void setThemeBG4(LinearLayout linearLayout){
-        linearLayout.setBackgroundResource(R.drawable.orin_bg4_720x1280);
+        linearLayout.setBackgroundResource(R.drawable.bg_marine);
     }
 
     public void setThemeRandom(LinearLayout linearLayout) {
         switch (ran.nextInt(4)) {
             case 0:
-                linearLayout.setBackgroundResource(R.drawable.orin_bg1_720x1280);
+                linearLayout.setBackgroundResource(R.drawable.bg_greenfield);
                 break;
             case 1:
-                linearLayout.setBackgroundResource(R.drawable.orin_bg2v2_720x1280);
+                linearLayout.setBackgroundResource(R.drawable.bg_purplegrad);
                 break;
             case 2:
-                linearLayout.setBackgroundResource(R.drawable.orin_bg3_720x1280);
+                linearLayout.setBackgroundResource(R.drawable.bg_bluesky);
                 break;
             case 3:
-                linearLayout.setBackgroundResource(R.drawable.orin_bg4_720x1280);
+                linearLayout.setBackgroundResource(R.drawable.bg_marine);
                 break;
             default:
                 break;

@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/orin_bg2v2_720x1280"
+    android:background="@drawable/bg_purplegrad"
     android:layout_height="match_parent"
     android:id="@+id/main_layout"
     >
@@ -19,7 +19,7 @@
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:adjustViewBounds="false"
-            android:background="@drawable/circle002gradientmenu04100x100"
+            android:background="@drawable/but_menu"
             />
     </LinearLayout>
 
@@ -36,7 +36,7 @@
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:adjustViewBounds="true"
-            android:background="@drawable/circle002gradientprevious02100x100" />
+            android:background="@drawable/but_prev" />
         
         <ImageButton
             android:id="@+id/imageButtonPlay"
@@ -51,7 +51,7 @@
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:adjustViewBounds="true"
-            android:background="@drawable/circle002gradientnext02100x100" />
+            android:background="@drawable/but_next" />
         
     </LinearLayout>
 
@@ -66,7 +66,7 @@
             android:id="@+id/imageButtonOpen"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:background="@drawable/circle002gradientopen01" />
+            android:background="@drawable/but_open" />
 
         <!--
         <ImageButton

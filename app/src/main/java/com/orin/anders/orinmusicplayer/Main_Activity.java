@@ -42,7 +42,7 @@ public class Main_Activity extends AppCompatActivity {
     private ImageButton imageButtonPrev;
     private ImageButton imageButtonStop;
 
-    private static final String TAG = "";
+    private static final String TAGDEBUG = "";
 	
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -67,9 +67,9 @@ public class Main_Activity extends AppCompatActivity {
         });
         SongAdapter songAdt = new SongAdapter(this, songList);
         songView.setAdapter(songAdt);
-        activateSongList();
-        play();
-        menu();
+        pressedOpen();
+        pressedPlay();
+        pressedMenu();
 		pressedNext();
 		pressedPrev();
         pressedStop();
@@ -109,12 +109,12 @@ public class Main_Activity extends AppCompatActivity {
 	
 	public void songPicked(View view) {
         musicService.setSong(Integer.parseInt(view.getTag().toString()));
-        Log.i(TAG, "songPicked()" + view.getTag().toString());
+        Log.d(TAGDEBUG, "songPicked()" + view.getTag().toString());
         musicService.playSong();
         imageButtonPlay.setBackgroundResource(R.drawable.button_pause);
     }
 
-    public void activateSongList() {
+    public void pressedOpen() {
         imageButtonOpen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,7 +123,7 @@ public class Main_Activity extends AppCompatActivity {
         });
     }
 
-    public void play() {
+    public void pressedPlay() {
         imageButtonPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -139,7 +139,7 @@ public class Main_Activity extends AppCompatActivity {
         });
     }
 	
-    public void menu(){
+    public void pressedMenu(){
         imageButtonMenu.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {

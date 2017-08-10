@@ -18,12 +18,15 @@ import android.os.Binder;
 import android.os.PowerManager;
 import android.util.Log;
 
+import com.bumptech.glide.Glide;
+
 public class MusicService extends Service implements
         MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener,
         MediaPlayer.OnCompletionListener {
 
     private AudioManager.OnAudioFocusChangeListener onAudioFocusChangeListener;
     private AudioManager audioManager;
+
 
     private static final String TAG = "";
     private MediaPlayer mediaPlayer;
