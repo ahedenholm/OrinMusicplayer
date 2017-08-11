@@ -13,7 +13,7 @@
         android:orientation="horizontal">
         <Space
             android:layout_width="291dp"
-            android:layout_height="260dp" />
+            android:layout_height="220dp" />
         <ImageButton
             android:id="@+id/imageButtonMenu"
             android:layout_width="70dp"

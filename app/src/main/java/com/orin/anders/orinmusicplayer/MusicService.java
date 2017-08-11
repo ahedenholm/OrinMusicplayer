@@ -61,14 +61,19 @@ public class MusicService extends Service implements
             public void onAudioFocusChange(int focusChange) {
                 switch (focusChange) {
                     case AudioManager.AUDIOFOCUS_GAIN:
-                        Log.i(TAG, "AUDIOFOCUS_GAIN");
+                        Log.d(TAG, "AUDIOFOCUS_GAIN");
+                        volumeDefault();
                         playSong();
                         break;
                     case AudioManager.AUDIOFOCUS_GAIN_TRANSIENT:
-                        Log.i(TAG, "AUDIOFOCUS_GAIN_TRANSIENT");
+                        Log.d(TAG, "AUDIOFOCUS_GAIN_TRANSIENT");
+                        volumeDefault();
+                        playSong();
                         break;
                     case AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK:
-                        Log.i(TAG, "AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK");
+                        Log.d(TAG, "AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK");
+                        volumeDefault();
+                        playSong();
                         break;
                     case AudioManager.AUDIOFOCUS_LOSS:
 						pauseSong();
@@ -80,7 +85,7 @@ public class MusicService extends Service implements
                         // Temporary loss of audio focus - expect to get it back - you can keep your resources around
                         break;
                     case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
-                        pauseSong();
+                        volumeLower();
                         Log.e(TAG, "AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK");
                         // Lower the volume or pause
                         break;
@@ -160,15 +165,17 @@ public class MusicService extends Service implements
 
     public void nextSong() {
         Log.d(TAG, "getCurrentPosition value: " + String.valueOf(mediaPlayer.getCurrentPosition()));
-        //Log.d(TAG, "songlist size value: " + String.valueOf(songs.size()));
+        Log.d(TAG, "songlist size value: " + String.valueOf(songs.size()));
         if (songPosition < (songs.size() - 1)) {
             Log.d(TAG, "nextSong() value before : " + String.valueOf(songPosition));
             songPosition++;
+            songCurrentTimeMillisec = 0;
             Log.d(TAG, "nextSong() value after ++ : " + String.valueOf(songPosition));
             playSong();
         } else {
             Log.d(TAG, "nextSong() !songPosition < songs.size, songPosition: " + String.valueOf(songPosition));
             songPosition = 0;
+            songCurrentTimeMillisec = 0;
             playSong();
         }
     }
@@ -216,6 +223,15 @@ public class MusicService extends Service implements
     public boolean getIsPlaying() {
         return mediaPlayer.isPlaying();
     }
+
+    public void volumeLower(){
+        mediaPlayer.setVolume(0.05f, 0.05f);
+    }
+
+    public void volumeDefault(){
+        mediaPlayer.setVolume(1, 1);
+    }
+
 
 
 }
