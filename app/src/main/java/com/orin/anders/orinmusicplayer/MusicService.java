@@ -62,6 +62,7 @@ public class MusicService extends Service implements
                 switch (focusChange) {
                     case AudioManager.AUDIOFOCUS_GAIN:
                         Log.i(TAG, "AUDIOFOCUS_GAIN");
+                        playSong();
                         break;
                     case AudioManager.AUDIOFOCUS_GAIN_TRANSIENT:
                         Log.i(TAG, "AUDIOFOCUS_GAIN_TRANSIENT");
@@ -116,7 +117,7 @@ public class MusicService extends Service implements
     public void onCompletion(MediaPlayer mediaPlayer) {
         //set songCurrentTimeMillisec to 0 so next song will actually start from the beginning
         songCurrentTimeMillisec = 0;
-        //nextSong(); //TODO nextsong() throws nullpointer at this point
+        nextSong(); //TODO nextsong() throws nullpointer at this point
     }
 
     @Override
