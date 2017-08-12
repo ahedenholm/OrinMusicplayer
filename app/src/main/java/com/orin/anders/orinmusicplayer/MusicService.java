@@ -36,7 +36,6 @@ public class MusicService extends Service implements
     private int songCurrentTimeMillisec;
     private int audioFocusResult;
 
-
     public void onCreate() {
         super.onCreate();
         songPosition = 0;
@@ -57,6 +56,7 @@ public class MusicService extends Service implements
                 }
             }
         };
+
     }
 
     //initialize listeners, audio focus, mediaplayer
@@ -103,7 +103,8 @@ public class MusicService extends Service implements
                 }
             }
         };
-
+        audioFocusResult = audioManager.requestAudioFocus(onAudioFocusChangeListener,
+                AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
     }
 
     public void setList(ArrayList<Song> theSongs) {
@@ -213,18 +214,22 @@ public class MusicService extends Service implements
     }
 
     public void pauseSong() {
-        unregisterReceiver(becomingNoisyReceiver);
-        mediaPlayer.pause();
-        Main_Activity.setImageButtonPlayImage();
-        songCurrentTimeMillisec = mediaPlayer.getCurrentPosition();
-        Log.d(TAG, "songPosition value: " + String.valueOf(songPosition));
-        Log.d(TAG, "getCurrentPosition value: " + String.valueOf(mediaPlayer.getCurrentPosition()));
+        if (mediaPlayer.isPlaying()) {
+            unregisterReceiver(becomingNoisyReceiver);
+            mediaPlayer.pause();
+            Main_Activity.setImageButtonPlayImage();
+            songCurrentTimeMillisec = mediaPlayer.getCurrentPosition();
+            Log.d(TAG, "songPosition value: " + String.valueOf(songPosition));
+            Log.d(TAG, "getCurrentPosition value: " + String.valueOf(mediaPlayer.getCurrentPosition()));
+        }
     }
 
     public void stopSong() {
-        unregisterReceiver(becomingNoisyReceiver);
-        mediaPlayer.pause();
-        Main_Activity.setImageButtonPlayImage();
+        if (mediaPlayer.isPlaying()) {
+            unregisterReceiver(becomingNoisyReceiver);
+            mediaPlayer.pause();
+            Main_Activity.setImageButtonPlayImage();
+        }
     }
 
     public void setSong(int songIndex) {
