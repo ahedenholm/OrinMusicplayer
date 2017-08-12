@@ -24,17 +24,16 @@ public class MusicService extends Service implements
 
     private AudioManager.OnAudioFocusChangeListener onAudioFocusChangeListener;
     private AudioManager audioManager;
-
+    private MediaPlayer mediaPlayer;
+    private IntentFilter intentFilter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
+    private BecomingNoisyReceiver becomingNoisyReceiver;
+    private final IBinder musicBind = new MusicBinder();
 
     private static final String TAG = "Debug Message";
-    private MediaPlayer mediaPlayer;
     private ArrayList<Song> songs;
     private int songPosition;
     private int songCurrentTimeMillisec;
     private int audioFocusResult;
-    private final IBinder musicBind = new MusicBinder();
-    private IntentFilter intentFilter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
-    private BecomingNoisyReceiver becomingNoisyReceiver;
 
     public void onCreate() {
         super.onCreate();
@@ -159,7 +158,7 @@ public class MusicService extends Service implements
             }
             //onPrepared() calls mediaPlayer.Start()
             mediaPlayer.prepareAsync();
-            //TODO should also set button to button_play
+            Main_Activity.setButtonPauseImage();
         }
     }
 
@@ -204,6 +203,7 @@ public class MusicService extends Service implements
     public void pauseSong() {
         unregisterReceiver(becomingNoisyReceiver);
         mediaPlayer.pause();
+        Main_Activity.setButtonPlayImage();
         songCurrentTimeMillisec = mediaPlayer.getCurrentPosition();
         Log.d(TAG, "songPosition value: " + String.valueOf(songPosition));
         Log.d(TAG, "getCurrentPosition value: " + String.valueOf(mediaPlayer.getCurrentPosition()));
@@ -213,6 +213,7 @@ public class MusicService extends Service implements
 	public void stopSong(){
 		unregisterReceiver(becomingNoisyReceiver);
 		mediaPlayer.pause();
+        Main_Activity.setButtonPlayImage();
 	}
 
     public void setSong(int songIndex) {

@@ -13,11 +13,9 @@ public class BecomingNoisyReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         if (AudioManager.ACTION_AUDIO_BECOMING_NOISY.equals(intent.getAction())){
 
-            /*TODO not working, crashes when e.g. phones are unplugged. crashes
-            as long as anything happens inside pauseSong()*/
             try {
+                musicService.pauseSong(); //TODO playback is actually not paused when headphones are disconnected
                 Toast.makeText(context,"Headphones disconnected.",Toast.LENGTH_SHORT).show();
-                musicService.pauseSong();
             } catch (RuntimeException re){
                 re.printStackTrace();
             }

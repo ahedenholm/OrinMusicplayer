@@ -37,11 +37,12 @@ public class Main_Activity extends AppCompatActivity {
     private static final String TAG = "Debug Message";
 
     private ImageButton imageButtonOpen;
-    private ImageButton imageButtonPlay;
+    private static ImageButton imageButtonPlay;
     private ImageButton imageButtonMenu;
     private ImageButton imageButtonNext;
     private ImageButton imageButtonPrev;
     private ImageButton imageButtonStop;
+
 
 
     @Override
@@ -74,6 +75,8 @@ public class Main_Activity extends AppCompatActivity {
 		pressedNext();
 		pressedPrev();
         pressedStop();
+        setButtonPauseImage();
+        setButtonPlayImage();
     }
 
     private ServiceConnection musicConnection = new ServiceConnection() {
@@ -130,11 +133,9 @@ public class Main_Activity extends AppCompatActivity {
             public void onClick(View view) {
                 if (!musicService.getIsPlaying()) {
                     musicService.playSong();
-                    imageButtonPlay.setBackgroundResource(R.drawable.button_pause);
                 }
                 else {
                     musicService.pauseSong();
-                    imageButtonPlay.setBackgroundResource(R.drawable.button_play);
                 }
             }
         });
@@ -174,6 +175,13 @@ public class Main_Activity extends AppCompatActivity {
 			}
 		});
 	}
+
+    public static void setButtonPauseImage(){
+        imageButtonPlay.setBackgroundResource(R.drawable.button_pause);
+    }
+    public static void setButtonPlayImage(){
+        imageButtonPlay.setBackgroundResource(R.drawable.button_play);
+    }
 
     public void getSongList() {
         ContentResolver musicResolver = getContentResolver();
