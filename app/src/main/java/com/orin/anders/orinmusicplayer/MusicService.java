@@ -1,6 +1,7 @@
 package com.orin.anders.orinmusicplayer;
 
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -17,6 +18,7 @@ import android.net.Uri;
 import android.os.Binder;
 import android.os.PowerManager;
 import android.util.Log;
+import android.widget.Toast;
 
 public class MusicService extends Service implements
         MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener,
@@ -26,25 +28,35 @@ public class MusicService extends Service implements
     private AudioManager audioManager;
     private MediaPlayer mediaPlayer;
     private IntentFilter intentFilter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
-    private BecomingNoisyReceiver becomingNoisyReceiver;
     private final IBinder musicBind = new MusicBinder();
-
+    private BroadcastReceiver becomingNoisyReceiver;
     private static final String TAG = "Debug Message";
     private ArrayList<Song> songs;
     private int songPosition;
     private int songCurrentTimeMillisec;
     private int audioFocusResult;
 
+
     public void onCreate() {
         super.onCreate();
         songPosition = 0;
-
-        //songCurrentTimeMillisec set to 0 in onCreate, onCompletion and setSong
-
         mediaPlayer = new MediaPlayer();
+        //songCurrentTimeMillisec set to 0 in onCreate, onCompletion and setSong
         songCurrentTimeMillisec = 0;
-        becomingNoisyReceiver = new BecomingNoisyReceiver();
         initMusicPlayer();
+        becomingNoisyReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (AudioManager.ACTION_AUDIO_BECOMING_NOISY.equals(intent.getAction())) {
+                    try {
+                        pauseSong();
+                        Toast.makeText(context, "Headphones disconnected.", Toast.LENGTH_SHORT).show();
+                    } catch (RuntimeException re) {
+                        re.printStackTrace();
+                    }
+                }
+            }
+        };
     }
 
     //initialize listeners, audio focus, mediaplayer
@@ -75,11 +87,11 @@ public class MusicService extends Service implements
                         playSong();
                         break;
                     case AudioManager.AUDIOFOCUS_LOSS:
-						pauseSong();
+                        pauseSong();
                         Log.e(TAG, "AUDIOFOCUS_LOSS");
-						break;
+                        break;
                     case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
-						pauseSong();
+                        pauseSong();
                         Log.e(TAG, "AUDIOFOCUS_LOSS_TRANSIENT");
                         // Temporary loss of audio focus - expect to get it back - you can keep your resources around
                         break;
@@ -121,7 +133,7 @@ public class MusicService extends Service implements
     public void onCompletion(MediaPlayer mediaPlayer) {
         //set songCurrentTimeMillisec to 0 so next song will actually start from the beginning
         songCurrentTimeMillisec = 0;
-        nextSong(); //TODO nextsong() throws nullpointer at this point
+        nextSong();
     }
 
     @Override
@@ -158,7 +170,7 @@ public class MusicService extends Service implements
             }
             //onPrepared() calls mediaPlayer.Start()
             mediaPlayer.prepareAsync();
-            Main_Activity.setButtonPauseImage();
+            Main_Activity.setImageButtonPauseImage();
         }
     }
 
@@ -178,8 +190,8 @@ public class MusicService extends Service implements
             playSong();
         }
     }
-	
-	public void prevSong() {
+
+    public void prevSong() {
         Log.d(TAG, "getCurrentPosition value: " + String.valueOf(mediaPlayer.getCurrentPosition()));
         if (mediaPlayer.getCurrentPosition() > 1500) {
             Log.d(TAG, "getCurrentPosition value > 1000: " + String.valueOf(mediaPlayer.getCurrentPosition()));
@@ -192,29 +204,28 @@ public class MusicService extends Service implements
             songCurrentTimeMillisec = 0;
             Log.d(TAG, "songPosition value after: " + String.valueOf(songPosition));
             playSong();
-        } else if (mediaPlayer.getCurrentPosition() <= 1500 && songPosition == 0){
+        } else if (mediaPlayer.getCurrentPosition() <= 1500 && songPosition == 0) {
             songPosition = songs.size() - 1;
             Log.d(TAG, "songPosition == 0, play last song on list, songPosition: " + String.valueOf(songPosition));
             songCurrentTimeMillisec = 0;
-			playSong();
-		}
+            playSong();
+        }
     }
 
     public void pauseSong() {
         unregisterReceiver(becomingNoisyReceiver);
         mediaPlayer.pause();
-        Main_Activity.setButtonPlayImage();
+        Main_Activity.setImageButtonPlayImage();
         songCurrentTimeMillisec = mediaPlayer.getCurrentPosition();
         Log.d(TAG, "songPosition value: " + String.valueOf(songPosition));
         Log.d(TAG, "getCurrentPosition value: " + String.valueOf(mediaPlayer.getCurrentPosition()));
-        //TODO should also set button to button_pause
     }
-	
-	public void stopSong(){
-		unregisterReceiver(becomingNoisyReceiver);
-		mediaPlayer.pause();
-        Main_Activity.setButtonPlayImage();
-	}
+
+    public void stopSong() {
+        unregisterReceiver(becomingNoisyReceiver);
+        mediaPlayer.pause();
+        Main_Activity.setImageButtonPlayImage();
+    }
 
     public void setSong(int songIndex) {
         songPosition = songIndex;
@@ -225,14 +236,13 @@ public class MusicService extends Service implements
         return mediaPlayer.isPlaying();
     }
 
-    public void volumeLower(){
+    public void volumeLower() {
         mediaPlayer.setVolume(0.05f, 0.05f);
     }
 
-    public void volumeDefault(){
+    public void volumeDefault() {
         mediaPlayer.setVolume(1, 1);
     }
-
 
 
 }

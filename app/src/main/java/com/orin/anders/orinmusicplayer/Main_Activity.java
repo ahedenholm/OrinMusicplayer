@@ -33,10 +33,11 @@ public class Main_Activity extends AppCompatActivity {
     private LayoutThemeController layoutThemeController;
     private Intent playIntent;
     private boolean musicBound = false;
-    LinearLayout linearLayout;
+    private LinearLayout linearLayout;
     private static final String TAG = "Debug Message";
 
     private ImageButton imageButtonOpen;
+    //TODO implement as nonstatic, static now to change imageButtonPlay background resource in MusicService class
     private static ImageButton imageButtonPlay;
     private ImageButton imageButtonMenu;
     private ImageButton imageButtonNext;
@@ -75,8 +76,8 @@ public class Main_Activity extends AppCompatActivity {
 		pressedNext();
 		pressedPrev();
         pressedStop();
-        setButtonPauseImage();
-        setButtonPlayImage();
+        setImageButtonPauseImage();
+        setImageButtonPlayImage();
     }
 
     private ServiceConnection musicConnection = new ServiceConnection() {
@@ -115,7 +116,6 @@ public class Main_Activity extends AppCompatActivity {
         musicService.setSong(Integer.parseInt(view.getTag().toString()));
         Log.d(TAG, "songPicked() value:" + view.getTag().toString());
         musicService.playSong();
-        imageButtonPlay.setBackgroundResource(R.drawable.button_pause);
     }
 
     public void pressedOpen() {
@@ -176,10 +176,10 @@ public class Main_Activity extends AppCompatActivity {
 		});
 	}
 
-    public static void setButtonPauseImage(){
+    public static void setImageButtonPauseImage(){
         imageButtonPlay.setBackgroundResource(R.drawable.button_pause);
     }
-    public static void setButtonPlayImage(){
+    public static void setImageButtonPlayImage(){
         imageButtonPlay.setBackgroundResource(R.drawable.button_play);
     }
 
