@@ -19,6 +19,15 @@ public class SongAdapter extends BaseAdapter{
     }
 
     @Override
+    public boolean areAllItemsEnabled() {
+        return false;
+    }
+
+    public SongAdapter() {
+        super();
+    }
+
+    @Override
     public int getCount() {
         return songs.size();
     }

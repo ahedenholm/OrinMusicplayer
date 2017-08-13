@@ -16,6 +16,7 @@ public class Animation {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
                     listView.setAlpha((float) animation.getAnimatedValue());
+                    listView.setEnabled(true);
                 }
             });
             valueAnimator.setDuration(200);
@@ -27,6 +28,7 @@ public class Animation {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
                     listView.setAlpha((float) animation.getAnimatedValue());
+                    listView.setEnabled(false);
                 }
             });
             valueAnimator.setDuration(200);

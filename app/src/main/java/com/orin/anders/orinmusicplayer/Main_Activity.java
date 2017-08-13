@@ -67,6 +67,7 @@ public class Main_Activity extends AppCompatActivity {
         linearLayout = (LinearLayout)findViewById(R.id.main_layout);
 
         getSongList();
+
         Collections.sort(songList, new Comparator<Song>() {
             public int compare(Song a, Song b) {
                 return a.getTitle().compareTo(b.getTitle());
@@ -82,6 +83,7 @@ public class Main_Activity extends AppCompatActivity {
         pressedStop();
         setImageButtonPauseImage();
         setImageButtonPlayImage();
+        songView.setEnabled(false);
     }
 
     private ServiceConnection musicConnection = new ServiceConnection() {
