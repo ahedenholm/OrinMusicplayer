@@ -9,7 +9,7 @@ public class Animation {
     ValueAnimator valueAnimator;
 
     //used to fade the song list in and out
-    public void animationFade(final ListView listView) {
+    public void animationFadeListView(final ListView listView) {
         if (listView.getAlpha() < 1) {
             valueAnimator = ValueAnimator.ofFloat(0, 1);
             valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {

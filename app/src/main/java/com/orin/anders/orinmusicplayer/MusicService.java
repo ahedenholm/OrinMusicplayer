@@ -74,24 +74,21 @@ public class MusicService extends Service implements
                     case AudioManager.AUDIOFOCUS_GAIN:
                         Log.d(TAG, "AUDIOFOCUS_GAIN");
                         volumeDefault();
-                        playSong();
                         break;
                     case AudioManager.AUDIOFOCUS_GAIN_TRANSIENT:
                         Log.d(TAG, "AUDIOFOCUS_GAIN_TRANSIENT");
                         volumeDefault();
-                        playSong();
                         break;
                     case AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK:
                         Log.d(TAG, "AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK");
                         volumeDefault();
-                        playSong();
                         break;
                     case AudioManager.AUDIOFOCUS_LOSS:
                         pauseSong();
                         Log.e(TAG, "AUDIOFOCUS_LOSS");
                         break;
                     case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
-                        pauseSong();
+                        volumeLower();
                         Log.e(TAG, "AUDIOFOCUS_LOSS_TRANSIENT");
                         // Temporary loss of audio focus - expect to get it back - you can keep your resources around
                         break;
@@ -203,11 +200,11 @@ public class MusicService extends Service implements
             Log.d(TAG, "songPosition value before: " + String.valueOf(songPosition));
             songPosition--;
             songCurrentTimeMillisec = 0;
-            Log.d(TAG, "songPosition value after: " + String.valueOf(songPosition));
+            //Log.d(TAG, "songPosition value after: " + String.valueOf(songPosition));
             playSong();
         } else if (mediaPlayer.getCurrentPosition() <= 1500 && songPosition == 0) {
             songPosition = songs.size() - 1;
-            Log.d(TAG, "songPosition == 0, play last song on list, songPosition: " + String.valueOf(songPosition));
+            //Log.d(TAG, "songPosition == 0, play last song on list, songPosition: " + String.valueOf(songPosition));
             songCurrentTimeMillisec = 0;
             playSong();
         }
@@ -219,8 +216,8 @@ public class MusicService extends Service implements
             mediaPlayer.pause();
             Main_Activity.setImageButtonPlayImage();
             songCurrentTimeMillisec = mediaPlayer.getCurrentPosition();
-            Log.d(TAG, "songPosition value: " + String.valueOf(songPosition));
-            Log.d(TAG, "getCurrentPosition value: " + String.valueOf(mediaPlayer.getCurrentPosition()));
+            //Log.d(TAG, "songPosition value: " + String.valueOf(songPosition));
+            //Log.d(TAG, "getCurrentPosition value: " + String.valueOf(mediaPlayer.getCurrentPosition()));
         }
     }
 
@@ -242,7 +239,7 @@ public class MusicService extends Service implements
     }
 
     public void volumeLower() {
-        mediaPlayer.setVolume(0.05f, 0.05f);
+        mediaPlayer.setVolume(0.01f, 0.01f);
     }
 
     public void volumeDefault() {

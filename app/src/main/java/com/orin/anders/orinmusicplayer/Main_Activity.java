@@ -1,5 +1,6 @@
 package com.orin.anders.orinmusicplayer;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
@@ -54,6 +55,9 @@ public class Main_Activity extends AppCompatActivity {
         songView = (ListView) findViewById(R.id.song_list);
         songList = new ArrayList<Song>();
         layoutThemeController = new LayoutThemeController();
+
+        //TODO implement sharedpreferences for saving background theme
+        SharedPreferences themeSettings = getSharedPreferences("THEME_PREFS",1);
         imageButtonOpen = (ImageButton) findViewById(R.id.imageButtonOpen);
         imageButtonPlay = (ImageButton) findViewById(R.id.imageButtonPlay);
         imageButtonMenu = (ImageButton) findViewById(R.id.imageButtonMenu);
@@ -122,7 +126,7 @@ public class Main_Activity extends AppCompatActivity {
         imageButtonOpen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                animation.animationFade(songView);
+                animation.animationFadeListView(songView);
             }
         });
     }
