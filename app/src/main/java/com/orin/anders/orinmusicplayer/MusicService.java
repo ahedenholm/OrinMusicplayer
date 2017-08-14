@@ -128,6 +128,12 @@ public class MusicService extends Service implements
     }
 
     @Override
+    public void onPrepared(MediaPlayer mediaPlayer) {
+        this.mediaPlayer.seekTo(songCurrentTimeMillisec);
+        mediaPlayer.start();
+    }
+
+    @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
         //set songCurrentTimeMillisec to 0 so next song will actually start from the beginning
         songCurrentTimeMillisec = 0;
@@ -137,12 +143,6 @@ public class MusicService extends Service implements
     @Override
     public boolean onError(MediaPlayer mediaPlayer, int i, int i1) {
         return false;
-    }
-
-    @Override
-    public void onPrepared(MediaPlayer mediaPlayer) {
-        this.mediaPlayer.seekTo(songCurrentTimeMillisec);
-        mediaPlayer.start();
     }
 
 

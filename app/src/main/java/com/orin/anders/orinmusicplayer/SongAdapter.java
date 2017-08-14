@@ -1,5 +1,7 @@
 package com.orin.anders.orinmusicplayer;
+
 import java.util.ArrayList;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
@@ -8,21 +10,18 @@ import android.view.*;
 import android.view.View;
 import android.widget.BaseAdapter;
 
-public class SongAdapter extends BaseAdapter{
+/*
+SongAdapter class should inflate a linearlayout with a songlist onto the activity_main layout
+ */
+public class SongAdapter extends BaseAdapter {
 
     private ArrayList<Song> songs;
     private LayoutInflater songInf;
 
-    public SongAdapter(Context c, ArrayList<Song> theSongs){
-        songs=theSongs;
-        songInf=LayoutInflater.from(c);
+    public SongAdapter(Context c, ArrayList<Song> theSongs) {
+        songs = theSongs;
+        songInf = LayoutInflater.from(c);
     }
-
-    @Override
-    public boolean areAllItemsEnabled() {
-        return false;
-    }
-
     public SongAdapter() {
         super();
     }
@@ -45,12 +44,12 @@ public class SongAdapter extends BaseAdapter{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         //map to song layout
-        LinearLayout songLay = (LinearLayout)songInf.inflate(R.layout.song, parent, false);
+        LinearLayout songLay = (LinearLayout) songInf.inflate(R.layout.song, parent, false);
 
         //get title and artist views
-        TextView songView = (TextView)songLay.findViewById(R.id.song_title);
-        TextView artistView = (TextView)songLay.findViewById(R.id.song_artist);
-        TextView lengthView = (TextView)songLay.findViewById(R.id.song_length);
+        TextView songView = (TextView) songLay.findViewById(R.id.song_title);
+        TextView artistView = (TextView) songLay.findViewById(R.id.song_artist);
+        TextView lengthView = (TextView) songLay.findViewById(R.id.song_length);
 
         //get song using position
         Song currSong = songs.get(position);

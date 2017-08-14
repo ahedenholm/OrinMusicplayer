@@ -83,7 +83,6 @@ public class Main_Activity extends AppCompatActivity {
         pressedStop();
         setImageButtonPauseImage();
         setImageButtonPlayImage();
-        songView.setEnabled(false);
     }
 
     private ServiceConnection musicConnection = new ServiceConnection() {
