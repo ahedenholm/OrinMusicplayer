@@ -38,14 +38,14 @@ public class Main_Activity extends AppCompatActivity {
     private static final String TAG = "Debug Message";
 
     private ImageButton imageButtonOpen;
-    //TODO implement as nonstatic, static now to change imageButtonPlay background resource in MusicService class
+    //TODO implement as nonstatic
+    //currently static so background resource can be changed from within MusicService class
+    //with a static set method: setImageButtonPlayImage()
     private static ImageButton imageButtonPlay;
     private ImageButton imageButtonMenu;
     private ImageButton imageButtonNext;
     private ImageButton imageButtonPrev;
     private ImageButton imageButtonStop;
-
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,7 +57,7 @@ public class Main_Activity extends AppCompatActivity {
         layoutThemeController = new LayoutThemeController();
 
         //TODO implement sharedpreferences for saving background theme
-        SharedPreferences themeSettings = getSharedPreferences("THEME_PREFS",1);
+        SharedPreferences theme_prefs = getSharedPreferences("THEME_PREFS",1);
         imageButtonOpen = (ImageButton) findViewById(R.id.imageButtonOpen);
         imageButtonPlay = (ImageButton) findViewById(R.id.imageButtonPlay);
         imageButtonMenu = (ImageButton) findViewById(R.id.imageButtonMenu);

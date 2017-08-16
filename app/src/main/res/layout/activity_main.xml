@@ -28,15 +28,18 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <Space
-            android:layout_width="80dp"
-            android:layout_height="match_parent" />
+            android:layout_width="75dp"
+            android:layout_height="80dp" />
 
         <ImageButton
             android:id="@+id/imageButtonPrev"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:adjustViewBounds="true"
-            android:background="@drawable/but_prev" />
+            android:background="@drawable/button_prev" />
+        <Space
+            android:layout_width="5dp"
+            android:layout_height="match_parent" />
         
         <ImageButton
             android:id="@+id/imageButtonPlay"
@@ -45,13 +48,15 @@
             android:adjustViewBounds="true"
             android:background="@drawable/button_play"
         />
-        
+        <Space
+            android:layout_width="5dp"
+            android:layout_height="match_parent" />
         <ImageButton
             android:id="@+id/imageButtonNext"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:adjustViewBounds="true"
-            android:background="@drawable/but_next" />
+            android:background="@drawable/button_next" />
         
     </LinearLayout>
 
@@ -60,14 +65,16 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <Space
-            android:layout_width="40dp"
-            android:layout_height="30dp" />
+            android:layout_width="45dp"
+            android:layout_height="90dp" />
         <ImageButton
             android:id="@+id/imageButtonOpen"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:background="@drawable/but_open" />
-
+            android:background="@drawable/button_open" />
+        <Space
+            android:layout_width="5dp"
+            android:layout_height="match_parent" />
         <!--
         <ImageButton
             android:id="@+id/imageButtonPause"
@@ -83,10 +90,9 @@
             android:adjustViewBounds="true"
             android:background="@drawable/button_stop" />
         <Space
-            android:layout_width="10dp"
-            android:layout_height="90dp"
-            />
-        
+            android:layout_width="5dp"
+            android:layout_height="match_parent" />
+
     </LinearLayout>
 
     <LinearLayout

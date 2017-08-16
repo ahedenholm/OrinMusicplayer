@@ -19,6 +19,7 @@ public class LayoutButtonController extends AppCompatActivity {
     private ImageButton imageButtonStop;
 
     public void setImageButtonPlay(ImageButton imageButtonPlay) {
+
     }
 
     public void buttonPauseImage(){
