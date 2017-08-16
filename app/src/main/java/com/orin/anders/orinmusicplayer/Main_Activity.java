@@ -55,8 +55,6 @@ public class Main_Activity extends AppCompatActivity {
         songView = (ListView) findViewById(R.id.song_list);
         songList = new ArrayList<Song>();
 
-        //TODO implement sharedpreferences for saving background theme
-        SharedPreferences theme_prefs = getSharedPreferences("THEME_PREFS",1);
         imageButtonOpen = (ImageButton) findViewById(R.id.imageButtonOpen);
         imageButtonPlay = (ImageButton) findViewById(R.id.imageButtonPlay);
         imageButtonMenu = (ImageButton) findViewById(R.id.imageButtonMenu);
@@ -64,9 +62,14 @@ public class Main_Activity extends AppCompatActivity {
         imageButtonPrev = (ImageButton) findViewById(R.id.imageButtonPrev);
         imageButtonStop = (ImageButton) findViewById(R.id.imageButtonStop);
 
-        //to be passed into setTheme(linearLayout)
+        //TODO implement sharedpreferences for saving background theme
+        SharedPreferences theme_prefs = getSharedPreferences("THEME_PREFS",1);
+
+        //linearLayout to be passed into setTheme(linearLayout)
         linearLayout = (LinearLayout)findViewById(R.id.main_layout);
         layoutThemeController = new LayoutThemeController();
+
+        //TODO set to sharedpreference data
         layoutThemeController.setThemeBG2(linearLayout);
 
         getSongList();
@@ -153,7 +156,9 @@ public class Main_Activity extends AppCompatActivity {
         imageButtonMenu.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                layoutThemeController.setThemeRandom(linearLayout);
+                if (layoutThemeController.getThemeID() == 2)
+                    layoutThemeController.setThemeBG4(linearLayout);
+                else layoutThemeController.setThemeBG2(linearLayout);
             }
         });
     }
