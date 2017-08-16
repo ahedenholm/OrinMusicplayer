@@ -222,7 +222,7 @@ public class MusicService extends Service implements
     public void stopSong() {
         if (mediaPlayer.isPlaying()) {
             unregisterReceiver(becomingNoisyReceiver);
-            mediaPlayer.pause();
+            mediaPlayer.reset();
             songCurrentTimeMillisec = 0;
             Main_Activity.setImageButtonPlayImage();
         }
