@@ -54,7 +54,6 @@ public class Main_Activity extends AppCompatActivity {
         Log.i(TAG,"onCreate called");
         songView = (ListView) findViewById(R.id.song_list);
         songList = new ArrayList<Song>();
-        layoutThemeController = new LayoutThemeController();
 
         //TODO implement sharedpreferences for saving background theme
         SharedPreferences theme_prefs = getSharedPreferences("THEME_PREFS",1);
@@ -64,7 +63,11 @@ public class Main_Activity extends AppCompatActivity {
         imageButtonNext = (ImageButton) findViewById(R.id.imageButtonNext);
         imageButtonPrev = (ImageButton) findViewById(R.id.imageButtonPrev);
         imageButtonStop = (ImageButton) findViewById(R.id.imageButtonStop);
+
+        //to be passed into setTheme(linearLayout)
         linearLayout = (LinearLayout)findViewById(R.id.main_layout);
+        layoutThemeController = new LayoutThemeController();
+        layoutThemeController.setThemeBG2(linearLayout);
 
         getSongList();
 

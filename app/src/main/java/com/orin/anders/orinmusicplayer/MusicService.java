@@ -40,7 +40,6 @@ public class MusicService extends Service implements
         super.onCreate();
         songPosition = 0;
         mediaPlayer = new MediaPlayer();
-        //songCurrentTimeMillisec set to 0 in onCreate, onCompletion and setSong
         songCurrentTimeMillisec = 0;
         initMusicPlayer();
         becomingNoisyReceiver = new BroadcastReceiver() {
@@ -84,7 +83,6 @@ public class MusicService extends Service implements
                         volumeDefault();
                         break;
                     case AudioManager.AUDIOFOCUS_LOSS:
-                        pauseSong();
                         Log.e(TAG, "AUDIOFOCUS_LOSS");
                         break;
                     case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
@@ -225,6 +223,7 @@ public class MusicService extends Service implements
         if (mediaPlayer.isPlaying()) {
             unregisterReceiver(becomingNoisyReceiver);
             mediaPlayer.pause();
+            songCurrentTimeMillisec = 0;
             Main_Activity.setImageButtonPlayImage();
         }
     }

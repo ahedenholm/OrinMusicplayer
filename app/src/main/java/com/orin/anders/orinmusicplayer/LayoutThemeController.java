@@ -14,7 +14,7 @@ public class LayoutThemeController {
     }
 
     public void setThemeBG2(LinearLayout linearLayout){
-        linearLayout.setBackgroundResource(R.drawable.bg_purplegrad);
+        linearLayout.setBackgroundResource(R.drawable.bg_purplegrad2);
         themeID = 2;
     }
 
@@ -35,7 +35,7 @@ public class LayoutThemeController {
                 themeID = 1;
                 break;
             case 1:
-                linearLayout.setBackgroundResource(R.drawable.bg_purplegrad);
+                linearLayout.setBackgroundResource(R.drawable.bg_purplegrad2);
                 themeID = 2;
                 break;
             case 2:
