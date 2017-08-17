@@ -13,6 +13,7 @@ import java.util.Comparator;
 import android.util.Log;
 import android.content.ContentResolver;
 import android.database.Cursor;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -29,13 +30,14 @@ public class Main_Activity extends AppCompatActivity {
 
     private Animation animation = new Animation();
     private ArrayList<Song> songList;
-    private ListView songView;
+    private ListView songListView;
     private MusicService musicService;
     private LayoutThemeController layoutThemeController;
     private Intent playIntent;
     private boolean musicBound = false;
     private LinearLayout linearLayout;
     private static final String TAG = "Debug Message";
+    public static Context mainActivityContext;
 
     private ImageButton imageButtonOpen;
     //TODO implement as nonstatic
@@ -49,10 +51,11 @@ public class Main_Activity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        Log.d(TAG, "onCreate()");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.i(TAG,"onCreate called");
-        songView = (ListView) findViewById(R.id.song_list);
+        mainActivityContext = this;
+        songListView = (ListView) findViewById(R.id.song_list);
         songList = new ArrayList<Song>();
 
         imageButtonOpen = (ImageButton) findViewById(R.id.imageButtonOpen);
@@ -63,32 +66,31 @@ public class Main_Activity extends AppCompatActivity {
         imageButtonStop = (ImageButton) findViewById(R.id.imageButtonStop);
 
         //TODO implement sharedpreferences for saving background theme
-        SharedPreferences theme_prefs = getSharedPreferences("THEME_PREFS",1);
+        SharedPreferences theme_prefs = getSharedPreferences("THEME_PREFS", 1);
 
-        //linearLayout to be passed into setTheme(linearLayout)
-        linearLayout = (LinearLayout)findViewById(R.id.main_layout);
+        linearLayout = (LinearLayout) findViewById(R.id.main_layout);
         layoutThemeController = new LayoutThemeController();
 
-        //TODO set to sharedpreference data
+        //TODO set visual theme to sharedpreference data
         layoutThemeController.setThemeBG2(linearLayout);
 
         getSongList();
-
         Collections.sort(songList, new Comparator<Song>() {
             public int compare(Song a, Song b) {
                 return a.getTitle().compareTo(b.getTitle());
             }
         });
         SongAdapter songAdt = new SongAdapter(this, songList);
-        songView.setAdapter(songAdt);
+        songListView.setAdapter(songAdt);
         pressedOpen();
         pressedPlay();
         pressedMenu();
-		pressedNext();
-		pressedPrev();
+        pressedNext();
+        pressedPrev();
         pressedStop();
         setImageButtonPauseImage();
         setImageButtonPlayImage();
+        pressedSongList();
     }
 
     private ServiceConnection musicConnection = new ServiceConnection() {
@@ -109,6 +111,7 @@ public class Main_Activity extends AppCompatActivity {
 
     @Override
     protected void onStart() {
+        Log.d(TAG, "onStart()");
         super.onStart();
         if (playIntent == null) {
             playIntent = new Intent(this, MusicService.class);
@@ -117,13 +120,48 @@ public class Main_Activity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        Log.d(TAG, "onResume()");
+        super.onResume();
+    }
+
+    @Override
+    protected void onRestart() {
+        Log.d(TAG, "onRestart()");
+        super.onRestart();
+    }
+
+    @Override
+    protected void onPause() {
+        Log.d(TAG, "onPause()");
+        super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        Log.d(TAG, "onStop()");
+        super.onStop();
+    }
+
+    @Override
     protected void onDestroy() {
+        Log.d(TAG, "onDestroy()");
         stopService(playIntent);
         musicService = null;
         super.onDestroy();
     }
-	
-	public void songPicked(View view) {
+
+    public void pressedSongList() {
+        songListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                songListView.getChildAt(Integer.parseInt(view.getTag().toString())).;
+                songPicked(songListView);
+            }
+        });
+    }
+
+    public void songPicked(View view) {
         musicService.setSong(Integer.parseInt(view.getTag().toString()));
         Log.d(TAG, "songPicked() value:" + view.getTag().toString());
         musicService.playSong();
@@ -133,7 +171,7 @@ public class Main_Activity extends AppCompatActivity {
         imageButtonOpen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                animation.animationFadeListView(songView);
+                animation.animationFadeListView(songListView);
             }
         });
     }
@@ -144,16 +182,15 @@ public class Main_Activity extends AppCompatActivity {
             public void onClick(View view) {
                 if (!musicService.getIsPlaying()) {
                     musicService.playSong();
-                }
-                else {
+                } else {
                     musicService.pauseSong();
                 }
             }
         });
     }
-	
-    public void pressedMenu(){
-        imageButtonMenu.setOnClickListener(new View.OnClickListener(){
+
+    public void pressedMenu() {
+        imageButtonMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (layoutThemeController.getThemeID() == 2)
@@ -162,37 +199,39 @@ public class Main_Activity extends AppCompatActivity {
             }
         });
     }
-	
-	public void pressedNext(){
-		imageButtonNext.setOnClickListener(new View.OnClickListener(){
-			@Override
-			public void onClick(View view){
-				musicService.nextSong();
-			}
-		});
-	}	
-	public void pressedPrev(){
-		imageButtonPrev.setOnClickListener(new View.OnClickListener(){
-			@Override
-			public void onClick(View view){
-				musicService.prevSong();
-			}
-		});
-	}
-	
-	public void pressedStop(){
-		imageButtonStop.setOnClickListener(new View.OnClickListener(){
-			@Override
-			public void onClick(View view){
-				musicService.stopSong();
-			}
-		});
-	}
 
-    public static void setImageButtonPauseImage(){
+    public void pressedNext() {
+        imageButtonNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                musicService.nextSong();
+            }
+        });
+    }
+
+    public void pressedPrev() {
+        imageButtonPrev.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                musicService.prevSong();
+            }
+        });
+    }
+
+    public void pressedStop() {
+        imageButtonStop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                musicService.stopSong();
+            }
+        });
+    }
+
+    public static void setImageButtonPauseImage() {
         imageButtonPlay.setBackgroundResource(R.drawable.button_pause);
     }
-    public static void setImageButtonPlayImage(){
+
+    public static void setImageButtonPlayImage() {
         imageButtonPlay.setBackgroundResource(R.drawable.button_play);
     }
 
@@ -223,5 +262,4 @@ public class Main_Activity extends AppCompatActivity {
     }
 
 
-    
 }

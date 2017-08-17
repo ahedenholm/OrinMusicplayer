@@ -31,10 +31,11 @@ public class MusicService extends Service implements
     private final IBinder musicBind = new MusicBinder();
     private BroadcastReceiver becomingNoisyReceiver;
     private static final String TAG = "Debug Message";
-    private ArrayList<Song> songs;
+    private ArrayList<Song> songArrayList;
     private int songPosition;
     private int songCurrentTimeMillisec;
     private int audioFocusResult;
+    public static Song selectedSong;
 
     public void onCreate() {
         super.onCreate();
@@ -103,7 +104,7 @@ public class MusicService extends Service implements
     }
 
     public void setList(ArrayList<Song> theSongs) {
-        songs = theSongs;
+        songArrayList = theSongs;
     }
 
     class MusicBinder extends Binder {
@@ -155,7 +156,8 @@ public class MusicService extends Service implements
             //listen for noise, i.e unplugged headphones
             registerReceiver(becomingNoisyReceiver, intentFilter);
             mediaPlayer.reset();
-            Song playSong = songs.get(songPosition);
+            Song playSong = songArrayList.get(songPosition);
+            selectedSong = songArrayList.get(songPosition);
             long currSong = playSong.getId();
             Uri trackUri = ContentUris.withAppendedId(
                     MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, currSong);
@@ -172,15 +174,15 @@ public class MusicService extends Service implements
 
     public void nextSong() {
         Log.d(TAG, "getCurrentPosition value: " + String.valueOf(mediaPlayer.getCurrentPosition()));
-        Log.d(TAG, "songlist size value: " + String.valueOf(songs.size()));
-        if (songPosition < (songs.size() - 1)) {
+        Log.d(TAG, "songlist size value: " + String.valueOf(songArrayList.size()));
+        if (songPosition < (songArrayList.size() - 1)) {
             Log.d(TAG, "nextSong() value before : " + String.valueOf(songPosition));
             songPosition++;
             songCurrentTimeMillisec = 0;
             Log.d(TAG, "nextSong() value after ++ : " + String.valueOf(songPosition));
             playSong();
         } else {
-            Log.d(TAG, "nextSong() !songPosition < songs.size, songPosition: " + String.valueOf(songPosition));
+            Log.d(TAG, "nextSong() !songPosition < songArrayList.size, songPosition: " + String.valueOf(songPosition));
             songPosition = 0;
             songCurrentTimeMillisec = 0;
             playSong();
@@ -201,7 +203,7 @@ public class MusicService extends Service implements
             //Log.d(TAG, "songPosition value after: " + String.valueOf(songPosition));
             playSong();
         } else if (mediaPlayer.getCurrentPosition() <= 1500 && songPosition == 0) {
-            songPosition = songs.size() - 1;
+            songPosition = songArrayList.size() - 1;
             //Log.d(TAG, "songPosition == 0, play last song on list, songPosition: " + String.valueOf(songPosition));
             songCurrentTimeMillisec = 0;
             playSong();

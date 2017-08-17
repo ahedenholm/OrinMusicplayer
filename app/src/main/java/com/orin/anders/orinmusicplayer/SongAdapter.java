@@ -3,6 +3,7 @@ package com.orin.anders.orinmusicplayer;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -15,12 +16,12 @@ SongAdapter class should inflate a linearlayout with a songlist onto the activit
  */
 public class SongAdapter extends BaseAdapter {
 
-    private ArrayList<Song> songs;
-    private LayoutInflater songInf;
+    private ArrayList<Song> songArrayList;
+    private LayoutInflater layoutInflater;
 
     public SongAdapter(Context c, ArrayList<Song> theSongs) {
-        songs = theSongs;
-        songInf = LayoutInflater.from(c);
+        songArrayList = theSongs;
+        layoutInflater = LayoutInflater.from(c);
     }
     public SongAdapter() {
         super();
@@ -28,7 +29,7 @@ public class SongAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return songs.size();
+        return songArrayList.size();
     }
 
     @Override
@@ -44,7 +45,7 @@ public class SongAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         //map to song layout
-        LinearLayout songLay = (LinearLayout) songInf.inflate(R.layout.song, parent, false);
+        LinearLayout songLay = (LinearLayout) layoutInflater.inflate(R.layout.song, parent, false);
 
         //get title and artist views
         TextView songView = (TextView) songLay.findViewById(R.id.song_title);
@@ -52,8 +53,17 @@ public class SongAdapter extends BaseAdapter {
         TextView lengthView = (TextView) songLay.findViewById(R.id.song_length);
 
         //get song using position
-        Song currSong = songs.get(position);
+        Song currSong = songArrayList.get(position);
 
+        //TODO not working as intended, nothing gets grayed out, probably this happens only once
+        //at startup and doesnt update onClick()
+        /*
+        if (currSong == MusicService.selectedSong){
+            songView.setTextColor(Color.GRAY);
+            artistView.setTextColor(Color.GRAY);
+            lengthView.setTextColor(Color.GRAY);
+        }
+        */
         //get title and artist strings
         songView.setText(currSong.getTitle());
         artistView.setText(currSong.getArtist());
