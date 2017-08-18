@@ -1,6 +1,7 @@
 package com.orin.anders.orinmusicplayer;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
@@ -23,6 +24,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.view.View;
+import android.widget.TextView;
 
 import com.orin.anders.orinmusicplayer.MusicService.MusicBinder;
 
@@ -90,7 +92,6 @@ public class Main_Activity extends AppCompatActivity {
         pressedStop();
         setImageButtonPauseImage();
         setImageButtonPlayImage();
-        pressedSongList();
     }
 
     private ServiceConnection musicConnection = new ServiceConnection() {
@@ -100,6 +101,7 @@ public class Main_Activity extends AppCompatActivity {
             musicService = musicBinder.getService();
             musicService.setList(songList);
             musicBound = true;
+
         }
 
         @Override
@@ -151,17 +153,10 @@ public class Main_Activity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    public void pressedSongList() {
-        songListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                songListView.getChildAt(Integer.parseInt(view.getTag().toString())).;
-                songPicked(songListView);
-            }
-        });
-    }
-
     public void songPicked(View view) {
+        ((TextView)view.findViewById(R.id.song_artist)).setTextColor(Color.GRAY);
+        ((TextView)view.findViewById(R.id.song_title)).setTextColor(Color.GRAY);
+        ((TextView)view.findViewById(R.id.song_length)).setTextColor(Color.GRAY);
         musicService.setSong(Integer.parseInt(view.getTag().toString()));
         Log.d(TAG, "songPicked() value:" + view.getTag().toString());
         musicService.playSong();

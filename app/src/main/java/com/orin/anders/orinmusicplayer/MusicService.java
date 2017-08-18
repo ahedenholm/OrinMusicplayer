@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.IBinder;
 import android.provider.MediaStore;
@@ -18,7 +19,18 @@ import android.net.Uri;
 import android.os.Binder;
 import android.os.PowerManager;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
+
+    /*
+    This class handles the various playback funtions, play, play nexst song, play previous,
+    pause and stop.
+    It also:
+    - Initializes the MediaPlayer,
+    - Handles loss and gain of AUDIOFOCUS.
+    - Handles AUDIO_BECOMING_NOISY.
+
+     */
 
 public class MusicService extends Service implements
         MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener,
@@ -35,7 +47,6 @@ public class MusicService extends Service implements
     private int songPosition;
     private int songCurrentTimeMillisec;
     private int audioFocusResult;
-    public static Song selectedSong;
 
     public void onCreate() {
         super.onCreate();
@@ -157,7 +168,7 @@ public class MusicService extends Service implements
             registerReceiver(becomingNoisyReceiver, intentFilter);
             mediaPlayer.reset();
             Song playSong = songArrayList.get(songPosition);
-            selectedSong = songArrayList.get(songPosition);
+            MusicServiceHelper.selectedSong = songArrayList.get(songPosition);
             long currSong = playSong.getId();
             Uri trackUri = ContentUris.withAppendedId(
                     MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, currSong);
@@ -204,7 +215,6 @@ public class MusicService extends Service implements
             playSong();
         } else if (mediaPlayer.getCurrentPosition() <= 1500 && songPosition == 0) {
             songPosition = songArrayList.size() - 1;
-            //Log.d(TAG, "songPosition == 0, play last song on list, songPosition: " + String.valueOf(songPosition));
             songCurrentTimeMillisec = 0;
             playSong();
         }
@@ -216,8 +226,6 @@ public class MusicService extends Service implements
             mediaPlayer.pause();
             Main_Activity.setImageButtonPlayImage();
             songCurrentTimeMillisec = mediaPlayer.getCurrentPosition();
-            //Log.d(TAG, "songPosition value: " + String.valueOf(songPosition));
-            //Log.d(TAG, "getCurrentPosition value: " + String.valueOf(mediaPlayer.getCurrentPosition()));
         }
     }
 

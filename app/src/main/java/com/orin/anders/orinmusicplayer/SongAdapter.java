@@ -57,13 +57,11 @@ public class SongAdapter extends BaseAdapter {
 
         //TODO not working as intended, nothing gets grayed out, probably this happens only once
         //at startup and doesnt update onClick()
-        /*
-        if (currSong == MusicService.selectedSong){
+        if (currSong == MusicServiceHelper.selectedSong){
             songView.setTextColor(Color.GRAY);
             artistView.setTextColor(Color.GRAY);
             lengthView.setTextColor(Color.GRAY);
         }
-        */
         //get title and artist strings
         songView.setText(currSong.getTitle());
         artistView.setText(currSong.getArtist());
