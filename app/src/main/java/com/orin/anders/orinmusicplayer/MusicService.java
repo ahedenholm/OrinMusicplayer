@@ -179,7 +179,7 @@ public class MusicService extends Service implements
             }
             //onPrepared() calls mediaPlayer.Start()
             mediaPlayer.prepareAsync();
-            Main_Activity.setImageButtonPauseImage();
+            Main_ActivityHelper.setImageButtonPauseImage();
         }
     }
 
@@ -224,7 +224,7 @@ public class MusicService extends Service implements
         if (mediaPlayer.isPlaying()) {
             unregisterReceiver(becomingNoisyReceiver);
             mediaPlayer.pause();
-            Main_Activity.setImageButtonPlayImage();
+            Main_ActivityHelper.setImageButtonPlayImage();
             songCurrentTimeMillisec = mediaPlayer.getCurrentPosition();
         }
     }
@@ -234,7 +234,7 @@ public class MusicService extends Service implements
             unregisterReceiver(becomingNoisyReceiver);
             mediaPlayer.reset();
             songCurrentTimeMillisec = 0;
-            Main_Activity.setImageButtonPlayImage();
+            Main_ActivityHelper.setImageButtonPlayImage();
         }
     }
 

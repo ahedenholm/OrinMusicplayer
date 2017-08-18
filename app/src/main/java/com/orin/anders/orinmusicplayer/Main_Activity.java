@@ -39,7 +39,7 @@ public class Main_Activity extends AppCompatActivity {
     private boolean musicBound = false;
     private LinearLayout linearLayout;
     private static final String TAG = "Debug Message";
-    public static Context mainActivityContext;
+
 
     private ImageButton imageButtonOpen;
     //TODO implement as nonstatic
@@ -56,12 +56,14 @@ public class Main_Activity extends AppCompatActivity {
         Log.d(TAG, "onCreate()");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mainActivityContext = this;
+        Main_ActivityHelper.mainActivityContext = this;
+        Main_ActivityHelper.songListIsEnabled = false;
+
         songListView = (ListView) findViewById(R.id.song_list);
         songList = new ArrayList<Song>();
 
         imageButtonOpen = (ImageButton) findViewById(R.id.imageButtonOpen);
-        imageButtonPlay = (ImageButton) findViewById(R.id.imageButtonPlay);
+        Main_ActivityHelper.imageButtonPlay = (ImageButton) findViewById(R.id.imageButtonPlay);
         imageButtonMenu = (ImageButton) findViewById(R.id.imageButtonMenu);
         imageButtonNext = (ImageButton) findViewById(R.id.imageButtonNext);
         imageButtonPrev = (ImageButton) findViewById(R.id.imageButtonPrev);
@@ -90,8 +92,6 @@ public class Main_Activity extends AppCompatActivity {
         pressedNext();
         pressedPrev();
         pressedStop();
-        setImageButtonPauseImage();
-        setImageButtonPlayImage();
     }
 
     private ServiceConnection musicConnection = new ServiceConnection() {
@@ -154,9 +154,9 @@ public class Main_Activity extends AppCompatActivity {
     }
 
     public void songPicked(View view) {
-        ((TextView)view.findViewById(R.id.song_artist)).setTextColor(Color.GRAY);
-        ((TextView)view.findViewById(R.id.song_title)).setTextColor(Color.GRAY);
-        ((TextView)view.findViewById(R.id.song_length)).setTextColor(Color.GRAY);
+        ((TextView) view.findViewById(R.id.song_artist)).setTextColor(Color.GRAY);
+        ((TextView) view.findViewById(R.id.song_title)).setTextColor(Color.GRAY);
+        ((TextView) view.findViewById(R.id.song_length)).setTextColor(Color.GRAY);
         musicService.setSong(Integer.parseInt(view.getTag().toString()));
         Log.d(TAG, "songPicked() value:" + view.getTag().toString());
         musicService.playSong();
@@ -166,13 +166,14 @@ public class Main_Activity extends AppCompatActivity {
         imageButtonOpen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Main_ActivityHelper.songListIsEnabled = true;
                 animation.animationFadeListView(songListView);
             }
         });
     }
 
     public void pressedPlay() {
-        imageButtonPlay.setOnClickListener(new View.OnClickListener() {
+        Main_ActivityHelper.imageButtonPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!musicService.getIsPlaying()) {
@@ -222,13 +223,7 @@ public class Main_Activity extends AppCompatActivity {
         });
     }
 
-    public static void setImageButtonPauseImage() {
-        imageButtonPlay.setBackgroundResource(R.drawable.button_pause);
-    }
 
-    public static void setImageButtonPlayImage() {
-        imageButtonPlay.setBackgroundResource(R.drawable.button_play);
-    }
 
     public void getSongList() {
         ContentResolver musicResolver = getContentResolver();
