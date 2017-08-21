@@ -1,7 +1,6 @@
 package com.orin.anders.orinmusicplayer;
 
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
@@ -14,7 +13,6 @@ import java.util.Comparator;
 import android.util.Log;
 import android.content.ContentResolver;
 import android.database.Cursor;
-import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -24,7 +22,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.view.View;
-import android.widget.TextView;
 
 import com.orin.anders.orinmusicplayer.MusicService.MusicBinder;
 
@@ -39,17 +36,7 @@ public class Main_Activity extends AppCompatActivity {
     private boolean musicBound = false;
     private LinearLayout linearLayout;
     private static final String TAG = "Debug Message";
-
-
-    private ImageButton imageButtonOpen;
-    //TODO implement as nonstatic
-    //currently static so background resource can be changed from within MusicService class
-    //with a static set method: setImageButtonPlayImage()
-    private static ImageButton imageButtonPlay;
-    private ImageButton imageButtonMenu;
-    private ImageButton imageButtonNext;
-    private ImageButton imageButtonPrev;
-    private ImageButton imageButtonStop;
+    private String theme;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,15 +49,15 @@ public class Main_Activity extends AppCompatActivity {
         songListView = (ListView) findViewById(R.id.song_list);
         songList = new ArrayList<Song>();
 
-        imageButtonOpen = (ImageButton) findViewById(R.id.imageButtonOpen);
-        Main_ActivityHelper.imageButtonPlay = (ImageButton) findViewById(R.id.imageButtonPlay);
-        imageButtonMenu = (ImageButton) findViewById(R.id.imageButtonMenu);
-        imageButtonNext = (ImageButton) findViewById(R.id.imageButtonNext);
-        imageButtonPrev = (ImageButton) findViewById(R.id.imageButtonPrev);
-        imageButtonStop = (ImageButton) findViewById(R.id.imageButtonStop);
+        LayoutButtonController.imageButtonPlay = (ImageButton) findViewById(R.id.imageButtonPlay);
+        LayoutButtonController.imageButtonOpen = (ImageButton) findViewById(R.id.imageButtonOpen);
+        LayoutButtonController.imageButtonMenu = (ImageButton) findViewById(R.id.imageButtonMenu);
+        LayoutButtonController.imageButtonNext = (ImageButton) findViewById(R.id.imageButtonNext);
+        LayoutButtonController.imageButtonPrev = (ImageButton) findViewById(R.id.imageButtonPrev);
+        LayoutButtonController.imageButtonStop = (ImageButton) findViewById(R.id.imageButtonStop);
 
         //TODO implement sharedpreferences for saving background theme
-        SharedPreferences theme_prefs = getSharedPreferences("THEME_PREFS", 1);
+        SharedPreferences themePrefs = getSharedPreferences("THEME_PREFS", 1);
 
         linearLayout = (LinearLayout) findViewById(R.id.main_layout);
         layoutThemeController = new LayoutThemeController();
@@ -154,26 +141,29 @@ public class Main_Activity extends AppCompatActivity {
     }
 
     public void songPicked(View view) {
+        //TODO listSelector doesnt seem to work properly
+        /*
         ((TextView) view.findViewById(R.id.song_artist)).setTextColor(Color.GRAY);
         ((TextView) view.findViewById(R.id.song_title)).setTextColor(Color.GRAY);
         ((TextView) view.findViewById(R.id.song_length)).setTextColor(Color.GRAY);
+        */
+
         musicService.setSong(Integer.parseInt(view.getTag().toString()));
         Log.d(TAG, "songPicked() value:" + view.getTag().toString());
         musicService.playSong();
     }
 
     public void pressedOpen() {
-        imageButtonOpen.setOnClickListener(new View.OnClickListener() {
+        LayoutButtonController.imageButtonOpen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Main_ActivityHelper.songListIsEnabled = true;
                 animation.animationFadeListView(songListView);
             }
         });
     }
 
     public void pressedPlay() {
-        Main_ActivityHelper.imageButtonPlay.setOnClickListener(new View.OnClickListener() {
+        LayoutButtonController.imageButtonPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!musicService.getIsPlaying()) {
@@ -186,7 +176,7 @@ public class Main_Activity extends AppCompatActivity {
     }
 
     public void pressedMenu() {
-        imageButtonMenu.setOnClickListener(new View.OnClickListener() {
+        LayoutButtonController.imageButtonMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (layoutThemeController.getThemeID() == 2)
@@ -197,7 +187,7 @@ public class Main_Activity extends AppCompatActivity {
     }
 
     public void pressedNext() {
-        imageButtonNext.setOnClickListener(new View.OnClickListener() {
+        LayoutButtonController.imageButtonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 musicService.nextSong();
@@ -206,7 +196,7 @@ public class Main_Activity extends AppCompatActivity {
     }
 
     public void pressedPrev() {
-        imageButtonPrev.setOnClickListener(new View.OnClickListener() {
+        LayoutButtonController.imageButtonPrev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 musicService.prevSong();
@@ -215,15 +205,13 @@ public class Main_Activity extends AppCompatActivity {
     }
 
     public void pressedStop() {
-        imageButtonStop.setOnClickListener(new View.OnClickListener() {
+        LayoutButtonController.imageButtonStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 musicService.stopSong();
             }
         });
     }
-
-
 
     public void getSongList() {
         ContentResolver musicResolver = getContentResolver();

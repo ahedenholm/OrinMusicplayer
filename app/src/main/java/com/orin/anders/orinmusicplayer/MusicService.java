@@ -19,17 +19,14 @@ import android.net.Uri;
 import android.os.Binder;
 import android.os.PowerManager;
 import android.util.Log;
-import android.widget.TextView;
 import android.widget.Toast;
 
     /*
-    This class handles the various playback funtions, play, play nexst song, play previous,
-    pause and stop.
+    This class handles the various playback funtions.
     It also:
     - Initializes the MediaPlayer,
     - Handles loss and gain of AUDIOFOCUS.
     - Handles AUDIO_BECOMING_NOISY.
-
      */
 
 public class MusicService extends Service implements
@@ -179,18 +176,14 @@ public class MusicService extends Service implements
             }
             //onPrepared() calls mediaPlayer.Start()
             mediaPlayer.prepareAsync();
-            Main_ActivityHelper.setImageButtonPauseImage();
+            LayoutButtonController.setImageButtonPauseImage();
         }
     }
 
     public void nextSong() {
-        Log.d(TAG, "getCurrentPosition value: " + String.valueOf(mediaPlayer.getCurrentPosition()));
-        Log.d(TAG, "songlist size value: " + String.valueOf(songArrayList.size()));
         if (songPosition < (songArrayList.size() - 1)) {
-            Log.d(TAG, "nextSong() value before : " + String.valueOf(songPosition));
             songPosition++;
             songCurrentTimeMillisec = 0;
-            Log.d(TAG, "nextSong() value after ++ : " + String.valueOf(songPosition));
             playSong();
         } else {
             Log.d(TAG, "nextSong() !songPosition < songArrayList.size, songPosition: " + String.valueOf(songPosition));
@@ -201,17 +194,12 @@ public class MusicService extends Service implements
     }
 
     public void prevSong() {
-        Log.d(TAG, "getCurrentPosition value: " + String.valueOf(mediaPlayer.getCurrentPosition()));
         if (mediaPlayer.getCurrentPosition() > 1500) {
-            Log.d(TAG, "getCurrentPosition value > 1000: " + String.valueOf(mediaPlayer.getCurrentPosition()));
             songCurrentTimeMillisec = 0;
-            Log.d(TAG, "song restarted, songPosition: " + String.valueOf(songPosition));
             playSong();
         } else if (mediaPlayer.getCurrentPosition() <= 1500 && songPosition > 0) {
-            Log.d(TAG, "songPosition value before: " + String.valueOf(songPosition));
             songPosition--;
             songCurrentTimeMillisec = 0;
-            //Log.d(TAG, "songPosition value after: " + String.valueOf(songPosition));
             playSong();
         } else if (mediaPlayer.getCurrentPosition() <= 1500 && songPosition == 0) {
             songPosition = songArrayList.size() - 1;
@@ -224,7 +212,7 @@ public class MusicService extends Service implements
         if (mediaPlayer.isPlaying()) {
             unregisterReceiver(becomingNoisyReceiver);
             mediaPlayer.pause();
-            Main_ActivityHelper.setImageButtonPlayImage();
+            LayoutButtonController.setImageButtonPlayImage();
             songCurrentTimeMillisec = mediaPlayer.getCurrentPosition();
         }
     }
@@ -234,7 +222,7 @@ public class MusicService extends Service implements
             unregisterReceiver(becomingNoisyReceiver);
             mediaPlayer.reset();
             songCurrentTimeMillisec = 0;
-            Main_ActivityHelper.setImageButtonPlayImage();
+            LayoutButtonController.setImageButtonPlayImage();
         }
     }
 

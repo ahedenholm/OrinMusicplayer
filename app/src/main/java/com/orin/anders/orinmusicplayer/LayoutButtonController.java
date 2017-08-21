@@ -15,12 +15,12 @@ public class LayoutButtonController {
 
     private Activity activity;
     private Context context;
-    private ImageButton imageButtonOpen;
-    private ImageButton imageButtonPlay;
-    private ImageButton imageButtonMenu;
-    private ImageButton imageButtonNext;
-    private ImageButton imageButtonPrev;
-    private ImageButton imageButtonStop;
+    public static ImageButton imageButtonOpen;
+    public static ImageButton imageButtonPlay;
+    public static ImageButton imageButtonMenu;
+    public static ImageButton imageButtonNext;
+    public static ImageButton imageButtonPrev;
+    public static ImageButton imageButtonStop;
 
     public LayoutButtonController(Context context, Activity activity){
         this.context = context;
@@ -60,10 +60,10 @@ public class LayoutButtonController {
         return imageButtonStop;
     }
 
-    public void setImageButtonPauseImage(){
+    public static void setImageButtonPauseImage(){
         imageButtonPlay.setBackgroundResource(R.drawable.button_pause);
     }
-    public void setImageButtonPlayImage(){
+    public static void setImageButtonPlayImage(){
         imageButtonPlay.setBackgroundResource(R.drawable.button_play);
     }
 
