@@ -56,14 +56,21 @@ public class Main_Activity extends AppCompatActivity {
         LayoutButtonController.imageButtonPrev = (ImageButton) findViewById(R.id.imageButtonPrev);
         LayoutButtonController.imageButtonStop = (ImageButton) findViewById(R.id.imageButtonStop);
 
-        //TODO implement sharedpreferences for saving background theme
-        SharedPreferences themePrefs = getSharedPreferences("THEME_PREFS", 1);
-
         linearLayout = (LinearLayout) findViewById(R.id.main_layout);
         layoutThemeController = new LayoutThemeController();
 
         //TODO set visual theme to sharedpreference data
-        layoutThemeController.setThemeBG2(linearLayout);
+        layoutThemeController.setThemePurple(linearLayout);
+
+        //TODO implement sharedpreferences for saving background theme
+        SharedPreferences spThemePrefs = getSharedPreferences("THEME_PREFS", MODE_PRIVATE);
+        layoutThemeController.setTheme(spThemePrefs.getString("savedTheme",""), linearLayout);
+        Log.d(TAG, spThemePrefs.getString("savedTheme",""));
+
+        SharedPreferences.Editor spThemePrefsEditor = spThemePrefs.edit();
+        spThemePrefsEditor.putString("savedTheme",LayoutThemeController.currentTheme);
+        Log.d(TAG, spThemePrefs.getString("savedTheme",""));
+
 
         getSongList();
         Collections.sort(songList, new Comparator<Song>() {
@@ -179,9 +186,9 @@ public class Main_Activity extends AppCompatActivity {
         LayoutButtonController.imageButtonMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (layoutThemeController.getThemeID() == 2)
-                    layoutThemeController.setThemeBG4(linearLayout);
-                else layoutThemeController.setThemeBG2(linearLayout);
+                if (LayoutThemeController.currentTheme.equals(LayoutThemeController.THEME_PURPLE))
+                    layoutThemeController.setThemeMarine(linearLayout);
+                else layoutThemeController.setThemePurple(linearLayout);
             }
         });
     }

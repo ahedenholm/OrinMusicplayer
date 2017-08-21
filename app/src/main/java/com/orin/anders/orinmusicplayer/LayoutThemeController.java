@@ -6,53 +6,49 @@ import java.util.Random;
 
 public class LayoutThemeController {
     private Random ran = new Random();
-    private int themeID;
+    public static final String THEME_GREENFIELD = "THEME_GREENFIELD";
+    public static final String THEME_PURPLE = "THEME_PURPLE";
+    public static final String THEME_BLUESKY = "THEME_BLUESKY";
+    public static final String THEME_MARINE = "THEME_MARINE";
+    public static String currentTheme;
 
-    public void setThemeField(LinearLayout linearLayout){
+    public void setThemeGreenfield(LinearLayout linearLayout){
         linearLayout.setBackgroundResource(R.drawable.bg_greenfield);
-        themeID = 1;
+        currentTheme = THEME_GREENFIELD;
     }
 
-    public void setThemeBG2(LinearLayout linearLayout){
+    public void setThemePurple(LinearLayout linearLayout){
         linearLayout.setBackgroundResource(R.drawable.bg_purplegrad2);
-        themeID = 2;
+        currentTheme = THEME_PURPLE;
     }
 
-    public void setThemeBG3(LinearLayout linearLayout){
+    public void setThemeBluesky(LinearLayout linearLayout){
         linearLayout.setBackgroundResource(R.drawable.bg_bluesky);
-        themeID = 3;
+        currentTheme = THEME_BLUESKY;
     }
 
-    public void setThemeBG4(LinearLayout linearLayout){
+    public void setThemeMarine(LinearLayout linearLayout){
         linearLayout.setBackgroundResource(R.drawable.bg_marine);
-        themeID = 4;
+        currentTheme = THEME_MARINE;
     }
 
-    public void setThemeRandom(LinearLayout linearLayout) {
-        switch (ran.nextInt(4)) {
-            case 0:
-                linearLayout.setBackgroundResource(R.drawable.bg_greenfield);
-                themeID = 1;
+    public void setTheme(String theme, LinearLayout linearLayout) {
+        switch (theme) {
+            case "THEME_GREENFIELD":
+                setThemeGreenfield(linearLayout);
                 break;
-            case 1:
-                linearLayout.setBackgroundResource(R.drawable.bg_purplegrad2);
-                themeID = 2;
+            case "THEME_PURPLE":
+                setThemePurple(linearLayout);
                 break;
-            case 2:
-                linearLayout.setBackgroundResource(R.drawable.bg_bluesky);
-                themeID = 3;
+            case "THEME_BLUESKY":
+                setThemeBluesky(linearLayout);
                 break;
-            case 3:
-                linearLayout.setBackgroundResource(R.drawable.bg_marine);
-                themeID = 4;
+            case "THEME_MARINE":
+                setThemeMarine(linearLayout);
                 break;
             default:
                 break;
         }
-    }
-
-    public int getThemeID(){
-        return themeID;
     }
 
 }
