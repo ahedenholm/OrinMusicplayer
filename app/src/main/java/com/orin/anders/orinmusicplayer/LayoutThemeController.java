@@ -1,16 +1,17 @@
 package com.orin.anders.orinmusicplayer;
 
+import android.content.SharedPreferences;
 import android.widget.LinearLayout;
 
-import java.util.Random;
-
 public class LayoutThemeController {
-    private Random ran = new Random();
     public static final String THEME_GREENFIELD = "THEME_GREENFIELD";
     public static final String THEME_PURPLE = "THEME_PURPLE";
     public static final String THEME_BLUESKY = "THEME_BLUESKY";
     public static final String THEME_MARINE = "THEME_MARINE";
     public static String currentTheme;
+
+    public SharedPreferences sharePreferencesTheme;
+    public SharedPreferences.Editor sharePreferencesThemeEditor;
 
     public void setThemeGreenfield(LinearLayout linearLayout){
         linearLayout.setBackgroundResource(R.drawable.bg_greenfield);
@@ -49,6 +50,11 @@ public class LayoutThemeController {
             default:
                 break;
         }
+    }
+
+    public void saveVisualTheme(){
+        sharePreferencesThemeEditor.putString("savedTheme", LayoutThemeController.currentTheme);
+        sharePreferencesThemeEditor.apply();
     }
 
 }

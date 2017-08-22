@@ -1,6 +1,5 @@
 package com.orin.anders.orinmusicplayer;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
@@ -59,18 +58,15 @@ public class Main_Activity extends AppCompatActivity {
         linearLayout = (LinearLayout) findViewById(R.id.main_layout);
         layoutThemeController = new LayoutThemeController();
 
-        //TODO set visual theme to sharedpreference data
-        layoutThemeController.setThemePurple(linearLayout);
-
         //TODO implement sharedpreferences for saving background theme
-        SharedPreferences spThemePrefs = getSharedPreferences("THEME_PREFS", MODE_PRIVATE);
-        layoutThemeController.setTheme(spThemePrefs.getString("savedTheme",""), linearLayout);
-        Log.d(TAG, spThemePrefs.getString("savedTheme",""));
-
-        SharedPreferences.Editor spThemePrefsEditor = spThemePrefs.edit();
-        spThemePrefsEditor.putString("savedTheme",LayoutThemeController.currentTheme);
-        Log.d(TAG, spThemePrefs.getString("savedTheme",""));
-
+        Log.d(TAG, "currentTheme: " + LayoutThemeController.currentTheme);
+        layoutThemeController.sharePreferencesTheme = getSharedPreferences("THEME_PREFS", MODE_PRIVATE);
+        layoutThemeController.sharePreferencesThemeEditor = layoutThemeController.sharePreferencesTheme.edit();
+        layoutThemeController.setTheme(layoutThemeController.sharePreferencesTheme
+                .getString("savedTheme", ""), linearLayout);
+        Log.d(TAG, "sharedPreferences savedtheme: " + (layoutThemeController.sharePreferencesTheme
+                .getString("savedTheme", "")));
+        Log.d(TAG, "currentTheme: " + LayoutThemeController.currentTheme);
 
         getSongList();
         Collections.sort(songList, new Comparator<Song>() {
@@ -186,9 +182,17 @@ public class Main_Activity extends AppCompatActivity {
         LayoutButtonController.imageButtonMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (LayoutThemeController.currentTheme.equals(LayoutThemeController.THEME_PURPLE))
+                if (LayoutThemeController.currentTheme != null &&
+                        LayoutThemeController.currentTheme.equals(LayoutThemeController.THEME_PURPLE))
+                {
                     layoutThemeController.setThemeMarine(linearLayout);
-                else layoutThemeController.setThemePurple(linearLayout);
+                    layoutThemeController.saveVisualTheme();
+                    Log.d(TAG, LayoutThemeController.currentTheme);
+                } else {
+                    layoutThemeController.setThemePurple(linearLayout);
+                    layoutThemeController.saveVisualTheme();
+                    Log.d(TAG, LayoutThemeController.currentTheme);
+                }
             }
         });
     }
