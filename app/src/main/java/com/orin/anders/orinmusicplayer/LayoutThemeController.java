@@ -13,6 +13,7 @@ public class LayoutThemeController {
     public SharedPreferences sharePreferencesTheme;
     public SharedPreferences.Editor sharePreferencesThemeEditor;
 
+
     public void setThemeGreenfield(LinearLayout linearLayout){
         linearLayout.setBackgroundResource(R.drawable.bg_greenfield);
         currentTheme = THEME_GREENFIELD;

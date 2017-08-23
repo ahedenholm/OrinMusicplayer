@@ -12,6 +12,7 @@ import java.util.Comparator;
 import android.util.Log;
 import android.content.ContentResolver;
 import android.database.Cursor;
+import android.view.KeyEvent;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -58,15 +59,10 @@ public class Main_Activity extends AppCompatActivity {
         linearLayout = (LinearLayout) findViewById(R.id.main_layout);
         layoutThemeController = new LayoutThemeController();
 
-        //TODO implement sharedpreferences for saving background theme
-        Log.d(TAG, "currentTheme: " + LayoutThemeController.currentTheme);
         layoutThemeController.sharePreferencesTheme = getSharedPreferences("THEME_PREFS", MODE_PRIVATE);
         layoutThemeController.sharePreferencesThemeEditor = layoutThemeController.sharePreferencesTheme.edit();
         layoutThemeController.setTheme(layoutThemeController.sharePreferencesTheme
                 .getString("savedTheme", ""), linearLayout);
-        Log.d(TAG, "sharedPreferences savedtheme: " + (layoutThemeController.sharePreferencesTheme
-                .getString("savedTheme", "")));
-        Log.d(TAG, "currentTheme: " + LayoutThemeController.currentTheme);
 
         getSongList();
         Collections.sort(songList, new Comparator<Song>() {
@@ -82,6 +78,30 @@ public class Main_Activity extends AppCompatActivity {
         pressedNext();
         pressedPrev();
         pressedStop();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_MEDIA_PLAY:
+                //TODO KEYCODE MEDIA PLAY not registering as intended
+                Log.d(TAG, "KEYCODE MEDIA PLAY");
+                if (!musicService.getIsPlaying()) {
+                    musicService.playSong();
+                } else {
+                    musicService.pauseSong();
+                }
+                return true;
+            case KeyEvent.KEYCODE_MEDIA_PREVIOUS:
+                Log.d(TAG, "KEYCODE MEDIA PREVIOUS");
+                musicService.prevSong();
+                return true;
+            case KeyEvent.KEYCODE_MEDIA_NEXT:
+                Log.d(TAG, "KEYCODE MEDIA NEXT");
+                musicService.nextSong();
+                return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     private ServiceConnection musicConnection = new ServiceConnection() {
