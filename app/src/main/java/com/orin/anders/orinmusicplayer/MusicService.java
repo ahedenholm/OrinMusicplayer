@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.IBinder;
 import android.provider.MediaStore;
@@ -176,7 +175,7 @@ public class MusicService extends Service implements
             }
             //onPrepared() calls mediaPlayer.Start()
             mediaPlayer.prepareAsync();
-            LayoutButtonController.setImageButtonPauseImage();
+            ButtonController.setImageButtonPauseImage();
         }
     }
 
@@ -212,7 +211,7 @@ public class MusicService extends Service implements
         if (mediaPlayer.isPlaying()) {
             unregisterReceiver(becomingNoisyReceiver);
             mediaPlayer.pause();
-            LayoutButtonController.setImageButtonPlayImage();
+            ButtonController.setImageButtonPlayImage();
             songCurrentTimeMillisec = mediaPlayer.getCurrentPosition();
         }
     }
@@ -222,7 +221,7 @@ public class MusicService extends Service implements
             unregisterReceiver(becomingNoisyReceiver);
             mediaPlayer.reset();
             songCurrentTimeMillisec = 0;
-            LayoutButtonController.setImageButtonPlayImage();
+            ButtonController.setImageButtonPlayImage();
         }
     }
 

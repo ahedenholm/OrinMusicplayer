@@ -3,15 +3,15 @@ package com.orin.anders.orinmusicplayer;
 import android.content.SharedPreferences;
 import android.widget.LinearLayout;
 
-public class LayoutThemeController {
-    public static final String THEME_GREENFIELD = "THEME_GREENFIELD";
-    public static final String THEME_PURPLE = "THEME_PURPLE";
-    public static final String THEME_BLUESKY = "THEME_BLUESKY";
-    public static final String THEME_MARINE = "THEME_MARINE";
-    public static String currentTheme;
+public class ThemeController {
+    public static final int THEME_GREENFIELD = 1;
+    public static final int THEME_PURPLE = 2;
+    public static final int THEME_BLUESKY = 3;
+    public static final int THEME_MARINE = 4;
+    public static Integer currentTheme;
 
-    public SharedPreferences sharePreferencesTheme;
-    public SharedPreferences.Editor sharePreferencesThemeEditor;
+    public SharedPreferences sharedPreferencesTheme;
+    public SharedPreferences.Editor sharedPreferencesThemeEditor;
 
 
     public void setThemeGreenfield(LinearLayout linearLayout){
@@ -34,18 +34,18 @@ public class LayoutThemeController {
         currentTheme = THEME_MARINE;
     }
 
-    public void setTheme(String theme, LinearLayout linearLayout) {
+    public void setTheme(int theme, LinearLayout linearLayout) {
         switch (theme) {
-            case "THEME_GREENFIELD":
+            case THEME_GREENFIELD:
                 setThemeGreenfield(linearLayout);
                 break;
-            case "THEME_PURPLE":
+            case THEME_PURPLE:
                 setThemePurple(linearLayout);
                 break;
-            case "THEME_BLUESKY":
+            case THEME_BLUESKY:
                 setThemeBluesky(linearLayout);
                 break;
-            case "THEME_MARINE":
+            case THEME_MARINE:
                 setThemeMarine(linearLayout);
                 break;
             default:
@@ -54,8 +54,8 @@ public class LayoutThemeController {
     }
 
     public void saveVisualTheme(){
-        sharePreferencesThemeEditor.putString("savedTheme", LayoutThemeController.currentTheme);
-        sharePreferencesThemeEditor.apply();
+        sharedPreferencesThemeEditor.putInt("savedTheme", ThemeController.currentTheme);
+        sharedPreferencesThemeEditor.apply();
     }
 
 }

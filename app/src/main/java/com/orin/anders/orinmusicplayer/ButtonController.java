@@ -8,7 +8,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 
-public class LayoutButtonController {
+public class ButtonController {
 
     LinearLayout linearLayout;
     private static final String TAG = "Debug Message";
@@ -22,7 +22,7 @@ public class LayoutButtonController {
     public static ImageButton imageButtonPrev;
     public static ImageButton imageButtonStop;
 
-    public LayoutButtonController(Context context, Activity activity){
+    public ButtonController(Context context, Activity activity){
         this.context = context;
         this.activity = activity;
     }

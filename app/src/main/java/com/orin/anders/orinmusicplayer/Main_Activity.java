@@ -27,47 +27,44 @@ import com.orin.anders.orinmusicplayer.MusicService.MusicBinder;
 
 public class Main_Activity extends AppCompatActivity {
 
-    private Animation animation = new Animation();
+    private ThemeController themeController;
     private ArrayList<Song> songList;
-    private ListView songListView;
-    private MusicService musicService;
-    private LayoutThemeController layoutThemeController;
-    private Intent playIntent;
-    private boolean musicBound = false;
     private LinearLayout linearLayout;
-    private static final String TAG = "Debug Message";
+    private MusicService musicService;
+    private Animation animation = new Animation();
+    private ListView songListView;
+    private Intent playIntent;
     private String theme;
+    private boolean musicBound = false;
+    private static final String TAG = "Debug Message";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        Log.d(TAG, "onCreate()");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Main_ActivityHelper.mainActivityContext = this;
-        Main_ActivityHelper.songListIsEnabled = false;
+        ButtonController.imageButtonPlay = (ImageButton) findViewById(R.id.imageButtonPlay);
+        ButtonController.imageButtonOpen = (ImageButton) findViewById(R.id.imageButtonOpen);
+        ButtonController.imageButtonMenu = (ImageButton) findViewById(R.id.imageButtonMenu);
+        ButtonController.imageButtonNext = (ImageButton) findViewById(R.id.imageButtonNext);
+        ButtonController.imageButtonPrev = (ImageButton) findViewById(R.id.imageButtonPrev);
+        ButtonController.imageButtonStop = (ImageButton) findViewById(R.id.imageButtonStop);
 
         songListView = (ListView) findViewById(R.id.song_list);
         songList = new ArrayList<Song>();
-
-        LayoutButtonController.imageButtonPlay = (ImageButton) findViewById(R.id.imageButtonPlay);
-        LayoutButtonController.imageButtonOpen = (ImageButton) findViewById(R.id.imageButtonOpen);
-        LayoutButtonController.imageButtonMenu = (ImageButton) findViewById(R.id.imageButtonMenu);
-        LayoutButtonController.imageButtonNext = (ImageButton) findViewById(R.id.imageButtonNext);
-        LayoutButtonController.imageButtonPrev = (ImageButton) findViewById(R.id.imageButtonPrev);
-        LayoutButtonController.imageButtonStop = (ImageButton) findViewById(R.id.imageButtonStop);
-
         linearLayout = (LinearLayout) findViewById(R.id.main_layout);
-        layoutThemeController = new LayoutThemeController();
+        themeController = new ThemeController();
 
-        layoutThemeController.sharePreferencesTheme = getSharedPreferences("THEME_PREFS", MODE_PRIVATE);
-        layoutThemeController.sharePreferencesThemeEditor = layoutThemeController.sharePreferencesTheme.edit();
-        layoutThemeController.setTheme(layoutThemeController.sharePreferencesTheme
-                .getString("savedTheme", ""), linearLayout);
+        themeController.sharedPreferencesTheme = getSharedPreferences("THEME_PREFS", MODE_PRIVATE);
+        themeController.sharedPreferencesThemeEditor = themeController.sharedPreferencesTheme.edit();
+        themeController.setTheme(themeController.sharedPreferencesTheme
+                .getInt("savedTheme", 0), linearLayout);
 
         getSongList();
         Collections.sort(songList, new Comparator<Song>() {
             public int compare(Song a, Song b) {
-                return a.getTitle().compareTo(b.getTitle());
+                return a.getArtist().compareTo(b.getArtist());
             }
         });
         SongAdapter songAdt = new SongAdapter(this, songList);
@@ -78,13 +75,15 @@ public class Main_Activity extends AppCompatActivity {
         pressedNext();
         pressedPrev();
         pressedStop();
+        Log.d(TAG, "onCreate()");
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch (keyCode) {
             case KeyEvent.KEYCODE_MEDIA_PLAY:
-                //TODO KEYCODE MEDIA PLAY not registering as intended
+                //TODO KEYCODE MEDIA PLAY not registering as intended, maybe use
+                // broadcastreceiver ACTION_MEDIA instead
                 Log.d(TAG, "KEYCODE MEDIA PLAY");
                 if (!musicService.getIsPlaying()) {
                     musicService.playSong();
@@ -158,6 +157,7 @@ public class Main_Activity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         Log.d(TAG, "onDestroy()");
+        themeController.saveVisualTheme();
         stopService(playIntent);
         musicService = null;
         super.onDestroy();
@@ -177,7 +177,7 @@ public class Main_Activity extends AppCompatActivity {
     }
 
     public void pressedOpen() {
-        LayoutButtonController.imageButtonOpen.setOnClickListener(new View.OnClickListener() {
+        ButtonController.imageButtonOpen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 animation.animationFadeListView(songListView);
@@ -186,7 +186,7 @@ public class Main_Activity extends AppCompatActivity {
     }
 
     public void pressedPlay() {
-        LayoutButtonController.imageButtonPlay.setOnClickListener(new View.OnClickListener() {
+        ButtonController.imageButtonPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!musicService.getIsPlaying()) {
@@ -199,26 +199,24 @@ public class Main_Activity extends AppCompatActivity {
     }
 
     public void pressedMenu() {
-        LayoutButtonController.imageButtonMenu.setOnClickListener(new View.OnClickListener() {
+        ButtonController.imageButtonMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (LayoutThemeController.currentTheme != null &&
-                        LayoutThemeController.currentTheme.equals(LayoutThemeController.THEME_PURPLE))
+                if (ThemeController.currentTheme != null &&
+                        ThemeController.currentTheme == ThemeController.THEME_PURPLE)
                 {
-                    layoutThemeController.setThemeMarine(linearLayout);
-                    layoutThemeController.saveVisualTheme();
-                    Log.d(TAG, LayoutThemeController.currentTheme);
+                    themeController.setThemeMarine(linearLayout);
+                    Log.d(TAG, ThemeController.currentTheme.toString());
                 } else {
-                    layoutThemeController.setThemePurple(linearLayout);
-                    layoutThemeController.saveVisualTheme();
-                    Log.d(TAG, LayoutThemeController.currentTheme);
+                    themeController.setThemePurple(linearLayout);
+                    Log.d(TAG, ThemeController.currentTheme.toString());
                 }
             }
         });
     }
 
     public void pressedNext() {
-        LayoutButtonController.imageButtonNext.setOnClickListener(new View.OnClickListener() {
+        ButtonController.imageButtonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 musicService.nextSong();
@@ -227,7 +225,7 @@ public class Main_Activity extends AppCompatActivity {
     }
 
     public void pressedPrev() {
-        LayoutButtonController.imageButtonPrev.setOnClickListener(new View.OnClickListener() {
+        ButtonController.imageButtonPrev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 musicService.prevSong();
@@ -236,7 +234,7 @@ public class Main_Activity extends AppCompatActivity {
     }
 
     public void pressedStop() {
-        LayoutButtonController.imageButtonStop.setOnClickListener(new View.OnClickListener() {
+        ButtonController.imageButtonStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 musicService.stopSong();
