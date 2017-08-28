@@ -2,6 +2,7 @@ package com.orin.anders.orinmusicplayer;
 
 import android.animation.ValueAnimator;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 public class Animation {
@@ -27,6 +28,31 @@ public class Animation {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
                     listView.setAlpha((float) animation.getAnimatedValue());
+                }
+            });
+            valueAnimator.setDuration(200);
+            valueAnimator.start();
+        }
+    }
+
+    public void animationFadeButton(final ImageButton imageButton){
+        if (imageButton.getAlpha() < 1) {
+            valueAnimator = ValueAnimator.ofFloat(0, 1);
+            valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    imageButton.setAlpha((float) animation.getAnimatedValue());
+                }
+            });
+            valueAnimator.setDuration(200);
+            valueAnimator.start();
+
+        } else {
+            valueAnimator = ValueAnimator.ofFloat(1, 0);
+            valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    imageButton.setAlpha((float) animation.getAnimatedValue());
                 }
             });
             valueAnimator.setDuration(200);

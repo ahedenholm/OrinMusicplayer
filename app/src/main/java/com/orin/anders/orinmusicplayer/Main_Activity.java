@@ -181,6 +181,7 @@ public class Main_Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 animation.animationFadeListView(songListView);
+                animation.animationFadeButton(ButtonController.imageButtonMenu);
             }
         });
     }
@@ -202,14 +203,21 @@ public class Main_Activity extends AppCompatActivity {
         ButtonController.imageButtonMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (ThemeController.currentTheme != null &&
-                        ThemeController.currentTheme == ThemeController.THEME_PURPLE)
-                {
-                    themeController.setThemeMarine(linearLayout);
-                    Log.d(TAG, ThemeController.currentTheme.toString());
-                } else {
-                    themeController.setThemePurple(linearLayout);
-                    Log.d(TAG, ThemeController.currentTheme.toString());
+                switch (ThemeController.currentTheme) {
+                    case ThemeController.THEME_PURPLE:
+                        themeController.setThemeGreenfield(linearLayout);
+                        break;
+                    case ThemeController.THEME_GREENFIELD:
+                        themeController.setThemeBluesky(linearLayout);
+                        break;
+                    case ThemeController.THEME_BLUESKY:
+                        themeController.setThemeMarine(linearLayout);
+                        break;
+                    case ThemeController.THEME_MARINE:
+                        themeController.setThemePurple(linearLayout);
+                        break;
+                    default:
+                        themeController.setThemePurple(linearLayout);
                 }
             }
         });
