@@ -4,10 +4,10 @@ import android.content.SharedPreferences;
 import android.widget.LinearLayout;
 
 public class ThemeController {
-    public static final int THEME_GREENFIELD = 1;
-    public static final int THEME_PURPLE = 2;
-    public static final int THEME_BLUESKY = 3;
-    public static final int THEME_MARINE = 4;
+    public static final int THEME_GREENFIELD = 0;
+    public static final int THEME_PURPLE = 1;
+    public static final int THEME_BLUESKY = 2;
+    public static final int THEME_MARINE = 3;
     public static Integer currentTheme;
 
     public SharedPreferences sharedPreferencesTheme;

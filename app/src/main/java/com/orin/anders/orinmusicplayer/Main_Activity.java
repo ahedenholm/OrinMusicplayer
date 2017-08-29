@@ -51,6 +51,7 @@ public class Main_Activity extends AppCompatActivity {
         ButtonController.imageButtonPrev = (ImageButton) findViewById(R.id.imageButtonPrev);
         ButtonController.imageButtonStop = (ImageButton) findViewById(R.id.imageButtonStop);
 
+
         songListView = (ListView) findViewById(R.id.song_list);
         songList = new ArrayList<Song>();
         linearLayout = (LinearLayout) findViewById(R.id.main_layout);
