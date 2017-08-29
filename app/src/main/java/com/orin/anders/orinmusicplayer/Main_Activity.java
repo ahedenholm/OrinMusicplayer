@@ -180,8 +180,8 @@ public class Main_Activity extends AppCompatActivity {
         ButtonController.imageButtonOpen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                animation.animationFadeListView(songListView);
-                animation.animationFadeButton(ButtonController.imageButtonMenu);
+                animation.fadeListView(songListView);
+                animation.fadeImageButton(ButtonController.imageButtonMenu);
             }
         });
     }

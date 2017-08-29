@@ -10,7 +10,7 @@ public class Animation {
     ValueAnimator valueAnimator;
 
     //used to fade the song list in and out
-    public void animationFadeListView(final ListView listView) {
+    public void fadeListView(final ListView listView) {
         if (listView.getAlpha() < 1) {
             valueAnimator = ValueAnimator.ofFloat(0, 1);
             valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -35,7 +35,7 @@ public class Animation {
         }
     }
 
-    public void animationFadeButton(final ImageButton imageButton){
+    public void fadeImageButton(final ImageButton imageButton){
         if (imageButton.getAlpha() < 1) {
             valueAnimator = ValueAnimator.ofFloat(0, 1);
             valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
