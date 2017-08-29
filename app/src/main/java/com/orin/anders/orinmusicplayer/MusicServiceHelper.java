@@ -8,10 +8,8 @@ public class MusicServiceHelper {
     public static int repeatMode;
     public static Song selectedSong;
 
-    public static void setRepeatMode(int MODE){
-        repeatMode = MODE;
+    public static void setRepeatMode(int REPEAT_MODE){
+        repeatMode = REPEAT_MODE;
     }
-
-
 
 }
