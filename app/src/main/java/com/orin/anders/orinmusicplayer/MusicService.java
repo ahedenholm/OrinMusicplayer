@@ -11,6 +11,7 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import android.content.ContentUris;
 import android.media.AudioManager;
@@ -36,13 +37,14 @@ public class MusicService extends Service implements
     private AudioManager audioManager;
     private MediaPlayer mediaPlayer;
     private IntentFilter intentFilter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
-    private final IBinder musicBind = new MusicBinder();
     private BroadcastReceiver becomingNoisyReceiver;
-    private static final String TAG = "Debug Message";
     private ArrayList<Song> songArrayList;
+    private final IBinder musicBind = new MusicBinder();
+    private Random random = new Random();
     private int songPosition;
     private int songCurrentTimeMillisec;
     private int audioFocusResult;
+    private static final String TAG = "Debug Message";
 
     public void onCreate() {
         super.onCreate();
@@ -66,13 +68,14 @@ public class MusicService extends Service implements
 
     }
 
-    //initialize listeners, audio focus, mediaplayer
+    //initialize listeners, audio focus, mediaplayer, set repeatMode
     public void initMusicPlayer() {
         mediaPlayer.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mediaPlayer.setOnPreparedListener(this);
         mediaPlayer.setOnCompletionListener(this);
         mediaPlayer.setOnErrorListener(this);
+        MusicServiceHelper.setRepeatMode(MusicServiceHelper.REPEAT_ALL);
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         onAudioFocusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
             @Override
@@ -143,7 +146,7 @@ public class MusicService extends Service implements
     public void onCompletion(MediaPlayer mediaPlayer) {
         //set songCurrentTimeMillisec to 0 so next song will actually start from the beginning
         songCurrentTimeMillisec = 0;
-        nextSong();
+        checkRepeatMode();
     }
 
     @Override
@@ -225,6 +228,21 @@ public class MusicService extends Service implements
         }
     }
 
+    public void checkRepeatMode(){
+        switch (MusicServiceHelper.repeatMode){
+            case MusicServiceHelper.REPEAT_ALL:
+                nextSong();
+                break;
+            case MusicServiceHelper.REPEAT_ONE:
+                playSong();
+                break;
+            case MusicServiceHelper.SHUFFLE:
+                setSong(random.nextInt(songArrayList.size()));
+                playSong();
+                break;
+        }
+    }
+
     public void setSong(int songIndex) {
         songPosition = songIndex;
         songCurrentTimeMillisec = 0;
@@ -241,6 +259,8 @@ public class MusicService extends Service implements
     public void volumeDefault() {
         mediaPlayer.setVolume(1, 1);
     }
+
+
 
 
 }
