@@ -166,6 +166,7 @@ public class MusicService extends Service implements
             //listen for noise, i.e unplugged headphones
             registerReceiver(becomingNoisyReceiver, intentFilter);
             mediaPlayer.reset();
+            MusicServiceHelper.previousSong = MusicServiceHelper.selectedSong;
             Song playSong = songArrayList.get(songPosition);
             MusicServiceHelper.selectedSong = songArrayList.get(songPosition);
             long currSong = playSong.getId();
