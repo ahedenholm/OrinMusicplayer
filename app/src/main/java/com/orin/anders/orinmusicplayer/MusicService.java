@@ -183,15 +183,23 @@ public class MusicService extends Service implements
     }
 
     public void nextSong() {
-        if (songPosition < (songArrayList.size() - 1)) {
-            songPosition++;
-            songCurrentTimeMillisec = 0;
-            playSong();
-        } else {
-            Log.d(TAG, "nextSong() !songPosition < songArrayList.size, songPosition: " + String.valueOf(songPosition));
-            songPosition = 0;
-            songCurrentTimeMillisec = 0;
-            playSong();
+        switch (MusicServiceHelper.repeatMode) {
+            case MusicServiceHelper.SHUFFLE:
+                setSong(random.nextInt(songArrayList.size()));
+                playSong();
+                break;
+            default:
+            if (songPosition < (songArrayList.size() - 1)) {
+                songPosition++;
+                songCurrentTimeMillisec = 0;
+                playSong();
+            } else {
+                Log.d(TAG, "nextSong() !songPosition < songArrayList.size, songPosition: " + String.valueOf(songPosition));
+                songPosition = 0;
+                songCurrentTimeMillisec = 0;
+                playSong();
+            }
+            break;
         }
     }
 

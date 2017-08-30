@@ -7,6 +7,7 @@ public class MusicServiceHelper {
     public static final int SHUFFLE = 2;
     public static int repeatMode;
     public static Song selectedSong;
+    public static Song previousSong;
 
     public static void setRepeatMode(int REPEAT_MODE){
         MusicServiceHelper.repeatMode = REPEAT_MODE;
