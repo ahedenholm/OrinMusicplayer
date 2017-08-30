@@ -50,6 +50,7 @@ public class Main_Activity extends AppCompatActivity {
         ButtonController.imageButtonNext = (ImageButton) findViewById(R.id.imageButtonNext);
         ButtonController.imageButtonPrev = (ImageButton) findViewById(R.id.imageButtonPrev);
         ButtonController.imageButtonStop = (ImageButton) findViewById(R.id.imageButtonStop);
+        ButtonController.imageButtonRepeatMode = (ImageButton) findViewById(R.id.imageButtonRepeatMode);
 
         songListView = (ListView) findViewById(R.id.song_list);
         songList = new ArrayList<Song>();
@@ -75,6 +76,7 @@ public class Main_Activity extends AppCompatActivity {
         pressedNext();
         pressedPrev();
         pressedStop();
+        pressedRepeatMode();
         Log.d(TAG, "onCreate()");
     }
 
@@ -246,6 +248,31 @@ public class Main_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 musicService.stopSong();
+            }
+        });
+    }
+
+    public void pressedRepeatMode() {
+        ButtonController.imageButtonRepeatMode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch (MusicServiceHelper.repeatMode) {
+                    case MusicServiceHelper.REPEAT_ALL:
+                        MusicServiceHelper.setRepeatMode(MusicServiceHelper.REPEAT_ONE);
+                        ButtonController.setImageButtonShuffleImage();
+                        break;
+                    case MusicServiceHelper.REPEAT_ONE:
+                        MusicServiceHelper.setRepeatMode(MusicServiceHelper.SHUFFLE);
+                        ButtonController.setImageButtonShuffleImage();
+                        break;
+                    case MusicServiceHelper.SHUFFLE:
+                        MusicServiceHelper.setRepeatMode(MusicServiceHelper.REPEAT_ALL);
+                        ButtonController.setImageButtonShuffleImage();
+                        break;
+                    default:
+                        break;
+                }
+                Log.d(TAG, "" + MusicServiceHelper.repeatMode);
             }
         });
     }

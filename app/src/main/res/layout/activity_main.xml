@@ -76,20 +76,23 @@
         <Space
             android:layout_width="5dp"
             android:layout_height="match_parent" />
-        <!--
-        <ImageButton
-            android:id="@+id/imageButtonPause"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:adjustViewBounds="true"
-            android:background="@drawable/circle002gradientpause01100x100" />
-			-->
+
         <ImageButton
             android:id="@+id/imageButtonStop"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:adjustViewBounds="true"
             android:background="@drawable/button_stop" />
+        <Space
+            android:layout_width="5dp"
+            android:layout_height="match_parent" />
+
+        <ImageButton
+            android:id="@+id/imageButtonRepeatMode"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/button_shuffle" />
         <Space
             android:layout_width="5dp"
             android:layout_height="match_parent" />

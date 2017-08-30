@@ -146,7 +146,7 @@ public class MusicService extends Service implements
     public void onCompletion(MediaPlayer mediaPlayer) {
         //set songCurrentTimeMillisec to 0 so next song will actually start from the beginning
         songCurrentTimeMillisec = 0;
-        checkRepeatMode();
+        choosePlaybackByRepeatMode();
     }
 
     @Override
@@ -228,7 +228,7 @@ public class MusicService extends Service implements
         }
     }
 
-    public void checkRepeatMode(){
+    public void choosePlaybackByRepeatMode(){
         switch (MusicServiceHelper.repeatMode){
             case MusicServiceHelper.REPEAT_ALL:
                 nextSong();
