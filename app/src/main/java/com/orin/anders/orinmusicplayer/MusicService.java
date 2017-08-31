@@ -1,5 +1,6 @@
 package com.orin.anders.orinmusicplayer;
 
+import android.app.Activity;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -19,6 +20,7 @@ import android.net.Uri;
 import android.os.Binder;
 import android.os.PowerManager;
 import android.util.Log;
+import android.widget.ListView;
 import android.widget.Toast;
 
     /*
@@ -39,8 +41,11 @@ public class MusicService extends Service implements
     private IntentFilter intentFilter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
     private BroadcastReceiver becomingNoisyReceiver;
     private ArrayList<Song> songArrayList;
+    private ListView songList;
     private final IBinder musicBind = new MusicBinder();
     private Random random = new Random();
+    private Context context;
+    private Activity activity;
     private int songPosition;
     private int songCurrentTimeMillisec;
     private int audioFocusResult;
@@ -52,6 +57,7 @@ public class MusicService extends Service implements
         mediaPlayer = new MediaPlayer();
         songCurrentTimeMillisec = 0;
         initMusicPlayer();
+        songList = (ListView) Main_ActivityHelper.activity.findViewById(R.id.song_list);
         becomingNoisyReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -179,6 +185,7 @@ public class MusicService extends Service implements
             }
             //onPrepared() calls mediaPlayer.Start()
             mediaPlayer.prepareAsync();
+            songList.setSelection(songPosition);
             ButtonController.setImageButtonPauseImage();
         }
     }

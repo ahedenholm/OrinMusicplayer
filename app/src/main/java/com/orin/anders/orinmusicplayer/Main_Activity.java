@@ -34,7 +34,6 @@ public class Main_Activity extends AppCompatActivity {
     private Animation animation = new Animation();
     private ListView songListView;
     private Intent playIntent;
-    private String theme;
     private boolean musicBound = false;
     private static final String TAG = "Debug Message";
 
@@ -43,7 +42,8 @@ public class Main_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Main_ActivityHelper.mainActivityContext = this;
+        Main_ActivityHelper.activity = this;
+        Main_ActivityHelper.context = this;
         ButtonController.imageButtonPlay = (ImageButton) findViewById(R.id.imageButtonPlay);
         ButtonController.imageButtonOpen = (ImageButton) findViewById(R.id.imageButtonOpen);
         ButtonController.imageButtonMenu = (ImageButton) findViewById(R.id.imageButtonMenu);
@@ -162,6 +162,8 @@ public class Main_Activity extends AppCompatActivity {
         themeController.saveVisualTheme();
         stopService(playIntent);
         musicService = null;
+        Main_ActivityHelper.activity = null;
+        Main_ActivityHelper.context = null;
         super.onDestroy();
     }
 
@@ -302,6 +304,5 @@ public class Main_Activity extends AppCompatActivity {
             while (musicCursor.moveToNext());
         }
     }
-
 
 }
