@@ -219,7 +219,7 @@ public class Main_Activity extends AppCompatActivity {
                         themeController.setThemePurple(linearLayout);
                         break;
                     default:
-                        themeController.setThemePurple(linearLayout);
+                        themeController.setThemeMarine(linearLayout);
                 }
             }
         });
