@@ -56,13 +56,11 @@ public class SongAdapter extends BaseAdapter {
         Song currSong = songArrayList.get(position);
 
         //TODO doesn't gray out onClick, but when list has been scrolled out of view and into view again
-        /*
         if (currSong == MusicServiceHelper.selectedSong){
             songView.setTextColor(Color.GRAY);
             artistView.setTextColor(Color.GRAY);
             lengthView.setTextColor(Color.GRAY);
         }
-        */
 
         //get title and artist strings
         songView.setText(currSong.getTitle());

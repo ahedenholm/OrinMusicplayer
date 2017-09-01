@@ -1,5 +1,6 @@
 package com.orin.anders.orinmusicplayer;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
@@ -22,6 +23,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.view.View;
+import android.widget.TextView;
 
 import com.orin.anders.orinmusicplayer.MusicService.MusicBinder;
 
@@ -125,6 +127,15 @@ public class Main_Activity extends AppCompatActivity {
     @Override
     protected void onStart() {
         Log.d(TAG, "onStart()");
+        Main_ActivityHelper.activity = this;
+        Main_ActivityHelper.context = this;
+        ButtonController.imageButtonPlay = (ImageButton) findViewById(R.id.imageButtonPlay);
+        ButtonController.imageButtonOpen = (ImageButton) findViewById(R.id.imageButtonOpen);
+        ButtonController.imageButtonMenu = (ImageButton) findViewById(R.id.imageButtonMenu);
+        ButtonController.imageButtonNext = (ImageButton) findViewById(R.id.imageButtonNext);
+        ButtonController.imageButtonPrev = (ImageButton) findViewById(R.id.imageButtonPrev);
+        ButtonController.imageButtonStop = (ImageButton) findViewById(R.id.imageButtonStop);
+        ButtonController.imageButtonRepeatMode = (ImageButton) findViewById(R.id.imageButtonRepeatMode);
         super.onStart();
         if (playIntent == null) {
             playIntent = new Intent(this, MusicService.class);
@@ -153,27 +164,27 @@ public class Main_Activity extends AppCompatActivity {
     @Override
     protected void onStop() {
         Log.d(TAG, "onStop()");
+        themeController.saveVisualTheme();
+        Main_ActivityHelper.setActivityAndContextToNull();
+        ButtonController.setImageButtonsToNull();
         super.onStop();
     }
 
     @Override
     protected void onDestroy() {
         Log.d(TAG, "onDestroy()");
-        themeController.saveVisualTheme();
+        Main_ActivityHelper.setActivityAndContextToNull();
+        ButtonController.setImageButtonsToNull();
         stopService(playIntent);
         musicService = null;
-        Main_ActivityHelper.activity = null;
-        Main_ActivityHelper.context = null;
         super.onDestroy();
     }
 
     public void songPicked(View view) {
-        //TODO listSelector doesnt seem to work properly
-        /*
+        //TODO not working as intended, song doesnt gray out if next if pressed and shuffle is off
         ((TextView) view.findViewById(R.id.song_artist)).setTextColor(Color.GRAY);
         ((TextView) view.findViewById(R.id.song_title)).setTextColor(Color.GRAY);
         ((TextView) view.findViewById(R.id.song_length)).setTextColor(Color.GRAY);
-        */
 
         musicService.setSong(Integer.parseInt(view.getTag().toString()));
         Log.d(TAG, "songPicked() value:" + view.getTag().toString());

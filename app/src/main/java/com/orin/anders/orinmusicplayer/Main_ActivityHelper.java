@@ -11,4 +11,9 @@ public class Main_ActivityHelper {
     //long as app only uses one activity and variables are nulled at onDestroy()
     public static Activity activity;
     public static Context context;
+
+    public static void setActivityAndContextToNull(){
+        Main_ActivityHelper.activity = null;
+        Main_ActivityHelper.context = null;
+    }
 }

@@ -16,6 +16,15 @@ public class ButtonController {
     public static ImageButton imageButtonStop;
     public static ImageButton imageButtonRepeatMode;
 
+    public static void setImageButtonsToNull(){
+        ButtonController.imageButtonPlay = null;
+        ButtonController.imageButtonOpen = null;
+        ButtonController.imageButtonMenu = null;
+        ButtonController.imageButtonNext = null;
+        ButtonController.imageButtonPrev = null;
+        ButtonController.imageButtonStop = null;
+    }
+
     public static void setImageButtonPauseImage(){
         imageButtonPlay.setBackgroundResource(R.drawable.button_pause);
     }
