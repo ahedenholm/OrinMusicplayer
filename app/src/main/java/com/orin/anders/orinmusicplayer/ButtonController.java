@@ -34,5 +34,11 @@ public class ButtonController {
     public static void setImageButtonShuffleImage(){
         imageButtonRepeatMode.setBackgroundResource(R.drawable.button_shuffle);
     }
+    public static void setImageButtonRepeatAllImage(){
+        imageButtonRepeatMode.setBackgroundResource(R.drawable.button_repeatall);
+    }
+    public static void setImageButtonRepeatOneImage(){
+        imageButtonRepeatMode.setBackgroundResource(R.drawable.button_repeatone);
+    }
 
 }

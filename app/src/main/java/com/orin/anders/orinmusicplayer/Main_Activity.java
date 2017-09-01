@@ -272,7 +272,7 @@ public class Main_Activity extends AppCompatActivity {
                 switch (MusicServiceHelper.repeatMode) {
                     case MusicServiceHelper.REPEAT_ALL:
                         MusicServiceHelper.setRepeatMode(MusicServiceHelper.REPEAT_ONE);
-                        ButtonController.setImageButtonShuffleImage();
+                        ButtonController.setImageButtonRepeatOneImage();
                         break;
                     case MusicServiceHelper.REPEAT_ONE:
                         MusicServiceHelper.setRepeatMode(MusicServiceHelper.SHUFFLE);
@@ -280,7 +280,7 @@ public class Main_Activity extends AppCompatActivity {
                         break;
                     case MusicServiceHelper.SHUFFLE:
                         MusicServiceHelper.setRepeatMode(MusicServiceHelper.REPEAT_ALL);
-                        ButtonController.setImageButtonShuffleImage();
+                        ButtonController.setImageButtonRepeatAllImage();
                         break;
                     default:
                         break;

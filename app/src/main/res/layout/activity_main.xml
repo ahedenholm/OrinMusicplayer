@@ -92,7 +92,7 @@
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:adjustViewBounds="true"
-            android:background="@drawable/button_shuffle" />
+            android:background="@drawable/but_repeatall" />
         <Space
             android:layout_width="5dp"
             android:layout_height="match_parent" />
