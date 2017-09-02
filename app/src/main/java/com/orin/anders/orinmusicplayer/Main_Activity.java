@@ -129,13 +129,6 @@ public class Main_Activity extends AppCompatActivity {
         Log.d(TAG, "onStart()");
         Main_ActivityHelper.activity = this;
         Main_ActivityHelper.context = this;
-        ButtonController.imageButtonPlay = (ImageButton) findViewById(R.id.imageButtonPlay);
-        ButtonController.imageButtonOpen = (ImageButton) findViewById(R.id.imageButtonOpen);
-        ButtonController.imageButtonMenu = (ImageButton) findViewById(R.id.imageButtonMenu);
-        ButtonController.imageButtonNext = (ImageButton) findViewById(R.id.imageButtonNext);
-        ButtonController.imageButtonPrev = (ImageButton) findViewById(R.id.imageButtonPrev);
-        ButtonController.imageButtonStop = (ImageButton) findViewById(R.id.imageButtonStop);
-        ButtonController.imageButtonRepeatMode = (ImageButton) findViewById(R.id.imageButtonRepeatMode);
         super.onStart();
         if (playIntent == null) {
             playIntent = new Intent(this, MusicService.class);
