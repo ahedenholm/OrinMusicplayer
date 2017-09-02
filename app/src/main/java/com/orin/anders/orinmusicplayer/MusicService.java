@@ -1,6 +1,7 @@
 package com.orin.anders.orinmusicplayer;
 
 import android.app.Activity;
+import android.app.Notification;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -19,6 +20,7 @@ import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.PowerManager;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -276,6 +278,15 @@ public class MusicService extends Service implements
         mediaPlayer.setVolume(1, 1);
     }
 
+    public Notification foregroundNotification(){
+        NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(this);
+
+        nBuilder.setOngoing(true)
+                .setContentTitle("Orin Musicplayer")
+                .setContentText("")
+                .setSmallIcon(R.drawable.but_play);
+        return (nBuilder.build());
+    }
 
 
 

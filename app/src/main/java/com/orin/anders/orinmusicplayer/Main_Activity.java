@@ -166,7 +166,8 @@ public class Main_Activity extends AppCompatActivity {
         Log.d(TAG, "onStop()");
         themeController.saveVisualTheme();
         Main_ActivityHelper.setActivityAndContextToNull();
-        ButtonController.setImageButtonsToNull();
+        if (musicService.getIsPlaying())
+            musicService.startForeground(1, musicService.foregroundNotification());
         super.onStop();
     }
 
@@ -285,7 +286,6 @@ public class Main_Activity extends AppCompatActivity {
                     default:
                         break;
                 }
-                Log.d(TAG, "" + MusicServiceHelper.repeatMode);
             }
         });
     }
