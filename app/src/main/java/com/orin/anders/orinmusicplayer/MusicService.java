@@ -284,7 +284,7 @@ public class MusicService extends Service implements
         nBuilder.setOngoing(true)
                 .setContentTitle("Orin Musicplayer")
                 .setContentText("")
-                .setSmallIcon(R.drawable.but_play);
+                .setSmallIcon(android.R.drawable.ic_media_play);
         return (nBuilder.build());
     }
 

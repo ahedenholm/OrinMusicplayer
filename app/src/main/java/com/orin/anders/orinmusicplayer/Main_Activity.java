@@ -160,7 +160,8 @@ public class Main_Activity extends AppCompatActivity {
         themeController.saveVisualTheme();
         Main_ActivityHelper.setActivityAndContextToNull();
         if (musicService.getIsPlaying())
-            musicService.startForeground(1, musicService.foregroundNotification());
+            musicService.startForeground(MusicServiceHelper.NOTIFICATION_ID,
+                    musicService.foregroundNotification());
         super.onStop();
     }
 
@@ -176,9 +177,11 @@ public class Main_Activity extends AppCompatActivity {
 
     public void songPicked(View view) {
         //TODO not working as intended, song doesnt gray out if next if pressed and shuffle is off
+        /*
         ((TextView) view.findViewById(R.id.song_artist)).setTextColor(Color.GRAY);
         ((TextView) view.findViewById(R.id.song_title)).setTextColor(Color.GRAY);
         ((TextView) view.findViewById(R.id.song_length)).setTextColor(Color.GRAY);
+        */
 
         musicService.setSong(Integer.parseInt(view.getTag().toString()));
         Log.d(TAG, "songPicked() value:" + view.getTag().toString());

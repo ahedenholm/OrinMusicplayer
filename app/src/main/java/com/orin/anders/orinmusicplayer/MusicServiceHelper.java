@@ -2,6 +2,7 @@ package com.orin.anders.orinmusicplayer;
 
 public class MusicServiceHelper {
 
+    public static final int NOTIFICATION_ID = 2814;
     public static final int REPEAT_ALL = 0;
     public static final int REPEAT_ONE = 1;
     public static final int SHUFFLE = 2;
