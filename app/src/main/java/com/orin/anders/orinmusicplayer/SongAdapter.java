@@ -3,7 +3,6 @@ package com.orin.anders.orinmusicplayer;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
