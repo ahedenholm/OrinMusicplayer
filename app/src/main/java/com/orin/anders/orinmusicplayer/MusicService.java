@@ -2,6 +2,7 @@ package com.orin.anders.orinmusicplayer;
 
 import android.app.Activity;
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -31,6 +32,7 @@ import android.widget.Toast;
     - Initializes the MediaPlayer,
     - Handles loss and gain of AUDIOFOCUS.
     - Handles AUDIO_BECOMING_NOISY.
+    - Handles notifications
      */
 
 public class MusicService extends Service implements
@@ -189,6 +191,7 @@ public class MusicService extends Service implements
             mediaPlayer.prepareAsync();
             songList.setSelection(songPosition);
             ButtonController.setImageButtonPauseImage();
+            updateForegroundNotification();
         }
     }
 
@@ -283,9 +286,34 @@ public class MusicService extends Service implements
 
         nBuilder.setOngoing(true)
                 .setContentTitle("Orin Musicplayer")
-                .setContentText("")
+                .setContentText(
+                        MusicServiceHelper.selectedSong.getArtist() + " - " +
+                        MusicServiceHelper.selectedSong.getTitle() + " - " +
+                        TimeConverter.convertDuration(Long.parseLong(
+                        MusicServiceHelper.selectedSong.getLength()))
+                        )
                 .setSmallIcon(android.R.drawable.ic_media_play);
         return (nBuilder.build());
+    }
+
+    public void updateForegroundNotification(){
+        NotificationManager notificationManager = (NotificationManager)
+                getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(this);
+
+        nBuilder.setOngoing(true)
+                .setContentTitle("Orin Musicplayer")
+                .setContentText(
+                        MusicServiceHelper.selectedSong.getArtist() + " - " +
+                        MusicServiceHelper.selectedSong.getTitle() + " - " +
+                        TimeConverter.convertDuration(Long.parseLong(
+                        MusicServiceHelper.selectedSong.getLength()))
+                )
+                .setSmallIcon(android.R.drawable.ic_media_play);
+        notificationManager.notify(
+                MusicServiceHelper.NOTIFICATION_ID,
+                nBuilder.build());
+
     }
 
 

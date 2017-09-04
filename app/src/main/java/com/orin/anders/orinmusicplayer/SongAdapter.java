@@ -22,6 +22,7 @@ public class SongAdapter extends BaseAdapter {
         songArrayList = theSongs;
         layoutInflater = LayoutInflater.from(c);
     }
+
     public SongAdapter() {
         super();
     }
@@ -72,5 +73,4 @@ public class SongAdapter extends BaseAdapter {
         songLay.setTag(position);
         return songLay;
     }
-
 }
