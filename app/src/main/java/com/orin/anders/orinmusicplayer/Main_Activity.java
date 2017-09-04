@@ -1,6 +1,5 @@
 package com.orin.anders.orinmusicplayer;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
@@ -23,7 +22,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.view.View;
-import android.widget.TextView;
 
 import com.orin.anders.orinmusicplayer.MusicService.MusicBinder;
 
@@ -48,7 +46,7 @@ public class Main_Activity extends AppCompatActivity {
         Main_ActivityHelper.context = this;
         ButtonController.imageButtonPlay = (ImageButton) findViewById(R.id.imageButtonPlay);
         ButtonController.imageButtonOpen = (ImageButton) findViewById(R.id.imageButtonOpen);
-        ButtonController.imageButtonMenu = (ImageButton) findViewById(R.id.imageButtonMenu);
+        ButtonController.imageButtonSwitchtheme = (ImageButton) findViewById(R.id.imageButtonSwitchtheme);
         ButtonController.imageButtonNext = (ImageButton) findViewById(R.id.imageButtonNext);
         ButtonController.imageButtonPrev = (ImageButton) findViewById(R.id.imageButtonPrev);
         ButtonController.imageButtonStop = (ImageButton) findViewById(R.id.imageButtonStop);
@@ -159,7 +157,7 @@ public class Main_Activity extends AppCompatActivity {
         Log.d(TAG, "onStop()");
         themeController.saveVisualTheme();
         Main_ActivityHelper.setActivityAndContextToNull();
-        if (musicService.getIsPlaying())
+        if (musicService != null && musicService.getIsPlaying())
             musicService.startForeground(MusicServiceHelper.NOTIFICATION_ID,
                     musicService.foregroundNotification());
         super.onStop();
@@ -193,7 +191,7 @@ public class Main_Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 animation.fadeListView(songListView);
-                animation.fadeImageButton(ButtonController.imageButtonMenu);
+                animation.fadeImageButton(ButtonController.imageButtonSwitchtheme);
             }
         });
     }
@@ -212,7 +210,7 @@ public class Main_Activity extends AppCompatActivity {
     }
 
     public void pressedMenu() {
-        ButtonController.imageButtonMenu.setOnClickListener(new View.OnClickListener() {
+        ButtonController.imageButtonSwitchtheme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 switch (ThemeController.currentTheme) {

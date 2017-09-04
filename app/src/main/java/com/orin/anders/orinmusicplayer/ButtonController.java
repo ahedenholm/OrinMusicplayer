@@ -10,7 +10,7 @@ public class ButtonController {
     //cant release anything that keeps referencing a view
     public static ImageButton imageButtonOpen;
     public static ImageButton imageButtonPlay;
-    public static ImageButton imageButtonMenu;
+    public static ImageButton imageButtonSwitchtheme;
     public static ImageButton imageButtonNext;
     public static ImageButton imageButtonPrev;
     public static ImageButton imageButtonStop;
@@ -19,7 +19,7 @@ public class ButtonController {
     public static void setImageButtonsToNull(){
         ButtonController.imageButtonPlay = null;
         ButtonController.imageButtonOpen = null;
-        ButtonController.imageButtonMenu = null;
+        ButtonController.imageButtonSwitchtheme = null;
         ButtonController.imageButtonNext = null;
         ButtonController.imageButtonPrev = null;
         ButtonController.imageButtonStop = null;

@@ -191,7 +191,7 @@ public class MusicService extends Service implements
             mediaPlayer.prepareAsync();
             songList.setSelection(songPosition);
             ButtonController.setImageButtonPauseImage();
-            updateForegroundNotification();
+            foregroundNotificationUpdate();
         }
     }
 
@@ -296,7 +296,7 @@ public class MusicService extends Service implements
         return (nBuilder.build());
     }
 
-    public void updateForegroundNotification(){
+    public void foregroundNotificationUpdate(){
         NotificationManager notificationManager = (NotificationManager)
                 getSystemService(Context.NOTIFICATION_SERVICE);
         NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(this);
