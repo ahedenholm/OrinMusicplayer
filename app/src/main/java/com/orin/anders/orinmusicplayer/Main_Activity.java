@@ -53,7 +53,7 @@ public class Main_Activity extends AppCompatActivity {
         ButtonController.imageButtonRepeatMode = (ImageButton) findViewById(R.id.imageButtonRepeatMode);
 
         songListView = (ListView) findViewById(R.id.song_list);
-        songList = new ArrayList<Song>();
+        songList = new ArrayList<>();
         linearLayout = (LinearLayout) findViewById(R.id.main_layout);
         themeController = new ThemeController();
 

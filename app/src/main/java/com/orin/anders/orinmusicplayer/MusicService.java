@@ -288,9 +288,7 @@ public class MusicService extends Service implements
                 .setContentTitle("Orin Musicplayer")
                 .setContentText(
                         MusicServiceHelper.selectedSong.getArtist() + " - " +
-                        MusicServiceHelper.selectedSong.getTitle() + " - " +
-                        TimeConverter.convertDuration(Long.parseLong(
-                        MusicServiceHelper.selectedSong.getLength()))
+                        MusicServiceHelper.selectedSong.getTitle()
                         )
                 .setSmallIcon(android.R.drawable.ic_media_play);
         return (nBuilder.build());
@@ -305,9 +303,7 @@ public class MusicService extends Service implements
                 .setContentTitle("Orin Musicplayer")
                 .setContentText(
                         MusicServiceHelper.selectedSong.getArtist() + " - " +
-                        MusicServiceHelper.selectedSong.getTitle() + " - " +
-                        TimeConverter.convertDuration(Long.parseLong(
-                        MusicServiceHelper.selectedSong.getLength()))
+                        MusicServiceHelper.selectedSong.getTitle()
                 )
                 .setSmallIcon(android.R.drawable.ic_media_play);
         notificationManager.notify(
