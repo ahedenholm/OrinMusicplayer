@@ -309,7 +309,6 @@ public class MusicService extends Service implements
         notificationManager.notify(
                 MusicServiceHelper.NOTIFICATION_ID,
                 nBuilder.build());
-
     }
 
 
