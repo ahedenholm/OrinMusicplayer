@@ -148,6 +148,7 @@ public class MusicService extends Service implements
     public void onPrepared(MediaPlayer mediaPlayer) {
         this.mediaPlayer.seekTo(songCurrentTimeMillisec);
         mediaPlayer.start();
+        foregroundNotificationUpdate();
     }
 
     @Override
@@ -188,7 +189,6 @@ public class MusicService extends Service implements
             mediaPlayer.prepareAsync();
             songList.setSelection(songPosition);
             ButtonController.setImageButtonPauseImage();
-            foregroundNotificationUpdate();
         }
     }
 
@@ -199,17 +199,17 @@ public class MusicService extends Service implements
                 playSong();
                 break;
             default:
-            if (songPosition < (songArrayList.size() - 1)) {
-                songPosition++;
-                songCurrentTimeMillisec = 0;
-                playSong();
-            } else {
-                Log.d(TAG, "nextSong() !songPosition < songArrayList.size, songPosition: " + String.valueOf(songPosition));
-                songPosition = 0;
-                songCurrentTimeMillisec = 0;
-                playSong();
-            }
-            break;
+                if (songPosition < (songArrayList.size() - 1)) {
+                    songPosition++;
+                    songCurrentTimeMillisec = 0;
+                    playSong();
+                } else {
+                    Log.d(TAG, "nextSong() !songPosition < songArrayList.size, songPosition: " + String.valueOf(songPosition));
+                    songPosition = 0;
+                    songCurrentTimeMillisec = 0;
+                    playSong();
+                }
+                break;
         }
     }
 
@@ -234,6 +234,7 @@ public class MusicService extends Service implements
             mediaPlayer.pause();
             ButtonController.setImageButtonPlayImage();
             songCurrentTimeMillisec = mediaPlayer.getCurrentPosition();
+            foregroundNotificationUpdate();
         }
     }
 
@@ -246,8 +247,8 @@ public class MusicService extends Service implements
         }
     }
 
-    public void choosePlaybackByRepeatMode(){
-        switch (MusicServiceHelper.repeatMode){
+    public void choosePlaybackByRepeatMode() {
+        switch (MusicServiceHelper.repeatMode) {
             case MusicServiceHelper.REPEAT_ALL:
                 nextSong();
                 break;
@@ -278,19 +279,23 @@ public class MusicService extends Service implements
         mediaPlayer.setVolume(1, 1);
     }
 
-    public Notification foregroundNotification(){
+    public Notification foregroundNotification() {
         NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(this);
 
         nBuilder.setContentTitle("Orin Musicplayer")
                 .setContentText(
                         MusicServiceHelper.selectedSong.getArtist() + " - " +
-                        MusicServiceHelper.selectedSong.getTitle()
-                        )
-                .setSmallIcon(android.R.drawable.ic_media_play);
+                                MusicServiceHelper.selectedSong.getTitle()
+                );
+
+        if (mediaPlayer.isPlaying())
+            nBuilder.setSmallIcon(android.R.drawable.ic_media_play);
+        else nBuilder.setSmallIcon(android.R.drawable.ic_media_pause);
+
         return (nBuilder.build());
     }
 
-    public void foregroundNotificationUpdate(){
+    public void foregroundNotificationUpdate() {
         NotificationManager notificationManager = (NotificationManager)
                 getSystemService(Context.NOTIFICATION_SERVICE);
         NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(this);
@@ -298,9 +303,13 @@ public class MusicService extends Service implements
         nBuilder.setContentTitle("Orin Musicplayer")
                 .setContentText(
                         MusicServiceHelper.selectedSong.getArtist() + " - " +
-                        MusicServiceHelper.selectedSong.getTitle()
-                )
-                .setSmallIcon(android.R.drawable.ic_media_play);
+                                MusicServiceHelper.selectedSong.getTitle()
+                );
+
+        if (mediaPlayer.isPlaying())
+            nBuilder.setSmallIcon(android.R.drawable.ic_media_play);
+        else nBuilder.setSmallIcon(android.R.drawable.ic_media_pause);
+
         notificationManager.notify(
                 MusicServiceHelper.NOTIFICATION_ID,
                 nBuilder.build());
