@@ -22,6 +22,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.orin.anders.orinmusicplayer.MusicService.MusicBinder;
 
@@ -29,7 +30,7 @@ public class Main_Activity extends AppCompatActivity {
 
     private ThemeController themeController;
     private ArrayList<Song> songList;
-    private LinearLayout linearLayout;
+    private RelativeLayout relativeLayout;
     private MusicService musicService;
     private Animation animation = new Animation();
     private ListView songListView;
@@ -40,7 +41,7 @@ public class Main_Activity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_2);
+        setContentView(R.layout.activity_main);
 
         Main_ActivityHelper.activity = this;
         Main_ActivityHelper.context = this;
@@ -54,13 +55,13 @@ public class Main_Activity extends AppCompatActivity {
 
         songListView = (ListView) findViewById(R.id.song_list);
         songList = new ArrayList<>();
-        linearLayout = (LinearLayout) findViewById(R.id.main_layout);
+        relativeLayout = (RelativeLayout) findViewById(R.id.main_layout);
         themeController = new ThemeController();
 
         themeController.sharedPreferencesTheme = getSharedPreferences("THEME_PREFS", MODE_PRIVATE);
         themeController.sharedPreferencesThemeEditor = themeController.sharedPreferencesTheme.edit();
         themeController.setTheme(themeController.sharedPreferencesTheme
-                .getInt("savedTheme", 0), linearLayout);
+                .getInt("savedTheme", 0), relativeLayout);
 
         getSongList();
         Collections.sort(songList, new Comparator<Song>() {
@@ -215,19 +216,19 @@ public class Main_Activity extends AppCompatActivity {
             public void onClick(View view) {
                 switch (ThemeController.currentTheme) {
                     case ThemeController.THEME_PURPLE:
-                        themeController.setThemeGreenfield(linearLayout);
+                        themeController.setThemeGreenfield(relativeLayout);
                         break;
                     case ThemeController.THEME_GREENFIELD:
-                        themeController.setThemeBluesky(linearLayout);
+                        themeController.setThemeBluesky(relativeLayout);
                         break;
                     case ThemeController.THEME_BLUESKY:
-                        themeController.setThemeMarine(linearLayout);
+                        themeController.setThemeMarine(relativeLayout);
                         break;
                     case ThemeController.THEME_MARINE:
-                        themeController.setThemePurple(linearLayout);
+                        themeController.setThemePurple(relativeLayout);
                         break;
                     default:
-                        themeController.setThemeMarine(linearLayout);
+                        themeController.setThemeMarine(relativeLayout);
                 }
             }
         });

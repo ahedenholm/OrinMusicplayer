@@ -2,6 +2,7 @@ package com.orin.anders.orinmusicplayer;
 
 import android.content.SharedPreferences;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 public class ThemeController {
     public static final int THEME_GREENFIELD = 0;
@@ -14,39 +15,39 @@ public class ThemeController {
     public SharedPreferences.Editor sharedPreferencesThemeEditor;
 
 
-    public void setThemeGreenfield(LinearLayout linearLayout){
-        linearLayout.setBackgroundResource(R.drawable.bg_greenfield);
+    public void setThemeGreenfield(RelativeLayout relativeLayout){
+        relativeLayout.setBackgroundResource(R.drawable.bg_greenfield);
         currentTheme = THEME_GREENFIELD;
     }
 
-    public void setThemePurple(LinearLayout linearLayout){
-        linearLayout.setBackgroundResource(R.drawable.bg_purple);
+    public void setThemePurple(RelativeLayout relativeLayout){
+        relativeLayout.setBackgroundResource(R.drawable.bg_purple);
         currentTheme = THEME_PURPLE;
     }
 
-    public void setThemeBluesky(LinearLayout linearLayout){
-        linearLayout.setBackgroundResource(R.drawable.bg_bluesky);
+    public void setThemeBluesky(RelativeLayout relativeLayout){
+        relativeLayout.setBackgroundResource(R.drawable.bg_bluesky);
         currentTheme = THEME_BLUESKY;
     }
 
-    public void setThemeMarine(LinearLayout linearLayout){
-        linearLayout.setBackgroundResource(R.drawable.bg_marine);
+    public void setThemeMarine(RelativeLayout relativeLayout){
+        relativeLayout.setBackgroundResource(R.drawable.bg_marine);
         currentTheme = THEME_MARINE;
     }
 
-    public void setTheme(int theme, LinearLayout linearLayout) {
+    public void setTheme(int theme, RelativeLayout relativeLayout) {
         switch (theme) {
             case THEME_GREENFIELD:
-                setThemeGreenfield(linearLayout);
+                setThemeGreenfield(relativeLayout);
                 break;
             case THEME_PURPLE:
-                setThemePurple(linearLayout);
+                setThemePurple(relativeLayout);
                 break;
             case THEME_BLUESKY:
-                setThemeBluesky(linearLayout);
+                setThemeBluesky(relativeLayout);
                 break;
             case THEME_MARINE:
-                setThemeMarine(linearLayout);
+                setThemeMarine(relativeLayout);
                 break;
             default:
                 break;
