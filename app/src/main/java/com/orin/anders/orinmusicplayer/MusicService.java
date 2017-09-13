@@ -8,6 +8,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.os.IBinder;
 import android.provider.MediaStore;
@@ -54,6 +56,7 @@ public class MusicService extends Service implements
     private int audioFocusResult;
     private int songCurrentTimeMillisec;
     private static final String TAG = "Debug Message";
+    private Bitmap orinNotificationIcon;
 
     public void onCreate() {
         super.onCreate();
@@ -62,6 +65,8 @@ public class MusicService extends Service implements
         songCurrentTimeMillisec = 0;
         initMusicPlayer();
         songList = (ListView) Main_ActivityHelper.activity.findViewById(R.id.song_list);
+        orinNotificationIcon = BitmapFactory.decodeResource(getResources(),
+                R.drawable.orin_notification_image);
         becomingNoisyReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -285,8 +290,8 @@ public class MusicService extends Service implements
         nBuilder.setContentTitle("Orin Musicplayer")
                 .setContentText(
                         MusicServiceHelper.selectedSong.getArtist() + " - " +
-                                MusicServiceHelper.selectedSong.getTitle()
-                );
+                                MusicServiceHelper.selectedSong.getTitle())
+                .setLargeIcon(orinNotificationIcon);
 
         if (mediaPlayer.isPlaying())
             nBuilder.setSmallIcon(android.R.drawable.ic_media_play);
@@ -303,8 +308,8 @@ public class MusicService extends Service implements
         nBuilder.setContentTitle("Orin Musicplayer")
                 .setContentText(
                         MusicServiceHelper.selectedSong.getArtist() + " - " +
-                                MusicServiceHelper.selectedSong.getTitle()
-                );
+                                MusicServiceHelper.selectedSong.getTitle())
+        .setLargeIcon(orinNotificationIcon);
 
         if (mediaPlayer.isPlaying())
             nBuilder.setSmallIcon(android.R.drawable.ic_media_play);
