@@ -20,7 +20,7 @@ public class ThemeController {
     }
 
     public void setThemePurple(LinearLayout linearLayout){
-        linearLayout.setBackgroundResource(R.drawable.bg_purplegrad2);
+        linearLayout.setBackgroundResource(R.drawable.bg_purple);
         currentTheme = THEME_PURPLE;
     }
 

@@ -51,8 +51,8 @@ public class MusicService extends Service implements
     private Context context;
     private Activity activity;
     private int songPosition;
-    private int songCurrentTimeMillisec;
     private int audioFocusResult;
+    private int songCurrentTimeMillisec;
     private static final String TAG = "Debug Message";
 
     public void onCreate() {
@@ -109,12 +109,10 @@ public class MusicService extends Service implements
                     case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
                         volumeLower();
                         Log.e(TAG, "AUDIOFOCUS_LOSS_TRANSIENT");
-                        // Temporary loss of audio focus - expect to get it back - you can keep your resources around
                         break;
                     case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
                         volumeLower();
                         Log.e(TAG, "AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK");
-                        // Lower the volume or pause
                         break;
                 }
             }
@@ -163,7 +161,6 @@ public class MusicService extends Service implements
     public boolean onError(MediaPlayer mediaPlayer, int i, int i1) {
         return false;
     }
-
 
     //listens for audio_noisy intent, resets mediaPlayer, get chosen song
     public void playSong() {
@@ -284,8 +281,7 @@ public class MusicService extends Service implements
     public Notification foregroundNotification(){
         NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(this);
 
-        nBuilder.setOngoing(true)
-                .setContentTitle("Orin Musicplayer")
+        nBuilder.setContentTitle("Orin Musicplayer")
                 .setContentText(
                         MusicServiceHelper.selectedSong.getArtist() + " - " +
                         MusicServiceHelper.selectedSong.getTitle()
@@ -299,8 +295,7 @@ public class MusicService extends Service implements
                 getSystemService(Context.NOTIFICATION_SERVICE);
         NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(this);
 
-        nBuilder.setOngoing(true)
-                .setContentTitle("Orin Musicplayer")
+        nBuilder.setContentTitle("Orin Musicplayer")
                 .setContentText(
                         MusicServiceHelper.selectedSong.getArtist() + " - " +
                         MusicServiceHelper.selectedSong.getTitle()
@@ -310,7 +305,5 @@ public class MusicService extends Service implements
                 MusicServiceHelper.NOTIFICATION_ID,
                 nBuilder.build());
     }
-
-
 
 }

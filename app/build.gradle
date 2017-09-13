@@ -29,7 +29,5 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:25.3.1'
     testCompile 'junit:junit:4.12'
-    compile files('libs/glide-full-4.0.0-RC1-javadoc.jar')
-    compile files('libs/glide-full-4.0.0-RC1-sources.jar')
-    compile files('libs/glide-full-4.0.0-RC1.jar')
+    compile 'com.squareup.picasso:picasso:2.5.2'
 }
