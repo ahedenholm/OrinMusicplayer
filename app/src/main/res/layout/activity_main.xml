@@ -1,116 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/bg_marine"
     android:layout_height="match_parent"
-    android:id="@+id/main_layout"
-    >
+    android:background="@drawable/bg_marine">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <Space
-            android:layout_width="291dp"
-            android:layout_height="220dp" />
-        <ImageButton
-            android:id="@+id/imageButtonSwitchtheme"
-            android:alpha="0"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:adjustViewBounds="false"
-            android:background="@drawable/button_switchtheme"
-            />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <Space
-            android:layout_width="75dp"
-            android:layout_height="80dp" />
-
-        <ImageButton
-            android:id="@+id/imageButtonPrev"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:adjustViewBounds="true"
-            android:background="@drawable/button_prev" />
-        <Space
-            android:layout_width="5dp"
-            android:layout_height="match_parent" />
-        
-        <ImageButton
-            android:id="@+id/imageButtonPlay"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:adjustViewBounds="true"
-            android:background="@drawable/button_play"
+    <ImageButton
+        android:id="@+id/imageButtonSwitchtheme"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="20dp"
+        android:adjustViewBounds="false"
+        android:alpha="0"
+        android:background="@android:drawable/ic_popup_sync"
         />
-        <Space
-            android:layout_width="5dp"
-            android:layout_height="match_parent" />
-        <ImageButton
-            android:id="@+id/imageButtonNext"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:adjustViewBounds="true"
-            android:background="@drawable/button_next" />
-        
-    </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <Space
-            android:layout_width="45dp"
-            android:layout_height="90dp" />
-        <ImageButton
-            android:id="@+id/imageButtonOpen"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:background="@drawable/button_open" />
-        <Space
-            android:layout_width="5dp"
-            android:layout_height="match_parent" />
+    <ImageButton
+        android:id="@+id/imageButtonPrev"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:adjustViewBounds="true"
+        android:background="@drawable/button_prev"
+        android:layout_alignTop="@+id/imageButtonPlay"
+        android:layout_toLeftOf="@+id/imageButtonPlay"
+        />
 
-        <ImageButton
-            android:id="@+id/imageButtonStop"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:adjustViewBounds="true"
-            android:background="@drawable/button_stop" />
-        <Space
-            android:layout_width="5dp"
-            android:layout_height="match_parent" />
+    <ImageButton
+        android:id="@+id/imageButtonPlay"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:adjustViewBounds="true"
+        android:background="@drawable/button_play"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="5dp"
+        />
+-
+    <ImageButton
+        android:id="@+id/imageButtonNext"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:adjustViewBounds="true"
+        android:background="@drawable/button_next"
+        android:layout_alignTop="@+id/imageButtonPlay"
+        android:layout_toRightOf="@+id/imageButtonPlay"
+        />
 
-        <ImageButton
-            android:id="@+id/imageButtonRepeatMode"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:adjustViewBounds="true"
-            android:background="@drawable/button_repeatall" />
-        <Space
-            android:layout_width="5dp"
-            android:layout_height="match_parent" />
+    <ImageButton
+        android:id="@+id/imageButtonOpen"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:background="@drawable/button_open"
+        android:layout_alignTop="@+id/imageButtonStop"
+        android:layout_toLeftOf="@+id/imageButtonStop"
+        />
 
-    </LinearLayout>
+    <ImageButton
+        android:id="@+id/imageButtonStop"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:adjustViewBounds="true"
+        android:background="@drawable/button_stop"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/imageButtonPlay"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_toLeftOf="@+id/imageButtonRepeatMode"
+        />
 
-    <LinearLayout
+    <ImageButton
+        android:id="@+id/imageButtonRepeatMode"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:adjustViewBounds="true"
+        android:background="@drawable/button_repeatall"
+        android:layout_alignTop="@+id/imageButtonStop"
+        android:layout_alignEnd="@+id/imageButtonNext"
+        android:layout_alignRight="@+id/imageButtonNext"
+        android:layout_marginEnd="30dp"
+        android:layout_marginRight="30dp"
+        />
+
+    <ListView
+        android:id="@+id/song_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <ListView
-            android:listSelector="@color/listSelected"
-            android:id="@+id/song_list"
-            android:alpha="0"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
+        android:layout_height="match_parent"
+        android:layout_below="@+id/imageButtonStop"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:alpha="0"
+        android:listSelector="@color/listSelected"
+        />
 
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>
