@@ -35,6 +35,7 @@ public class Main_Activity extends AppCompatActivity {
     private ListView songListView;
     private Intent playIntent;
     private boolean musicBound = false;
+    private boolean songListEnabled;
     private static final String TAG = "Debug Message";
 
     @Override
@@ -77,6 +78,8 @@ public class Main_Activity extends AppCompatActivity {
         pressedPrev();
         pressedStop();
         pressedPlaybackMode();
+        songListEnabled = false;
+        ButtonController.imageButtonSwitchtheme.setEnabled(false);
         Log.d(TAG, "onCreate()");
     }
 
@@ -180,10 +183,11 @@ public class Main_Activity extends AppCompatActivity {
         ((TextView) view.findViewById(R.id.song_title)).setTextColor(Color.GRAY);
         ((TextView) view.findViewById(R.id.song_length)).setTextColor(Color.GRAY);
         */
-
-        musicService.setSong(Integer.parseInt(view.getTag().toString()));
-        Log.d(TAG, "songPicked() value:" + view.getTag().toString());
-        musicService.playSong();
+        if (songListEnabled) {
+            musicService.setSong(Integer.parseInt(view.getTag().toString()));
+            Log.d(TAG, "songPicked() value:" + view.getTag().toString());
+            musicService.playSong();
+        }
     }
 
     public void pressedOpen() {
@@ -192,6 +196,9 @@ public class Main_Activity extends AppCompatActivity {
             public void onClick(View v) {
                 animation.fadeListView(songListView);
                 animation.fadeImageButton(ButtonController.imageButtonSwitchtheme);
+                if(songListEnabled)
+                    songListEnabled = false;
+                else songListEnabled = true;
             }
         });
     }

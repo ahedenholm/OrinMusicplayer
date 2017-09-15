@@ -42,6 +42,7 @@ public class Animation {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
                     imageButton.setAlpha((float) animation.getAnimatedValue());
+                    imageButton.setEnabled(true);
                 }
             });
             valueAnimator.setDuration(200);
@@ -53,6 +54,7 @@ public class Animation {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
                     imageButton.setAlpha((float) animation.getAnimatedValue());
+                    imageButton.setEnabled(false);
                 }
             });
             valueAnimator.setDuration(200);
