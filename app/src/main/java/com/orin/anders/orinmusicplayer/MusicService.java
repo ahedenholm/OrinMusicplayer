@@ -3,6 +3,7 @@ package com.orin.anders.orinmusicplayer;
 import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -80,7 +81,6 @@ public class MusicService extends Service implements
                 }
             }
         };
-
     }
 
     //initialize listeners, audio focus, mediaplayer, set playbackMode
@@ -298,6 +298,13 @@ public class MusicService extends Service implements
             nBuilder.setSmallIcon(android.R.drawable.ic_media_play);
         else nBuilder.setSmallIcon(android.R.drawable.ic_media_pause);
 
+        Intent returnToAppIntent = new Intent(this, Main_Activity.class);
+        returnToAppIntent.setAction(Intent.ACTION_MAIN);
+        returnToAppIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
+                returnToAppIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        nBuilder.setContentIntent(pendingIntent);
+
         return (nBuilder.build());
     }
 
@@ -315,6 +322,13 @@ public class MusicService extends Service implements
         if (mediaPlayer.isPlaying())
             nBuilder.setSmallIcon(android.R.drawable.ic_media_play);
         else nBuilder.setSmallIcon(android.R.drawable.ic_media_pause);
+
+        Intent returnToAppIntent = new Intent(this, Main_Activity.class);
+        returnToAppIntent.setAction(Intent.ACTION_MAIN);
+        returnToAppIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
+                returnToAppIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        nBuilder.setContentIntent(pendingIntent);
 
         notificationManager.notify(
                 MusicServiceHelper.NOTIFICATION_ID,

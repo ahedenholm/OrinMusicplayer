@@ -236,7 +236,6 @@ public class Main_Activity extends AppCompatActivity {
                     default:
                         themeController.setThemeMarine(relativeLayout);
                 }
-                Log.d(TAG,""+ThemeController.currentTheme);
             }
         });
     }
