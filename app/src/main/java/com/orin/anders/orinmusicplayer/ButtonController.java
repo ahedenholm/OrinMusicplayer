@@ -14,7 +14,7 @@ public class ButtonController {
     public static ImageButton imageButtonNext;
     public static ImageButton imageButtonPrev;
     public static ImageButton imageButtonStop;
-    public static ImageButton imageButtonRepeatMode;
+    public static ImageButton imageButtonPlaybackMode;
 
     public static void setImageButtonsToNull(){
         ButtonController.imageButtonPlay = null;
@@ -23,6 +23,7 @@ public class ButtonController {
         ButtonController.imageButtonNext = null;
         ButtonController.imageButtonPrev = null;
         ButtonController.imageButtonStop = null;
+        ButtonController.imageButtonPlaybackMode = null;
     }
 
     public static void setImageButtonPauseImage(){
@@ -32,13 +33,13 @@ public class ButtonController {
         imageButtonPlay.setBackgroundResource(R.drawable.button_play);
     }
     public static void setImageButtonShuffleImage(){
-        imageButtonRepeatMode.setBackgroundResource(R.drawable.button_shuffle);
+        imageButtonPlaybackMode.setBackgroundResource(R.drawable.button_shuffle);
     }
     public static void setImageButtonRepeatAllImage(){
-        imageButtonRepeatMode.setBackgroundResource(R.drawable.button_repeatall);
+        imageButtonPlaybackMode.setBackgroundResource(R.drawable.button_repeatall);
     }
     public static void setImageButtonRepeatOneImage(){
-        imageButtonRepeatMode.setBackgroundResource(R.drawable.button_repeatone);
+        imageButtonPlaybackMode.setBackgroundResource(R.drawable.button_repeatone);
     }
 
 }

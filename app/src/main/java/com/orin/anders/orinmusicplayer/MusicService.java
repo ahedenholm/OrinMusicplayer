@@ -83,14 +83,14 @@ public class MusicService extends Service implements
 
     }
 
-    //initialize listeners, audio focus, mediaplayer, set repeatMode
+    //initialize listeners, audio focus, mediaplayer, set playbackMode
     public void initMusicPlayer() {
         mediaPlayer.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mediaPlayer.setOnPreparedListener(this);
         mediaPlayer.setOnCompletionListener(this);
         mediaPlayer.setOnErrorListener(this);
-        MusicServiceHelper.setRepeatMode(MusicServiceHelper.REPEAT_ALL);
+        MusicServiceHelper.setPlaybackMode(MusicServiceHelper.REPEAT_ALL);
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         onAudioFocusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
             @Override
@@ -160,7 +160,7 @@ public class MusicService extends Service implements
     public void onCompletion(MediaPlayer mediaPlayer) {
         //set songCurrentTimeMillisec to 0 so next song will actually start from the beginning
         songCurrentTimeMillisec = 0;
-        choosePlaybackByRepeatMode();
+        choosePlaybackByPlaybackMode();
     }
 
     @Override
@@ -198,7 +198,7 @@ public class MusicService extends Service implements
     }
 
     public void nextSong() {
-        switch (MusicServiceHelper.repeatMode) {
+        switch (MusicServiceHelper.playbackMode) {
             case MusicServiceHelper.SHUFFLE:
                 setSong(random.nextInt(songArrayList.size()));
                 playSong();
@@ -249,11 +249,12 @@ public class MusicService extends Service implements
             mediaPlayer.reset();
             songCurrentTimeMillisec = 0;
             ButtonController.setImageButtonPlayImage();
+            foregroundNotificationUpdate();
         }
     }
 
-    public void choosePlaybackByRepeatMode() {
-        switch (MusicServiceHelper.repeatMode) {
+    public void choosePlaybackByPlaybackMode() {
+        switch (MusicServiceHelper.playbackMode) {
             case MusicServiceHelper.REPEAT_ALL:
                 nextSong();
                 break;

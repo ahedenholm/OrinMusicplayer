@@ -6,12 +6,12 @@ public class MusicServiceHelper {
     public static final int REPEAT_ALL = 0;
     public static final int REPEAT_ONE = 1;
     public static final int SHUFFLE = 2;
-    public static int repeatMode;
+    public static int playbackMode;
     public static Song selectedSong;
     public static Song previousSong;
 
-    public static void setRepeatMode(int REPEAT_MODE){
-        MusicServiceHelper.repeatMode = REPEAT_MODE;
+    public static void setPlaybackMode(int REPEAT_MODE){
+        MusicServiceHelper.playbackMode = REPEAT_MODE;
     }
 
 }

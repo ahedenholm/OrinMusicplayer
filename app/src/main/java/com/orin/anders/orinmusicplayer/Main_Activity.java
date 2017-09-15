@@ -14,7 +14,6 @@ import android.content.ContentResolver;
 import android.database.Cursor;
 import android.view.KeyEvent;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.os.IBinder;
 import android.content.ComponentName;
@@ -51,7 +50,7 @@ public class Main_Activity extends AppCompatActivity {
         ButtonController.imageButtonNext = (ImageButton) findViewById(R.id.imageButtonNext);
         ButtonController.imageButtonPrev = (ImageButton) findViewById(R.id.imageButtonPrev);
         ButtonController.imageButtonStop = (ImageButton) findViewById(R.id.imageButtonStop);
-        ButtonController.imageButtonRepeatMode = (ImageButton) findViewById(R.id.imageButtonRepeatMode);
+        ButtonController.imageButtonPlaybackMode = (ImageButton) findViewById(R.id.imageButtonPlaybackMode);
 
         songListView = (ListView) findViewById(R.id.song_list);
         songList = new ArrayList<>();
@@ -77,7 +76,7 @@ public class Main_Activity extends AppCompatActivity {
         pressedNext();
         pressedPrev();
         pressedStop();
-        pressedRepeatMode();
+        pressedPlaybackMode();
         Log.d(TAG, "onCreate()");
     }
 
@@ -230,6 +229,7 @@ public class Main_Activity extends AppCompatActivity {
                     default:
                         themeController.setThemeMarine(relativeLayout);
                 }
+                Log.d(TAG,""+ThemeController.currentTheme);
             }
         });
     }
@@ -261,21 +261,21 @@ public class Main_Activity extends AppCompatActivity {
         });
     }
 
-    public void pressedRepeatMode() {
-        ButtonController.imageButtonRepeatMode.setOnClickListener(new View.OnClickListener() {
+    public void pressedPlaybackMode() {
+        ButtonController.imageButtonPlaybackMode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switch (MusicServiceHelper.repeatMode) {
+                switch (MusicServiceHelper.playbackMode) {
                     case MusicServiceHelper.REPEAT_ALL:
-                        MusicServiceHelper.setRepeatMode(MusicServiceHelper.REPEAT_ONE);
+                        MusicServiceHelper.setPlaybackMode(MusicServiceHelper.REPEAT_ONE);
                         ButtonController.setImageButtonRepeatOneImage();
                         break;
                     case MusicServiceHelper.REPEAT_ONE:
-                        MusicServiceHelper.setRepeatMode(MusicServiceHelper.SHUFFLE);
+                        MusicServiceHelper.setPlaybackMode(MusicServiceHelper.SHUFFLE);
                         ButtonController.setImageButtonShuffleImage();
                         break;
                     case MusicServiceHelper.SHUFFLE:
-                        MusicServiceHelper.setRepeatMode(MusicServiceHelper.REPEAT_ALL);
+                        MusicServiceHelper.setPlaybackMode(MusicServiceHelper.REPEAT_ALL);
                         ButtonController.setImageButtonRepeatAllImage();
                         break;
                     default:
