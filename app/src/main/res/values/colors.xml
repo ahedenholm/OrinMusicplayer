@@ -4,5 +4,8 @@
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#000000</color>
     <color name="listSelected">#747474</color>
-    <color name="song_selected_artist">#ffffff</color>
+    <color name="one">#703131</color>
+    <color name="two">#14ae8c</color>
+    <color name="three">#235b07</color>
+    <color name="four">#e27d39</color>
 </resources>

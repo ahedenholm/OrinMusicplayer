@@ -5,11 +5,17 @@
     android:background="@drawable/bg_marine"
     android:id="@+id/main_layout"
     >
-
+    <!--
+    This relative layout uses a <Space id=centerSpace> to align playback buttons
+    to the center of screen.
+    Play button aligns to centerSpace.
+    All other buttons align in turn to the play button.
+    -->
     <ImageButton
         android:id="@+id/imageButtonSwitchtheme"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:padding="100dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
@@ -21,6 +27,21 @@
         android:background="@android:drawable/ic_popup_sync"
         />
 
+    <Space
+        android:id="@+id/spaceAbovePlayButton"
+        android:layout_width="match_parent"
+        android:layout_height="260dp"
+        android:layout_below="@id/imageButtonSwitchtheme"
+        />
+
+    <Space
+        android:layout_width="50dp"
+        android:layout_height="1dp"
+        android:id="@+id/centerSpace"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        />
+
     <ImageButton
         android:id="@+id/imageButtonPrev"
         android:layout_width="70dp"
@@ -29,6 +50,7 @@
         android:background="@drawable/button_prev"
         android:layout_alignTop="@+id/imageButtonPlay"
         android:layout_toLeftOf="@+id/imageButtonPlay"
+        android:layout_toStartOf="@+id/imageButtonPlay"
         />
 
     <ImageButton
@@ -37,9 +59,10 @@
         android:layout_height="70dp"
         android:adjustViewBounds="true"
         android:background="@drawable/button_play"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
         android:layout_margin="5dp"
+        android:layout_alignStart="@id/centerSpace"
+        android:layout_alignLeft="@id/centerSpace"
+        android:layout_above="@id/centerSpace"
         />
 
     <ImageButton
@@ -50,6 +73,7 @@
         android:background="@drawable/button_next"
         android:layout_alignTop="@+id/imageButtonPlay"
         android:layout_toRightOf="@+id/imageButtonPlay"
+        android:layout_toEndOf="@+id/imageButtonPlay"
         />
 
     <ImageButton
@@ -59,6 +83,7 @@
         android:background="@drawable/button_open"
         android:layout_alignTop="@+id/imageButtonStop"
         android:layout_toLeftOf="@+id/imageButtonStop"
+        android:layout_toStartOf="@+id/imageButtonStop"
         />
 
     <ImageButton
@@ -73,6 +98,7 @@
         android:layout_marginLeft="5dp"
         android:layout_marginBottom="5dp"
         android:layout_toLeftOf="@+id/imageButtonPlaybackMode"
+        android:layout_toStartOf="@+id/imageButtonPlaybackMode"
         />
 
     <ImageButton

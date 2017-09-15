@@ -16,21 +16,25 @@ public class ThemeController {
 
 
     public void setThemeGreenfield(RelativeLayout relativeLayout){
+        //relativeLayout.setBackgroundResource(R.color.one);
         relativeLayout.setBackgroundResource(R.drawable.bg_greenfield);
         currentTheme = THEME_GREENFIELD;
     }
 
     public void setThemePurple(RelativeLayout relativeLayout){
+        //relativeLayout.setBackgroundResource(R.color.two);
         relativeLayout.setBackgroundResource(R.drawable.bg_purple);
         currentTheme = THEME_PURPLE;
     }
 
     public void setThemeBluesky(RelativeLayout relativeLayout){
+        //relativeLayout.setBackgroundResource(R.color.three);
         relativeLayout.setBackgroundResource(R.drawable.bg_bluesky);
         currentTheme = THEME_BLUESKY;
     }
 
     public void setThemeMarine(RelativeLayout relativeLayout){
+        //relativeLayout.setBackgroundResource(R.color.four);
         relativeLayout.setBackgroundResource(R.drawable.bg_marine);
         currentTheme = THEME_MARINE;
     }
