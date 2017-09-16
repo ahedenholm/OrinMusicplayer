@@ -225,9 +225,9 @@ public class Main_Activity extends AppCompatActivity {
                         themeController.setThemeGreenfield(relativeLayout);
                         break;
                     case ThemeController.THEME_GREENFIELD:
-                        themeController.setThemeBluesky(relativeLayout);
+                        themeController.setThemeSkyblue(relativeLayout);
                         break;
-                    case ThemeController.THEME_BLUESKY:
+                    case ThemeController.THEME_SKYBLUE:
                         themeController.setThemeMarine(relativeLayout);
                         break;
                     case ThemeController.THEME_MARINE:

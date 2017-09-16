@@ -6,7 +6,7 @@ import android.widget.RelativeLayout;
 public class ThemeController {
     public static final int THEME_GREENFIELD = 0;
     public static final int THEME_PURPLE = 1;
-    public static final int THEME_BLUESKY = 2;
+    public static final int THEME_SKYBLUE = 2;
     public static final int THEME_MARINE = 3;
     public static Integer currentTheme;
 
@@ -24,9 +24,9 @@ public class ThemeController {
         currentTheme = THEME_PURPLE;
     }
 
-    public void setThemeBluesky(RelativeLayout relativeLayout){
-        relativeLayout.setBackgroundResource(R.drawable.bg_bluesky);
-        currentTheme = THEME_BLUESKY;
+    public void setThemeSkyblue(RelativeLayout relativeLayout){
+        relativeLayout.setBackgroundResource(R.drawable.bg_skyblue);
+        currentTheme = THEME_SKYBLUE;
     }
 
     public void setThemeMarine(RelativeLayout relativeLayout){
@@ -42,8 +42,8 @@ public class ThemeController {
             case THEME_PURPLE:
                 setThemePurple(relativeLayout);
                 break;
-            case THEME_BLUESKY:
-                setThemeBluesky(relativeLayout);
+            case THEME_SKYBLUE:
+                setThemeSkyblue(relativeLayout);
                 break;
             case THEME_MARINE:
                 setThemeMarine(relativeLayout);
