@@ -288,10 +288,8 @@ public class MusicService extends Service implements
     public Notification foregroundNotification() {
         NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(this);
 
-        nBuilder.setContentTitle("Orin Musicplayer")
-                .setContentText(
-                        MusicServiceHelper.selectedSong.getArtist() + " - " +
-                        MusicServiceHelper.selectedSong.getTitle())
+        nBuilder.setContentTitle(MusicServiceHelper.selectedSong.getArtist())
+                .setContentText(MusicServiceHelper.selectedSong.getTitle())
                 .setLargeIcon(orinNotificationIcon);
 
         if (mediaPlayer.isPlaying())
@@ -313,10 +311,8 @@ public class MusicService extends Service implements
                 getSystemService(Context.NOTIFICATION_SERVICE);
         NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(this);
 
-        nBuilder.setContentTitle("Orin Musicplayer")
-                .setContentText(
-                        MusicServiceHelper.selectedSong.getArtist() + " - " +
-                        MusicServiceHelper.selectedSong.getTitle())
+        nBuilder.setContentTitle(MusicServiceHelper.selectedSong.getArtist())
+                .setContentText(MusicServiceHelper.selectedSong.getTitle())
                 .setLargeIcon(orinNotificationIcon);
 
         if (mediaPlayer.isPlaying())
@@ -326,8 +322,10 @@ public class MusicService extends Service implements
         Intent returnToAppIntent = new Intent(this, Main_Activity.class);
         returnToAppIntent.setAction(Intent.ACTION_MAIN);
         returnToAppIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
-                returnToAppIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        PendingIntent pendingIntent =
+                PendingIntent.getActivity(this, 0, returnToAppIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
         nBuilder.setContentIntent(pendingIntent);
 
         notificationManager.notify(

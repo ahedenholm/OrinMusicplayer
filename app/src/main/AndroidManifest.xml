@@ -1,5 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.orin.anders.orinmusicplayer">
+    package="com.orin.anders.orinmusicplayer"
+    android:versionName="1"
+    android:versionCode="1"
+    >
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.MEDIA_CONTENT_CONTROL"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
@@ -28,7 +31,4 @@
         </activity>>
         <service android:name="com.orin.anders.orinmusicplayer.MusicService"/>
     </application>
-
-
-
 </manifest>
