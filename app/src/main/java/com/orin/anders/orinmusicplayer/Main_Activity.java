@@ -132,6 +132,7 @@ public class Main_Activity extends AppCompatActivity {
         Log.d(TAG, "onStart()");
         Main_ActivityHelper.activity = this;
         Main_ActivityHelper.context = this;
+        musicService.setContext(this);
         super.onStart();
         if (playIntent == null) {
             playIntent = new Intent(this, MusicService.class);
