@@ -27,6 +27,7 @@ import com.orin.anders.orinmusicplayer.MusicService.MusicBinder;
 
 public class Main_Activity extends AppCompatActivity {
 
+    private OrinNotification orinNotification;
     private ThemeController themeController;
     private ArrayList<Song> songList;
     private RelativeLayout relativeLayout;
@@ -47,12 +48,13 @@ public class Main_Activity extends AppCompatActivity {
         Main_ActivityHelper.context = this;
         ButtonController.imageButtonPlay = (ImageButton) findViewById(R.id.imageButtonPlay);
         ButtonController.imageButtonOpen = (ImageButton) findViewById(R.id.imageButtonOpen);
-        ButtonController.imageButtonSwitchtheme = (ImageButton) findViewById(R.id.imageButtonSwitchtheme);
         ButtonController.imageButtonNext = (ImageButton) findViewById(R.id.imageButtonNext);
         ButtonController.imageButtonPrev = (ImageButton) findViewById(R.id.imageButtonPrev);
         ButtonController.imageButtonStop = (ImageButton) findViewById(R.id.imageButtonStop);
+        ButtonController.imageButtonSwitchtheme = (ImageButton) findViewById(R.id.imageButtonSwitchtheme);
         ButtonController.imageButtonPlaybackMode = (ImageButton) findViewById(R.id.imageButtonPlaybackMode);
 
+        orinNotification = new OrinNotification(this);
         songListView = (ListView) findViewById(R.id.song_list);
         songList = new ArrayList<>();
         relativeLayout = (RelativeLayout) findViewById(R.id.main_layout);
@@ -162,7 +164,7 @@ public class Main_Activity extends AppCompatActivity {
         Main_ActivityHelper.setActivityAndContextToNull();
         if (musicService != null && musicService.getIsPlaying())
             musicService.startForeground(MusicServiceHelper.NOTIFICATION_ID,
-                    musicService.foregroundNotification());
+                    orinNotification.foregroundNotification(musicService.getMediaPlayer()));
         super.onStop();
     }
 
@@ -185,7 +187,6 @@ public class Main_Activity extends AppCompatActivity {
         */
         if (songListEnabled) {
             musicService.setSong(Integer.parseInt(view.getTag().toString()));
-            Log.d(TAG, "songPicked() value:" + view.getTag().toString());
             musicService.playSong();
         }
     }

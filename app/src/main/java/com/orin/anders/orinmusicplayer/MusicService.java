@@ -1,16 +1,12 @@
 package com.orin.anders.orinmusicplayer;
 
 import android.app.Activity;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.os.IBinder;
 import android.provider.MediaStore;
@@ -24,7 +20,6 @@ import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.PowerManager;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -43,10 +38,11 @@ public class MusicService extends Service implements
         MediaPlayer.OnCompletionListener {
 
     private AudioManager.OnAudioFocusChangeListener onAudioFocusChangeListener;
+    private OrinNotification orinNotification;
     private BroadcastReceiver becomingNoisyReceiver;
     private ArrayList<Song> songArrayList;
     private AudioManager audioManager;
-    private IntentFilter intentFilter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
+    private IntentFilter intentFilterAudioBecomingNoisy = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
     private MediaPlayer mediaPlayer;
     private ListView songList;
     private Random random = new Random();
@@ -55,7 +51,6 @@ public class MusicService extends Service implements
     private int songPosition;
     private int audioFocusResult;
     private int songCurrentTimeMillisec;
-    private Bitmap orinNotificationIcon;
     private final IBinder musicBind = new MusicBinder();
     private static final String TAG = "Debug Message";
 
@@ -66,8 +61,7 @@ public class MusicService extends Service implements
         songCurrentTimeMillisec = 0;
         initMusicPlayer();
         songList = (ListView) Main_ActivityHelper.activity.findViewById(R.id.song_list);
-        orinNotificationIcon = BitmapFactory.decodeResource(getResources(),
-                R.drawable.orin_notification_image);
+        orinNotification = new OrinNotification(this);
         becomingNoisyReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -153,7 +147,7 @@ public class MusicService extends Service implements
     public void onPrepared(MediaPlayer mediaPlayer) {
         this.mediaPlayer.seekTo(songCurrentTimeMillisec);
         mediaPlayer.start();
-        foregroundNotificationUpdate();
+        orinNotification.foregroundNotificationUpdate(mediaPlayer);
     }
 
     @Override
@@ -177,10 +171,10 @@ public class MusicService extends Service implements
         if (audioFocusResult == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
 
             //listen for noise, i.e unplugged headphones
-            registerReceiver(becomingNoisyReceiver, intentFilter);
+            registerReceiver(becomingNoisyReceiver, intentFilterAudioBecomingNoisy);
             mediaPlayer.reset();
-            MusicServiceHelper.previousSong = MusicServiceHelper.selectedSong;
             Song playSong = songArrayList.get(songPosition);
+            MusicServiceHelper.previousSong = MusicServiceHelper.selectedSong;
             MusicServiceHelper.selectedSong = songArrayList.get(songPosition);
             long currSong = playSong.getId();
             Uri trackUri = ContentUris.withAppendedId(
@@ -239,7 +233,7 @@ public class MusicService extends Service implements
             mediaPlayer.pause();
             ButtonController.setImageButtonPlayImage();
             songCurrentTimeMillisec = mediaPlayer.getCurrentPosition();
-            foregroundNotificationUpdate();
+            orinNotification.foregroundNotificationUpdate(mediaPlayer);
         }
     }
 
@@ -249,7 +243,7 @@ public class MusicService extends Service implements
             mediaPlayer.reset();
             songCurrentTimeMillisec = 0;
             ButtonController.setImageButtonPlayImage();
-            foregroundNotificationUpdate();
+            orinNotification.foregroundNotificationUpdate(mediaPlayer);
         }
     }
 
@@ -277,6 +271,10 @@ public class MusicService extends Service implements
         return mediaPlayer.isPlaying();
     }
 
+    public MediaPlayer getMediaPlayer(){
+        return mediaPlayer;
+    }
+
     public void volumeLower() {
         mediaPlayer.setVolume(0.01f, 0.01f);
     }
@@ -285,52 +283,8 @@ public class MusicService extends Service implements
         mediaPlayer.setVolume(1, 1);
     }
 
-    public Notification foregroundNotification() {
-        NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(this);
-
-        nBuilder.setContentTitle(MusicServiceHelper.selectedSong.getArtist())
-                .setContentText(MusicServiceHelper.selectedSong.getTitle())
-                .setLargeIcon(orinNotificationIcon);
-
-        if (mediaPlayer.isPlaying())
-            nBuilder.setSmallIcon(android.R.drawable.ic_media_play);
-        else nBuilder.setSmallIcon(android.R.drawable.ic_media_pause);
-
-        Intent returnToAppIntent = new Intent(this, Main_Activity.class);
-        returnToAppIntent.setAction(Intent.ACTION_MAIN);
-        returnToAppIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
-                returnToAppIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        nBuilder.setContentIntent(pendingIntent);
-
-        return (nBuilder.build());
-    }
-
-    public void foregroundNotificationUpdate() {
-        NotificationManager notificationManager = (NotificationManager)
-                getSystemService(Context.NOTIFICATION_SERVICE);
-        NotificationCompat.Builder nBuilder = new NotificationCompat.Builder(this);
-
-        nBuilder.setContentTitle(MusicServiceHelper.selectedSong.getArtist())
-                .setContentText(MusicServiceHelper.selectedSong.getTitle())
-                .setLargeIcon(orinNotificationIcon);
-
-        if (mediaPlayer.isPlaying())
-            nBuilder.setSmallIcon(android.R.drawable.ic_media_play);
-        else nBuilder.setSmallIcon(android.R.drawable.ic_media_pause);
-
-        Intent returnToAppIntent = new Intent(this, Main_Activity.class);
-        returnToAppIntent.setAction(Intent.ACTION_MAIN);
-        returnToAppIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-
-        PendingIntent pendingIntent =
-                PendingIntent.getActivity(this, 0, returnToAppIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        nBuilder.setContentIntent(pendingIntent);
-
-        notificationManager.notify(
-                MusicServiceHelper.NOTIFICATION_ID,
-                nBuilder.build());
+    public void setContext(Context ctx){
+        context = ctx;
     }
 
 }
