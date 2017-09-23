@@ -30,7 +30,6 @@ import android.widget.Toast;
     - Initializes the MediaPlayer,
     - Handles loss and gain of AUDIOFOCUS.
     - Handles AUDIO_BECOMING_NOISY.
-    - Handles notifications
      */
 
 public class MusicService extends Service implements
@@ -103,6 +102,7 @@ public class MusicService extends Service implements
                         volumeDefault();
                         break;
                     case AudioManager.AUDIOFOCUS_LOSS:
+                        pauseSong();
                         Log.e(TAG, "AUDIOFOCUS_LOSS");
                         break;
                     case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
