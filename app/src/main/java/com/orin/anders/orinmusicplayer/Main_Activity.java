@@ -58,11 +58,11 @@ public class Main_Activity extends AppCompatActivity {
         songListView = (ListView) findViewById(R.id.song_list);
         songList = new ArrayList<>();
         relativeLayout = (RelativeLayout) findViewById(R.id.main_layout);
-        themeController = new ThemeController();
+        themeController = new ThemeController(this);
 
-        themeController.sharedPreferencesTheme = getSharedPreferences("THEME_PREFS", MODE_PRIVATE);
-        themeController.sharedPreferencesThemeEditor = themeController.sharedPreferencesTheme.edit();
-        themeController.setTheme(themeController.sharedPreferencesTheme
+        //themeController.sharedPreferencesTheme = getSharedPreferences("THEME_PREFS", MODE_PRIVATE);
+        //themeController.sharedPreferencesThemeEditor = themeController.sharedPreferencesTheme.edit();
+        themeController.setTheme(themeController.getSharedPreferencesTheme()
                 .getInt("savedTheme", 0), relativeLayout);
 
         getSongList();
@@ -132,11 +132,11 @@ public class Main_Activity extends AppCompatActivity {
         Log.d(TAG, "onStart()");
         Main_ActivityHelper.activity = this;
         Main_ActivityHelper.context = this;
-        musicService.setContext(this);
         super.onStart();
         if (playIntent == null) {
             playIntent = new Intent(this, MusicService.class);
             bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
+
         }
     }
 
@@ -198,9 +198,7 @@ public class Main_Activity extends AppCompatActivity {
             public void onClick(View v) {
                 animation.fadeListView(songListView);
                 animation.fadeImageButton(ButtonController.imageButtonSwitchtheme);
-                if(songListEnabled)
-                    songListEnabled = false;
-                else songListEnabled = true;
+                songListEnabled = !songListEnabled;
             }
         });
     }

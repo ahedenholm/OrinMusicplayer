@@ -1,7 +1,13 @@
 package com.orin.anders.orinmusicplayer;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.widget.RelativeLayout;
+
+
+    /*
+    This class sets background images, or "themes", and saves them in shared preferences.
+     */
 
 public class ThemeController {
     public static final int THEME_GREENFIELD = 0;
@@ -10,9 +16,17 @@ public class ThemeController {
     public static final int THEME_MARINE = 3;
     public static Integer currentTheme;
 
-    public SharedPreferences sharedPreferencesTheme;
-    public SharedPreferences.Editor sharedPreferencesThemeEditor;
 
+    private Context context;
+
+    private SharedPreferences sharedPreferencesTheme;
+
+    private SharedPreferences.Editor sharedPreferencesThemeEditor;
+    public ThemeController(Context context){
+        this.context = context;
+        sharedPreferencesTheme = context.getSharedPreferences("THEME_PREFS", context.MODE_PRIVATE);
+        sharedPreferencesThemeEditor = sharedPreferencesTheme.edit();
+    }
 
     public void setThemeGreenfield(RelativeLayout relativeLayout){
         relativeLayout.setBackgroundResource(R.drawable.bg_greenfield);
@@ -51,6 +65,10 @@ public class ThemeController {
             default:
                 break;
         }
+    }
+
+    public SharedPreferences getSharedPreferencesTheme() {
+        return sharedPreferencesTheme;
     }
 
     public void saveVisualTheme(){
