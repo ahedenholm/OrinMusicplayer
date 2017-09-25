@@ -1,29 +1,38 @@
-package com.orin.anders.orinmusicplayer;
+package com.orin.anders.orinmusicplayer.activities;
 
+import android.content.ComponentName;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+
+import com.orin.anders.orinmusicplayer.Animation;
+import com.orin.anders.orinmusicplayer.ButtonController;
+import com.orin.anders.orinmusicplayer.Main_ActivityHelper;
+import com.orin.anders.orinmusicplayer.MusicService;
+import com.orin.anders.orinmusicplayer.MusicService.MusicBinder;
+import com.orin.anders.orinmusicplayer.MusicServiceHelper;
+import com.orin.anders.orinmusicplayer.OrinNotification;
+import com.orin.anders.orinmusicplayer.R;
+import com.orin.anders.orinmusicplayer.Song;
+import com.orin.anders.orinmusicplayer.ThemeController;
+import com.orin.anders.orinmusicplayer.adapters.SongAdapter;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-
-import android.util.Log;
-import android.content.ContentResolver;
-import android.database.Cursor;
-import android.view.KeyEvent;
-import android.widget.ImageButton;
-import android.widget.ListView;
-import android.os.IBinder;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
-import android.view.View;
-import android.widget.RelativeLayout;
-
-import com.orin.anders.orinmusicplayer.MusicService.MusicBinder;
 
 public class Main_Activity extends AppCompatActivity {
 
@@ -60,8 +69,6 @@ public class Main_Activity extends AppCompatActivity {
         relativeLayout = (RelativeLayout) findViewById(R.id.main_layout);
         themeController = new ThemeController(this);
 
-        //themeController.sharedPreferencesTheme = getSharedPreferences("THEME_PREFS", MODE_PRIVATE);
-        //themeController.sharedPreferencesThemeEditor = themeController.sharedPreferencesTheme.edit();
         themeController.setTheme(themeController.getSharedPreferencesTheme()
                 .getInt("savedTheme", 0), relativeLayout);
 
@@ -83,6 +90,57 @@ public class Main_Activity extends AppCompatActivity {
         songListEnabled = false;
         ButtonController.imageButtonSwitchtheme.setEnabled(false);
         Log.d(TAG, "onCreate()");
+    }
+
+    @Override
+    protected void onStart() {
+        Log.d(TAG, "onStart()");
+        Main_ActivityHelper.activity = this;
+        Main_ActivityHelper.context = this;
+        super.onStart();
+        if (playIntent == null) {
+            playIntent = new Intent(this, MusicService.class);
+            bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        Log.d(TAG, "onResume()");
+        super.onResume();
+    }
+
+    @Override
+    protected void onRestart() {
+        Log.d(TAG, "onRestart()");
+        super.onRestart();
+    }
+
+    @Override
+    protected void onPause() {
+        Log.d(TAG, "onPause()");
+        super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        Log.d(TAG, "onStop()");
+        themeController.saveVisualTheme();
+        Main_ActivityHelper.setActivityAndContextToNull();
+        if (musicService != null && musicService.getIsPlaying())
+            musicService.startForeground(MusicServiceHelper.NOTIFICATION_ID,
+                    orinNotification.foregroundNotification(musicService.getMediaPlayer()));
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        Log.d(TAG, "onDestroy()");
+        Main_ActivityHelper.setActivityAndContextToNull();
+        ButtonController.setImageButtonsToNull();
+        stopService(playIntent);
+        musicService = null;
+        super.onDestroy();
     }
 
     @Override
@@ -125,59 +183,6 @@ public class Main_Activity extends AppCompatActivity {
             musicBound = false;
         }
     };
-
-
-    @Override
-    protected void onStart() {
-        Log.d(TAG, "onStart()");
-        Main_ActivityHelper.activity = this;
-        Main_ActivityHelper.context = this;
-        super.onStart();
-        if (playIntent == null) {
-            playIntent = new Intent(this, MusicService.class);
-            bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
-
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        Log.d(TAG, "onResume()");
-        super.onResume();
-    }
-
-    @Override
-    protected void onRestart() {
-        Log.d(TAG, "onRestart()");
-        super.onRestart();
-    }
-
-    @Override
-    protected void onPause() {
-        Log.d(TAG, "onPause()");
-        super.onPause();
-    }
-
-    @Override
-    protected void onStop() {
-        Log.d(TAG, "onStop()");
-        themeController.saveVisualTheme();
-        Main_ActivityHelper.setActivityAndContextToNull();
-        if (musicService != null && musicService.getIsPlaying())
-            musicService.startForeground(MusicServiceHelper.NOTIFICATION_ID,
-                    orinNotification.foregroundNotification(musicService.getMediaPlayer()));
-        super.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        Log.d(TAG, "onDestroy()");
-        Main_ActivityHelper.setActivityAndContextToNull();
-        ButtonController.setImageButtonsToNull();
-        stopService(playIntent);
-        musicService = null;
-        super.onDestroy();
-    }
 
     public void songPicked(View view) {
         //TODO not working as intended, song doesnt gray out if next if pressed and shuffle is off

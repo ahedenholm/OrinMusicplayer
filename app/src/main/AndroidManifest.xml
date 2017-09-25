@@ -18,7 +18,7 @@
         >
 
         <activity
-            android:name="com.orin.anders.orinmusicplayer.Main_Activity"
+            android:name="com.orin.anders.orinmusicplayer.activities.Main_Activity"
             android:launchMode="singleTop"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
@@ -29,6 +29,15 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>>
+
+        <activity android:name=".activities.Artist_Activity"
+            android:launchMode="singleTop"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+
+            />
+
         <service android:name="com.orin.anders.orinmusicplayer.MusicService"/>
     </application>
 </manifest>

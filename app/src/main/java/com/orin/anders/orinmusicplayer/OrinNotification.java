@@ -10,13 +10,15 @@ import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.support.v4.app.NotificationCompat;
 
+import com.orin.anders.orinmusicplayer.activities.Main_Activity;
+
 public class OrinNotification {
 
     private Bitmap orinNotificationIcon;
     private Context context;
 
-    NotificationCompat.Builder notificationBuilder;
-    NotificationManager notificationManager;
+    private NotificationCompat.Builder notificationBuilder;
+    private NotificationManager notificationManager;
 
     public OrinNotification(Context context) {
         this.context = context;

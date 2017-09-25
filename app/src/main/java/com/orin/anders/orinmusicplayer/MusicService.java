@@ -3,26 +3,24 @@ package com.orin.anders.orinmusicplayer;
 import android.app.Activity;
 import android.app.Service;
 import android.content.BroadcastReceiver;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Bitmap;
-import android.media.MediaPlayer;
-import android.os.IBinder;
-import android.provider.MediaStore;
-import android.support.annotation.Nullable;
-
-import java.util.ArrayList;
-import java.util.Random;
-
-import android.content.ContentUris;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Binder;
+import android.os.IBinder;
 import android.os.PowerManager;
+import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.Random;
 
     /*
     This class handles the various playback funtions.
@@ -102,7 +100,13 @@ public class MusicService extends Service implements
                         volumeDefault();
                         break;
                     case AudioManager.AUDIOFOCUS_LOSS:
-                        pauseSong();
+                        //illegalStateException is thrown here on isPlaying() in pauseSong() upon
+                        //reentering the app after closing it.
+                        try {
+                            pauseSong();
+                        } catch (Exception e){
+                            e.printStackTrace();
+                        }
                         Log.e(TAG, "AUDIOFOCUS_LOSS");
                         break;
                     case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
@@ -124,8 +128,8 @@ public class MusicService extends Service implements
         songArrayList = theSongs;
     }
 
-    class MusicBinder extends Binder {
-        MusicService getService() {
+    public class MusicBinder extends Binder {
+        public MusicService getService() {
             return MusicService.this;
         }
     }
@@ -203,7 +207,6 @@ public class MusicService extends Service implements
                     songCurrentTimeMillisec = 0;
                     playSong();
                 } else {
-                    Log.d(TAG, "nextSong() !songPosition < songArrayList.size, songPosition: " + String.valueOf(songPosition));
                     songPosition = 0;
                     songCurrentTimeMillisec = 0;
                     playSong();
@@ -271,7 +274,7 @@ public class MusicService extends Service implements
         return mediaPlayer.isPlaying();
     }
 
-    public MediaPlayer getMediaPlayer(){
+    public MediaPlayer getMediaPlayer() {
         return mediaPlayer;
     }
 
@@ -283,7 +286,7 @@ public class MusicService extends Service implements
         mediaPlayer.setVolume(1, 1);
     }
 
-    public void setContext(Context ctx){
+    public void setContext(Context ctx) {
         context = ctx;
     }
 

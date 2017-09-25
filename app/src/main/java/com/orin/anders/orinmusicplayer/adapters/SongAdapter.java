@@ -1,14 +1,18 @@
-package com.orin.anders.orinmusicplayer;
-
-import java.util.ArrayList;
+package com.orin.anders.orinmusicplayer.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.view.*;
-import android.view.View;
-import android.widget.BaseAdapter;
+
+import com.orin.anders.orinmusicplayer.R;
+import com.orin.anders.orinmusicplayer.Song;
+import com.orin.anders.orinmusicplayer.TimeConverter;
+
+import java.util.ArrayList;
 
 /*
 SongAdapter class should inflate a linearlayout with a songlist onto the activity_main layout
