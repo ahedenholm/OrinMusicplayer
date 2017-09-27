@@ -44,6 +44,7 @@ public class Main_Activity extends AppCompatActivity {
     private Animation animation = new Animation();
     private ListView songListView;
     private Intent playIntent;
+    private Context context;
     private boolean musicBound = false;
     private boolean songListEnabled;
     private static final String TAG = "Debug Message";
@@ -55,6 +56,8 @@ public class Main_Activity extends AppCompatActivity {
 
         Main_ActivityHelper.activity = this;
         Main_ActivityHelper.context = this;
+        context = this;
+
         ButtonController.imageButtonPlay = (ImageButton) findViewById(R.id.imageButtonPlay);
         ButtonController.imageButtonOpen = (ImageButton) findViewById(R.id.imageButtonOpen);
         ButtonController.imageButtonNext = (ImageButton) findViewById(R.id.imageButtonNext);
@@ -201,9 +204,14 @@ public class Main_Activity extends AppCompatActivity {
         ButtonController.imageButtonOpen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent openArtistIntent = new Intent(context, Artist_Activity.class);
+                startActivity(openArtistIntent);
+
+                /* Opens a songlist within the same activity
                 animation.fadeListView(songListView);
                 animation.fadeImageButton(ButtonController.imageButtonSwitchtheme);
                 songListEnabled = !songListEnabled;
+                */
             }
         });
     }

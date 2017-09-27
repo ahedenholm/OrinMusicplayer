@@ -24,6 +24,7 @@ public class OrinNotification {
         this.context = context;
     }
 
+    //status bar notification adjusting with playback changes
     private void setupPlaybackNotification(MediaPlayer mediaPlayer) {
         notificationBuilder = new NotificationCompat.Builder(context);
 

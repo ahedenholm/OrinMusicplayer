@@ -18,7 +18,6 @@ public class ThemeController {
 
 
     private Context context;
-
     private SharedPreferences sharedPreferencesTheme;
 
     private SharedPreferences.Editor sharedPreferencesThemeEditor;
