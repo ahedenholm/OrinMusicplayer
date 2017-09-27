@@ -1,9 +1,7 @@
-package com.orin.anders.orinmusicplayer;
+package com.orin.anders.orinmusicplayer.helpers;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 
 public class Main_ActivityHelper {
 

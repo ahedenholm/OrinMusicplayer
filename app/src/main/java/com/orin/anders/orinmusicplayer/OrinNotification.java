@@ -11,6 +11,7 @@ import android.media.MediaPlayer;
 import android.support.v4.app.NotificationCompat;
 
 import com.orin.anders.orinmusicplayer.activities.Main_Activity;
+import com.orin.anders.orinmusicplayer.helpers.MusicServiceHelper;
 
 public class OrinNotification {
 

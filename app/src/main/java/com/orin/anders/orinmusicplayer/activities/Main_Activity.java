@@ -19,16 +19,16 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.orin.anders.orinmusicplayer.Animation;
-import com.orin.anders.orinmusicplayer.ButtonController;
-import com.orin.anders.orinmusicplayer.Main_ActivityHelper;
 import com.orin.anders.orinmusicplayer.MusicService;
 import com.orin.anders.orinmusicplayer.MusicService.MusicBinder;
-import com.orin.anders.orinmusicplayer.MusicServiceHelper;
 import com.orin.anders.orinmusicplayer.OrinNotification;
 import com.orin.anders.orinmusicplayer.R;
 import com.orin.anders.orinmusicplayer.Song;
-import com.orin.anders.orinmusicplayer.ThemeController;
 import com.orin.anders.orinmusicplayer.adapters.SongAdapter;
+import com.orin.anders.orinmusicplayer.controllers.ButtonController;
+import com.orin.anders.orinmusicplayer.controllers.ThemeController;
+import com.orin.anders.orinmusicplayer.helpers.Main_ActivityHelper;
+import com.orin.anders.orinmusicplayer.helpers.MusicServiceHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -1,8 +1,10 @@
-package com.orin.anders.orinmusicplayer;
+package com.orin.anders.orinmusicplayer.controllers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.widget.RelativeLayout;
+import android.view.ViewGroup;
+
+import com.orin.anders.orinmusicplayer.R;
 
 
     /*
@@ -16,50 +18,47 @@ public class ThemeController {
     public static final int THEME_MARINE = 3;
     public static Integer currentTheme;
 
-
     private Context context;
     private SharedPreferences sharedPreferencesTheme;
 
     private SharedPreferences.Editor sharedPreferencesThemeEditor;
     public ThemeController(Context context){
         this.context = context;
-        sharedPreferencesTheme = context.getSharedPreferences("THEME_PREFS", context.MODE_PRIVATE);
-        sharedPreferencesThemeEditor = sharedPreferencesTheme.edit();
     }
 
-    public void setThemeGreenfield(RelativeLayout relativeLayout){
-        relativeLayout.setBackgroundResource(R.drawable.bg_greenfield);
+    public void setThemeGreenfield(ViewGroup viewGroup){
+        viewGroup.setBackgroundResource(R.drawable.bg_greenfield);
         currentTheme = THEME_GREENFIELD;
     }
 
-    public void setThemePurple(RelativeLayout relativeLayout){
-        relativeLayout.setBackgroundResource(R.drawable.bg_purple);
+    public void setThemePurple(ViewGroup viewGroup){
+        viewGroup.setBackgroundResource(R.drawable.bg_purple);
         currentTheme = THEME_PURPLE;
     }
 
-    public void setThemeSkyblue(RelativeLayout relativeLayout){
-        relativeLayout.setBackgroundResource(R.drawable.bg_skyblue);
+    public void setThemeSkyblue(ViewGroup viewGroup){
+        viewGroup.setBackgroundResource(R.drawable.bg_skyblue);
         currentTheme = THEME_SKYBLUE;
     }
 
-    public void setThemeMarine(RelativeLayout relativeLayout){
-        relativeLayout.setBackgroundResource(R.drawable.bg_marine);
+    public void setThemeMarine(ViewGroup viewGroup){
+        viewGroup.setBackgroundResource(R.drawable.bg_marine);
         currentTheme = THEME_MARINE;
     }
 
-    public void setTheme(int theme, RelativeLayout relativeLayout) {
+    public void setTheme(int theme, ViewGroup viewGroup) {
         switch (theme) {
             case THEME_GREENFIELD:
-                setThemeGreenfield(relativeLayout);
+                setThemeGreenfield(viewGroup);
                 break;
             case THEME_PURPLE:
-                setThemePurple(relativeLayout);
+                setThemePurple(viewGroup);
                 break;
             case THEME_SKYBLUE:
-                setThemeSkyblue(relativeLayout);
+                setThemeSkyblue(viewGroup);
                 break;
             case THEME_MARINE:
-                setThemeMarine(relativeLayout);
+                setThemeMarine(viewGroup);
                 break;
             default:
                 break;
@@ -67,10 +66,12 @@ public class ThemeController {
     }
 
     public SharedPreferences getSharedPreferencesTheme() {
+        sharedPreferencesTheme = context.getSharedPreferences("THEME_PREFS", context.MODE_PRIVATE);
         return sharedPreferencesTheme;
     }
 
     public void saveVisualTheme(){
+        sharedPreferencesThemeEditor = sharedPreferencesTheme.edit();
         sharedPreferencesThemeEditor.putInt("savedTheme", ThemeController.currentTheme);
         sharedPreferencesThemeEditor.apply();
     }

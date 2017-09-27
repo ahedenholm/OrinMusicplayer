@@ -1,6 +1,8 @@
-package com.orin.anders.orinmusicplayer;
+package com.orin.anders.orinmusicplayer.controllers;
 
 import android.widget.ImageButton;
+
+import com.orin.anders.orinmusicplayer.R;
 
 public class ButtonController {
 

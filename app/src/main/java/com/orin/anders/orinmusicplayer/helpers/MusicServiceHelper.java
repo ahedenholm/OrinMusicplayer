@@ -1,4 +1,6 @@
-package com.orin.anders.orinmusicplayer;
+package com.orin.anders.orinmusicplayer.helpers;
+
+import com.orin.anders.orinmusicplayer.Song;
 
 public class MusicServiceHelper {
 

@@ -39,13 +39,11 @@ public class ArtistViewAdapter extends RecyclerView.Adapter {
         return imageResList.size();
     }
 
-
     private static class ItemViewHolder extends RecyclerView.ViewHolder {
         private ImageView item;
 
         public ItemViewHolder(View itemView) {
             super(itemView);
-
             this.item = (ImageView) itemView.findViewById(R.id.artist_image);
         }
     }
