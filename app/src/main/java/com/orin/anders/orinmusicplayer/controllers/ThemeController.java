@@ -20,8 +20,8 @@ public class ThemeController {
 
     private Context context;
     private SharedPreferences sharedPreferencesTheme;
-
     private SharedPreferences.Editor sharedPreferencesThemeEditor;
+
     public ThemeController(Context context){
         this.context = context;
     }

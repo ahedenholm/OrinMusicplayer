@@ -209,8 +209,8 @@ public class Main_Activity extends AppCompatActivity {
                 startActivity(openArtistIntent);
                 */
                 //Opens a songlist within the same activity
-                animation.fadeListView(songListView);
-                animation.fadeImageButton(ButtonController.imageButtonSwitchtheme);
+                animation.fadeView(songListView);
+                animation.fadeView(ButtonController.imageButtonSwitchtheme);
                 songListEnabled = !songListEnabled;
 
             }

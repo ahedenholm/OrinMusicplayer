@@ -62,9 +62,9 @@ public class Artist_Activity extends AppCompatActivity {
     }
 
     private List<Integer> getArtistList(){
-        List<Integer> artistImage = new ArrayList<>();
+        List<Integer> artistImages = new ArrayList<>();
 
-        return artistImage;
+        return artistImages;
     }
 
     private static class CustomSpanSizeLookup extends GridLayoutManager.SpanSizeLookup {
