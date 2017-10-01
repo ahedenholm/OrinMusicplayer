@@ -16,9 +16,9 @@ import java.util.List;
 
 public class Artist_Activity extends AppCompatActivity {
 
-    RecyclerView recyclerView;
-    GridLayoutManager gridLayoutManager;
+    private GridLayoutManager gridLayoutManager;
     private ThemeController themeController;
+    private RecyclerView recyclerView;
     private ViewGroup viewGroupArtistLayout;
 
 
@@ -28,7 +28,6 @@ public class Artist_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_artist);
 
         viewGroupArtistLayout = (ViewGroup) findViewById(R.id.artist_layout);
-
         themeController = new ThemeController(this);
         themeController.setTheme(ThemeController.currentTheme, viewGroupArtistLayout);
 
@@ -37,36 +36,41 @@ public class Artist_Activity extends AppCompatActivity {
         gridLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
         // provide our CustomSpanSizeLookup which determines how many spans each item in grid will occupy
         gridLayoutManager.setSpanSizeLookup(new CustomSpanSizeLookup());
-        // provide our GridLayoutManager to the view
         recyclerView.setLayoutManager(gridLayoutManager);
+
         // this is fake list of images
         List<Integer> imageResList = getMockedImageList();
-        // finally, provide adapter to the recycler view
         ArtistViewAdapter adapter = new ArtistViewAdapter(imageResList);
         recyclerView.setAdapter(adapter);
     }
 
     private List<Integer> getMockedImageList() {
-        // fake images list, you'd need to upload your own image resources
-        List<Integer> imageResList = new ArrayList<Integer>();
+        List<Integer> imageResList = new ArrayList<>();
 
-        imageResList.add(R.drawable.orin_notification_image);
+        imageResList.add(R.drawable.bg_marine);
+        imageResList.add(R.drawable.bg_greenfield);
+        imageResList.add(R.drawable.bg_skyblue);
+        imageResList.add(R.drawable.bg_marine);
+        imageResList.add(R.drawable.bg_skyblue);
+        imageResList.add(R.drawable.bg_purple);
         imageResList.add(R.drawable.bg_greenfield);
         imageResList.add(R.drawable.bg_marine);
+        imageResList.add(R.drawable.bg_skyblue);
+        imageResList.add(R.drawable.bg_purple);
+        imageResList.add(R.drawable.bg_greenfield);
         return imageResList;
     }
 
+    private List<Integer> getArtistList(){
+        List<Integer> artistImage = new ArrayList<>();
+
+        return artistImage;
+    }
 
     private static class CustomSpanSizeLookup extends GridLayoutManager.SpanSizeLookup {
         @Override
         public int getSpanSize(int i) {
-            if(i == 0 || i == 1) {
-                // grid items on positions 0 and 1 will occupy 2 spans of the grid
-                return 2;
-            } else {
-                // the rest of the items will behave normally and occupy only 1 span
-                return 1;
-            }
+            return 1;
         }
     }
 }

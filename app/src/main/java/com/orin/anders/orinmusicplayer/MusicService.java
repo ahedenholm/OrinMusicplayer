@@ -61,31 +61,9 @@ public class MusicService extends Service implements
         mediaPlayer = new MediaPlayer();
         songCurrentTimeMillisec = 0;
         initMusicPlayer();
+        MusicServiceHelper.setPlaybackMode(MusicServiceHelper.REPEAT_ALL);
         songList = (ListView) Main_ActivityHelper.activity.findViewById(R.id.song_list);
         orinNotification = new OrinNotification(this);
-        becomingNoisyReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                if (AudioManager.ACTION_AUDIO_BECOMING_NOISY.equals(intent.getAction())) {
-                    try {
-                        pauseSong();
-                        Toast.makeText(context, "Headphones disconnected.", Toast.LENGTH_SHORT).show();
-                    } catch (RuntimeException re) {
-                        re.printStackTrace();
-                    }
-                }
-            }
-        };
-    }
-
-    //initialize listeners, audio focus, mediaplayer, set playbackMode
-    public void initMusicPlayer() {
-        mediaPlayer.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
-        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        mediaPlayer.setOnPreparedListener(this);
-        mediaPlayer.setOnCompletionListener(this);
-        mediaPlayer.setOnErrorListener(this);
-        MusicServiceHelper.setPlaybackMode(MusicServiceHelper.REPEAT_ALL);
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         onAudioFocusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
             @Override
@@ -126,6 +104,28 @@ public class MusicService extends Service implements
         };
         audioFocusResult = audioManager.requestAudioFocus(onAudioFocusChangeListener,
                 AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+        becomingNoisyReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (AudioManager.ACTION_AUDIO_BECOMING_NOISY.equals(intent.getAction())) {
+                    try {
+                        pauseSong();
+                        Toast.makeText(context, "Headphones disconnected.", Toast.LENGTH_SHORT).show();
+                    } catch (RuntimeException re) {
+                        re.printStackTrace();
+                    }
+                }
+            }
+        };
+    }
+
+    //initialize listeners, audio focus, mediaplayer, set playbackMode
+    public void initMusicPlayer() {
+        mediaPlayer.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
+        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        mediaPlayer.setOnPreparedListener(this);
+        mediaPlayer.setOnCompletionListener(this);
+        mediaPlayer.setOnErrorListener(this);
     }
 
     public void setList(ArrayList<Song> theSongs) {

@@ -204,14 +204,15 @@ public class Main_Activity extends AppCompatActivity {
         ButtonController.imageButtonOpen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /*
                 Intent openArtistIntent = new Intent(context, Artist_Activity.class);
                 startActivity(openArtistIntent);
-
-                /* Opens a songlist within the same activity
+                */
+                //Opens a songlist within the same activity
                 animation.fadeListView(songListView);
                 animation.fadeImageButton(ButtonController.imageButtonSwitchtheme);
                 songListEnabled = !songListEnabled;
-                */
+
             }
         });
     }
