@@ -41,7 +41,7 @@ public class Main_Activity extends AppCompatActivity {
     private ArrayList<Song> songList;
     private RelativeLayout relativeLayout;
     private MusicService musicService;
-    private Animation animation = new Animation();
+    private Animation animation;
     private ListView songListView;
     private Intent playIntent;
     private Context context;
@@ -67,6 +67,7 @@ public class Main_Activity extends AppCompatActivity {
         ButtonController.imageButtonPlaybackMode = (ImageButton) findViewById(R.id.imageButtonPlaybackMode);
 
         orinNotification = new OrinNotification(this);
+        animation = new Animation(this);
         songListView = (ListView) findViewById(R.id.song_list);
         songList = new ArrayList<>();
         relativeLayout = (RelativeLayout) findViewById(R.id.main_layout);
@@ -212,6 +213,7 @@ public class Main_Activity extends AppCompatActivity {
                 animation.fadeView(songListView);
                 animation.fadeView(ButtonController.imageButtonSwitchtheme);
                 songListEnabled = !songListEnabled;
+                animation.slideUp();
 
             }
         });

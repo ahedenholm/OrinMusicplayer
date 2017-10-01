@@ -1,12 +1,19 @@
 package com.orin.anders.orinmusicplayer;
 
 import android.animation.ValueAnimator;
+import android.content.Context;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ListView;
 
 public class Animation {
 
+    Context context;
+
+    public Animation(Context context){
+        this.context = context;
+    }
     ValueAnimator valueAnimator;
 
     public void fadeView(final View view){
@@ -34,6 +41,10 @@ public class Animation {
             valueAnimator.setDuration(200);
             valueAnimator.start();
         }
+    }
+
+    public void slideUp(){
+        AnimationUtils.loadAnimation(context, R.anim.slide_up_playback_buttons);
     }
 
 
