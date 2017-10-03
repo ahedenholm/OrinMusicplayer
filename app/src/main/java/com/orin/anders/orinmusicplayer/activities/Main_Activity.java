@@ -18,7 +18,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
-import com.orin.anders.orinmusicplayer.Animation;
+import com.orin.anders.orinmusicplayer.Animations;
 import com.orin.anders.orinmusicplayer.MusicService;
 import com.orin.anders.orinmusicplayer.MusicService.MusicBinder;
 import com.orin.anders.orinmusicplayer.OrinNotification;
@@ -41,13 +41,13 @@ public class Main_Activity extends AppCompatActivity {
     private ArrayList<Song> songList;
     private RelativeLayout relativeLayout;
     private MusicService musicService;
-    private Animation animation;
+    private Animations animations;
     private ListView songListView;
     private Intent playIntent;
     private Context context;
     private boolean musicBound = false;
     private boolean songListEnabled;
-    private static final String TAG = "Main_Activity.Debug Message";
+    private static final String TAG = "Main_Act.Debug Message";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -67,7 +67,7 @@ public class Main_Activity extends AppCompatActivity {
         ButtonController.imageButtonPlaybackMode = (ImageButton) findViewById(R.id.imageButtonPlaybackMode);
 
         orinNotification = new OrinNotification(this);
-        animation = new Animation(this, this);
+        animations = new Animations(this, this);
         songListView = (ListView) findViewById(R.id.song_list);
         songList = new ArrayList<>();
         relativeLayout = (RelativeLayout) findViewById(R.id.main_layout);
@@ -210,10 +210,10 @@ public class Main_Activity extends AppCompatActivity {
                 startActivity(openArtistIntent);
                 */
                 //Opens a songlist within the same activity
-                animation.fadeView(songListView);
-                animation.fadeView(ButtonController.imageButtonSwitchtheme);
+                animations.fadeView(songListView);
+                animations.fadeView(ButtonController.imageButtonSwitchtheme);
                 songListEnabled = !songListEnabled;
-                //animation.slideUpPlaybackButtons();
+                //animations.slideUpPlaybackButtons();
             }
         });
     }

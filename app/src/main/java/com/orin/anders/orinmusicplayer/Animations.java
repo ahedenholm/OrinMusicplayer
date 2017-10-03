@@ -5,20 +5,24 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Space;
 
 import com.orin.anders.orinmusicplayer.controllers.ButtonController;
 
-public class Animation {
+public class Animations extends android.view.animation.Animation {
 
-    private static final String TAG = "Animation.Debug Message";
-    Space centerSpace;
-    Context context;
-    Activity activity;
+    private static final String TAG = "Anim.Debug Message";
+    private Animation animation;
+    private Activity activity;
+    private Context context;
+    private Space centerSpace;
 
-    public Animation(Context context, Activity activity) {
+
+    public Animations(Context context, Activity activity) {
         this.context = context;
         this.activity = activity;
     }
@@ -55,6 +59,8 @@ public class Animation {
     public void slideUpPlaybackButtons() {
         Log.d(TAG, "play" + ButtonController.imageButtonPlay.getY());
         Log.d(TAG, "stop" + ButtonController.imageButtonStop.getY());
+
+        animation = AnimationUtils.loadAnimation(context, R.anim.slide_up_playback_buttons);
         centerSpace = (Space) activity.findViewById(R.id.centerSpace);
 
         for (int currentButton = 0; currentButton < ButtonController.playbackButtons.length; currentButton++) {
