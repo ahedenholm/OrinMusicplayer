@@ -6,7 +6,7 @@ import com.orin.anders.orinmusicplayer.R;
 
 public class ButtonController {
 
-    private static final String TAG = "Debug Message";
+    private static final String TAG = "ButtonController.Debug Message";
 
     //TODO referencing views through statics can cause leaks if activities are changed, since GC
     //cant release anything that keeps referencing a view

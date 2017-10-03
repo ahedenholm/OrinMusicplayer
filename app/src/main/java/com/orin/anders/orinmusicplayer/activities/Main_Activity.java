@@ -47,7 +47,7 @@ public class Main_Activity extends AppCompatActivity {
     private Context context;
     private boolean musicBound = false;
     private boolean songListEnabled;
-    private static final String TAG = "Debug Message";
+    private static final String TAG = "Main_Activity.Debug Message";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
