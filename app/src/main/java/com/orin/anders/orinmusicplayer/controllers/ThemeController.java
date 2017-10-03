@@ -16,6 +16,7 @@ public class ThemeController {
     public static final int THEME_PURPLE = 1;
     public static final int THEME_SKYBLUE = 2;
     public static final int THEME_MARINE = 3;
+    public static final int THEME_FREELOVE = 4;
     public static Integer currentTheme;
 
     private Context context;
@@ -45,6 +46,10 @@ public class ThemeController {
         viewGroup.setBackgroundResource(R.drawable.bg_marine);
         currentTheme = THEME_MARINE;
     }
+    public void setThemeFreeLove(ViewGroup viewGroup){
+        viewGroup.setBackgroundResource(R.drawable.bg_marine);
+        currentTheme = THEME_FREELOVE;
+    }
 
     public void setTheme(int theme, ViewGroup viewGroup) {
         switch (theme) {
@@ -59,6 +64,9 @@ public class ThemeController {
                 break;
             case THEME_MARINE:
                 setThemeMarine(viewGroup);
+                break;
+            case THEME_FREELOVE:
+                setThemeFreeLove(viewGroup);
                 break;
             default:
                 break;

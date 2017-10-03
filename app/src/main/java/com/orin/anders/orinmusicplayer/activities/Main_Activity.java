@@ -67,7 +67,7 @@ public class Main_Activity extends AppCompatActivity {
         ButtonController.imageButtonPlaybackMode = (ImageButton) findViewById(R.id.imageButtonPlaybackMode);
 
         orinNotification = new OrinNotification(this);
-        animation = new Animation(this);
+        animation = new Animation(this, this);
         songListView = (ListView) findViewById(R.id.song_list);
         songList = new ArrayList<>();
         relativeLayout = (RelativeLayout) findViewById(R.id.main_layout);
@@ -213,8 +213,7 @@ public class Main_Activity extends AppCompatActivity {
                 animation.fadeView(songListView);
                 animation.fadeView(ButtonController.imageButtonSwitchtheme);
                 songListEnabled = !songListEnabled;
-                animation.slideUp();
-
+                //animation.slideUpPlaybackButtons();
             }
         });
     }
@@ -247,8 +246,10 @@ public class Main_Activity extends AppCompatActivity {
                         themeController.setThemeMarine(relativeLayout);
                         break;
                     case ThemeController.THEME_MARINE:
-                        themeController.setThemePurple(relativeLayout);
+                        themeController.setThemeFreeLove(relativeLayout);
                         break;
+                    case ThemeController.THEME_FREELOVE:
+                        themeController.setThemePurple(relativeLayout);
                     default:
                         themeController.setThemeMarine(relativeLayout);
                 }
