@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Space;
 
@@ -59,15 +60,29 @@ public class Animations extends android.view.animation.Animation {
     public void slideUpPlaybackButtons() {
         Log.d(TAG, "play" + ButtonController.imageButtonPlay.getY());
         Log.d(TAG, "stop" + ButtonController.imageButtonStop.getY());
+
+        final float moveYmultiplier = -2.4f;
+        final ImageButton[] buttonArray = {
+                ButtonController.imageButtonPrev,
+                ButtonController.imageButtonPlay,
+                ButtonController.imageButtonNext,
+                ButtonController.imageButtonOpen,
+                ButtonController.imageButtonStop,
+                ButtonController.imageButtonPlaybackMode};
+        final float[] oldPositionArray = new float[buttonArray.length];
         AnimationListener animationListener = new AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-
             }
 
             @Override
             public void onAnimationEnd(Animation animation) {
-
+                Log.d(TAG,"anim end");
+                for (int x = 0;x < buttonArray.length; x++){
+                    Log.d(TAG, ""+buttonArray[x].getY());
+                    //buttonArray[x].setY(oldPositionArray[x] * moveYmultiplier);
+                    Log.d(TAG, ""+buttonArray[x].getY());
+                }
             }
 
             @Override
@@ -75,16 +90,20 @@ public class Animations extends android.view.animation.Animation {
 
             }
         };
-        TranslateAnimation translateAnimation = new TranslateAnimation(0,0,0,0,
-                Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, -2.5f);
-        translateAnimation.setDuration(500);
 
-        ButtonController.imageButtonPrev.startAnimation(translateAnimation);
-        ButtonController.imageButtonPlay.startAnimation(translateAnimation);
-        ButtonController.imageButtonNext.startAnimation(translateAnimation);
-        ButtonController.imageButtonOpen.startAnimation(translateAnimation);
-        ButtonController.imageButtonStop.startAnimation(translateAnimation);
-        ButtonController.imageButtonPlaybackMode.startAnimation(translateAnimation);
+        TranslateAnimation translateAnimation = new TranslateAnimation(0, 0, 0, 0,
+                Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, moveYmultiplier);
+        //translateAnimation.setFillAfter(true);
+        translateAnimation.setAnimationListener(animationListener);
+        translateAnimation.setDuration(200);
+
+        for (int x = 0;x < buttonArray.length; x++){
+            oldPositionArray[x] = buttonArray[x].getY();
+        }
+
+        for (int x = 0; x < buttonArray.length; x++) {
+            buttonArray[x].startAnimation(translateAnimation);
+        }
 
         Log.d(TAG, "play" + ButtonController.imageButtonPlay.getY());
         Log.d(TAG, "stop" + ButtonController.imageButtonStop.getY());

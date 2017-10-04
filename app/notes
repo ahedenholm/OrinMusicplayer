@@ -7,24 +7,19 @@ visual themes: Hexagon (boards of canada inspired), Tyrone (gray, Gravity’s Ra
 https://medium.com/mobile-development-weltn24/keep-your-droid-clean-e9c093140eb6
 
 ---------------------------------------------------------------------
-v0.1
+v1.0
 features:
 portrait design,
-2 visual themes.
-choose one track from device.
-play, stop.
-mp3 support.
-show track name, track artist, track length
-
-buttons: play, stop, menu, open track
-images: 2 background images.
-animations: open songlist, open menu, switch theme
+2-4 visual themes.
+play, pause, stop, previous, next.
+repeat all, repeat one track, shuffle
+show track name, track artist, track length in notification
+animations: open songlist, open menu, switch theme, slide playback buttons upwards
 
 
 ---------------------------------------------------------------------
-v0.2
+v1.
 added features:
-pause, next, previous.
 
 
 
