@@ -19,9 +19,9 @@ public class ThemeController {
     public static final int THEME_FREELOVE = 4;
     public static Integer currentTheme;
 
-    private Context context;
-    private SharedPreferences sharedPreferencesTheme;
     private SharedPreferences.Editor sharedPreferencesThemeEditor;
+    private SharedPreferences sharedPreferencesTheme;
+    private Context context;
 
     public ThemeController(Context context){
         this.context = context;
@@ -47,7 +47,7 @@ public class ThemeController {
         currentTheme = THEME_MARINE;
     }
     public void setThemeFreeLove(ViewGroup viewGroup){
-        viewGroup.setBackgroundResource(R.drawable.bg_marine);
+        viewGroup.setBackgroundResource(R.drawable.bg_freelove);
         currentTheme = THEME_FREELOVE;
     }
 

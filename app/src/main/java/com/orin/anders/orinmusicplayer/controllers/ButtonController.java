@@ -17,15 +17,6 @@ public class ButtonController {
     public static ImageButton imageButtonStop;
     public static ImageButton imageButtonSwitchtheme;
     public static ImageButton imageButtonPlaybackMode;
-    public static ImageButton[] playbackButtons = {
-            ButtonController.imageButtonPlay,
-            ButtonController.imageButtonOpen,
-            ButtonController.imageButtonNext,
-            ButtonController.imageButtonPrev,
-            ButtonController.imageButtonStop,
-            ButtonController.imageButtonSwitchtheme,
-            ButtonController.imageButtonPlaybackMode
-    };
 
     public static void setImageButtonsToNull(){
         ButtonController.imageButtonPlay = null;

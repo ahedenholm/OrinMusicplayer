@@ -53,7 +53,7 @@ public class MusicService extends Service implements
     private int audioFocusResult;
     private int songCurrentTimeMillisec;
     private final IBinder musicBind = new MusicBinder();
-    private static final String TAG = "MusicService.Debug Message";
+    private static final String TAG = "MusicServ.Debug Message";
 
     public void onCreate() {
         super.onCreate();

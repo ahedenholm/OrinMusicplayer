@@ -213,7 +213,7 @@ public class Main_Activity extends AppCompatActivity {
                 animations.fadeView(songListView);
                 animations.fadeView(ButtonController.imageButtonSwitchtheme);
                 songListEnabled = !songListEnabled;
-                //animations.slideUpPlaybackButtons();
+                animations.slideUpPlaybackButtons();
             }
         });
     }
@@ -235,6 +235,7 @@ public class Main_Activity extends AppCompatActivity {
         ButtonController.imageButtonSwitchtheme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.d(TAG, ""+ThemeController.currentTheme);
                 switch (ThemeController.currentTheme) {
                     case ThemeController.THEME_PURPLE:
                         themeController.setThemeGreenfield(relativeLayout);
@@ -250,6 +251,7 @@ public class Main_Activity extends AppCompatActivity {
                         break;
                     case ThemeController.THEME_FREELOVE:
                         themeController.setThemePurple(relativeLayout);
+                        break;
                     default:
                         themeController.setThemeMarine(relativeLayout);
                 }
