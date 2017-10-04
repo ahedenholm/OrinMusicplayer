@@ -1,4 +1,4 @@
-package com.orin.anders.orinmusicplayer;
+package com.orin.anders.orinmusicplayer.utils;
 
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;

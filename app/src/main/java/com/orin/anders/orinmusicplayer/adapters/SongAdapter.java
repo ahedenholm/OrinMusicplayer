@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.orin.anders.orinmusicplayer.R;
 import com.orin.anders.orinmusicplayer.Song;
-import com.orin.anders.orinmusicplayer.TimeConverter;
+import com.orin.anders.orinmusicplayer.utils.TimeConverter;
 
 import java.util.ArrayList;
 
