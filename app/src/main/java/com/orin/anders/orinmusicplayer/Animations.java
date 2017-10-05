@@ -7,12 +7,11 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.Space;
 
 import com.orin.anders.orinmusicplayer.controllers.ButtonController;
+import com.orin.anders.orinmusicplayer.utils.DeviceScreenCheck;
 
 public class Animations extends android.view.animation.Animation {
 
@@ -58,18 +57,35 @@ public class Animations extends android.view.animation.Animation {
     }
 
     public void slideUpPlaybackButtons() {
-        Log.d(TAG, "play" + ButtonController.imageButtonPlay.getY());
-        Log.d(TAG, "stop" + ButtonController.imageButtonStop.getY());
+        /*TODO
+        This method is too convoluted, it's goal is to slide the playback buttons upwards on
+        the screen, and make room for the song list.
+        TranslateAnimation doesn't automatically save the new position of the buttons after the
+        animation of the playback buttons is finished. Hence the buttons return to their first position.
 
-        final float moveYmultiplier = -2.4f;
-        final ImageButton[] buttonArray = {
+        Current approach: attach animationListener and use setY() on buttons in onAnimationEnd()
+         */
+
+        final float heightDifference =
+                ButtonController.imageButtonStop.getY() - ButtonController.imageButtonPlay.getY();
+        final float targetYOpenList = DeviceScreenCheck.getDeviceHeight(activity) * 0.05f;
+        final float moveAnimation = targetYOpenList - ButtonController.imageButtonPlay.getY();
+        final Space centerSpace = (Space) activity.findViewById(R.id.centerSpace);
+        final ImageButton[] buttonArrayUpper = {
                 ButtonController.imageButtonPrev,
                 ButtonController.imageButtonPlay,
-                ButtonController.imageButtonNext,
+                ButtonController.imageButtonNext,};
+        final ImageButton[] buttonArrayLower = {
                 ButtonController.imageButtonOpen,
                 ButtonController.imageButtonStop,
                 ButtonController.imageButtonPlaybackMode};
-        final float[] oldPositionArray = new float[buttonArray.length];
+
+        Log.d(TAG, "device height: "+DeviceScreenCheck.getDeviceHeight(activity));
+        Log.d(TAG, "height dif: "+heightDifference);
+        Log.d(TAG, "play: "+ButtonController.imageButtonPlay.getY());
+        Log.d(TAG, "center: "+centerSpace.getY());
+        Log.d(TAG, "stop: "+ButtonController.imageButtonStop.getY());
+
         AnimationListener animationListener = new AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -77,47 +93,103 @@ public class Animations extends android.view.animation.Animation {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                Log.d(TAG,"anim end");
-                for (int x = 0;x < buttonArray.length; x++){
-                    Log.d(TAG, ""+buttonArray[x].getY());
-                    //buttonArray[x].setY(oldPositionArray[x] * moveYmultiplier);
-                    Log.d(TAG, ""+buttonArray[x].getY());
+                for (int x = 0;x < buttonArrayUpper.length; x++){
+                    buttonArrayUpper[x].setY(targetYOpenList);
                 }
+                for (int x = 0;x < buttonArrayLower.length; x++){
+                    buttonArrayLower[x].setY(targetYOpenList + heightDifference);
+                }
+                Log.d(TAG, "end play: "+ButtonController.imageButtonPlay.getY());
+                Log.d(TAG, "end center: "+centerSpace.getY());
+                Log.d(TAG, "end stop: "+ButtonController.imageButtonStop.getY());
             }
 
             @Override
             public void onAnimationRepeat(Animation animation) {
-
             }
         };
 
         TranslateAnimation translateAnimation = new TranslateAnimation(0, 0, 0, 0,
-                Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, moveYmultiplier);
+                Animation.ABSOLUTE, 0,
+                Animation.ABSOLUTE, moveAnimation);
         //translateAnimation.setFillAfter(true);
         translateAnimation.setAnimationListener(animationListener);
-        translateAnimation.setDuration(200);
+        translateAnimation.setDuration(50);
 
-        for (int x = 0;x < buttonArray.length; x++){
-            oldPositionArray[x] = buttonArray[x].getY();
+        for (int x = 0; x < buttonArrayUpper.length; x++) {
+            buttonArrayUpper[x].startAnimation(translateAnimation);
         }
-
-        for (int x = 0; x < buttonArray.length; x++) {
-            buttonArray[x].startAnimation(translateAnimation);
+        for (int x = 0; x < buttonArrayLower.length; x++) {
+            buttonArrayLower[x].startAnimation(translateAnimation);
         }
-
-        Log.d(TAG, "play" + ButtonController.imageButtonPlay.getY());
-        Log.d(TAG, "stop" + ButtonController.imageButtonStop.getY());
     }
+    public void slideDownPlaybackButtons() {
+        /*TODO
+        This method is too convoluted, it's goal is to slide the playback buttons upwards on
+        the screen, and make room for the song list.
+        TranslateAnimation doesn't automatically save the new position of the buttons after the
+        animation of the playback buttons is finished. Hence the buttons return to their first position.
 
+        Current approach: attach animationListener and use setY() on buttons in onAnimationEnd()
+         */
 
-    //possibly to be used in a global fade method that fades any Object sent to it
-    public Object checkClass(Object object) {
-        if (object instanceof ListView) {
-            return new ListView(null);
-        } else if (object instanceof Button)
-            return new Button(null);
-        return 0;
+        final float heightDifference =
+                ButtonController.imageButtonStop.getY() - ButtonController.imageButtonPlay.getY();
+        final float targetYClosedList = (DeviceScreenCheck.getDeviceHeight(activity) / 2) -
+                heightDifference ;
+        final float moveAnimation = targetYClosedList - ButtonController.imageButtonPlay.getY();
+        final Space centerSpace = (Space) activity.findViewById(R.id.centerSpace);
+        final ImageButton[] buttonArrayUpper = {
+                ButtonController.imageButtonPrev,
+                ButtonController.imageButtonPlay,
+                ButtonController.imageButtonNext,};
+        final ImageButton[] buttonArrayLower = {
+                ButtonController.imageButtonOpen,
+                ButtonController.imageButtonStop,
+                ButtonController.imageButtonPlaybackMode};
+
+        Log.d(TAG, "device height: "+DeviceScreenCheck.getDeviceHeight(activity));
+        Log.d(TAG, "height dif: "+heightDifference);
+        Log.d(TAG, "play: "+ButtonController.imageButtonPlay.getY());
+        Log.d(TAG, "center: "+centerSpace.getY());
+        Log.d(TAG, "stop: "+ButtonController.imageButtonStop.getY());
+
+        AnimationListener animationListener = new AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                for (int x = 0;x < buttonArrayUpper.length; x++){
+                    buttonArrayUpper[x].setY(targetYClosedList);
+                }
+                for (int x = 0;x < buttonArrayLower.length; x++){
+                    buttonArrayLower[x].setY(targetYClosedList + heightDifference);
+                }
+                Log.d(TAG, "end play: "+ButtonController.imageButtonPlay.getY());
+                Log.d(TAG, "end center: "+centerSpace.getY());
+                Log.d(TAG, "end stop: "+ButtonController.imageButtonStop.getY());
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        };
+
+        TranslateAnimation translateAnimation = new TranslateAnimation(0, 0, 0, 0,
+                Animation.ABSOLUTE, 0,
+                Animation.ABSOLUTE, moveAnimation);
+        //translateAnimation.setFillAfter(true);
+        translateAnimation.setAnimationListener(animationListener);
+        translateAnimation.setDuration(50);
+
+        for (int x = 0; x < buttonArrayUpper.length; x++) {
+            buttonArrayUpper[x].startAnimation(translateAnimation);
+        }
+        for (int x = 0; x < buttonArrayLower.length; x++) {
+            buttonArrayLower[x].startAnimation(translateAnimation);
+        }
     }
-
 
 }

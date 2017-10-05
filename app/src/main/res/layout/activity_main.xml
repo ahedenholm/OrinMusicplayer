@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_freelove"
+    android:background="@drawable/bg_marine"
     android:id="@+id/main_layout"
     >
     <!--
@@ -11,6 +11,17 @@
     Play button aligns to centerSpace.
     All other buttons align in turn to the play button.
     -->
+
+    <ListView
+        android:id="@+id/song_list"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:alpha="0"
+        android:listSelector="@color/listSelected"
+        />
     <ImageButton
         android:id="@+id/imageButtonSwitchtheme"
         android:layout_width="60dp"
@@ -111,16 +122,5 @@
         android:layout_marginRight="30dp"
         />
 
-    <ListView
-        android:id="@+id/song_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/imageButtonStop"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:alpha="0"
-        android:listSelector="@color/listSelected"
-        />
 
 </RelativeLayout>
