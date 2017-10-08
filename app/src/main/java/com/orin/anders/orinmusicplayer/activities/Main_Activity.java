@@ -24,11 +24,13 @@ import com.orin.anders.orinmusicplayer.MusicService.MusicBinder;
 import com.orin.anders.orinmusicplayer.OrinNotification;
 import com.orin.anders.orinmusicplayer.R;
 import com.orin.anders.orinmusicplayer.Song;
+import com.orin.anders.orinmusicplayer.ViewMover;
 import com.orin.anders.orinmusicplayer.adapters.SongAdapter;
 import com.orin.anders.orinmusicplayer.controllers.ButtonController;
 import com.orin.anders.orinmusicplayer.controllers.ThemeController;
 import com.orin.anders.orinmusicplayer.helpers.Main_ActivityHelper;
 import com.orin.anders.orinmusicplayer.helpers.MusicServiceHelper;
+import com.orin.anders.orinmusicplayer.utils.DeviceScreenCheck;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -42,11 +44,11 @@ public class Main_Activity extends AppCompatActivity {
     private RelativeLayout relativeLayout;
     private MusicService musicService;
     private Animations animations;
+    private ViewMover viewMover;
     private ListView songListView;
     private Intent playIntent;
     private Context context;
     private boolean musicBound = false;
-    private boolean songListEnabled;
     private static final String TAG = "Main_Act.Debug Message";
 
     @Override
@@ -67,6 +69,7 @@ public class Main_Activity extends AppCompatActivity {
         ButtonController.imageButtonPlaybackMode = (ImageButton) findViewById(R.id.imageButtonPlaybackMode);
 
         orinNotification = new OrinNotification(this);
+        viewMover = new ViewMover(this, this);
         animations = new Animations(this, this);
         songListView = (ListView) findViewById(R.id.song_list);
         songList = new ArrayList<>();
@@ -91,9 +94,10 @@ public class Main_Activity extends AppCompatActivity {
         pressedPrev();
         pressedStop();
         pressedPlaybackMode();
-        songListEnabled = false;
+        Main_ActivityHelper.songListIsEnabled = false;
         ButtonController.imageButtonSwitchtheme.setEnabled(false);
         Log.d(TAG, "onCreate()");
+        Log.d(TAG, "status bar: " + DeviceScreenCheck.getDeviceStatusBarHeight(this));
     }
 
     @Override
@@ -195,7 +199,7 @@ public class Main_Activity extends AppCompatActivity {
         ((TextView) view.findViewById(R.id.song_title)).setTextColor(Color.GRAY);
         ((TextView) view.findViewById(R.id.song_length)).setTextColor(Color.GRAY);
         */
-        if (songListEnabled) {
+        if (Main_ActivityHelper.songListIsEnabled) {
             musicService.setSong(Integer.parseInt(view.getTag().toString()));
             musicService.playSong();
         }
@@ -209,11 +213,22 @@ public class Main_Activity extends AppCompatActivity {
                 Intent openArtistIntent = new Intent(context, Artist_Activity.class);
                 startActivity(openArtistIntent);
                 */
+
                 //Opens a songlist within the same activity
-                animations.fadeView(songListView);
-                animations.fadeView(ButtonController.imageButtonSwitchtheme);
-                songListEnabled = !songListEnabled;
-                animations.slideUpPlaybackButtons();
+                Log.d(TAG,"play"+ButtonController.imageButtonPlay.getY());
+                Log.d(TAG,"stop"+ButtonController.imageButtonStop.getY());
+                animations.fadeView(songListView, 200);
+                animations.fadeView(ButtonController.imageButtonSwitchtheme, 200);
+
+                if (Main_ActivityHelper.songListIsEnabled)
+                    viewMover.slideDownPlaybackButtons();
+                else viewMover.slideUpPlaybackButtons();
+
+                Main_ActivityHelper.songListIsEnabled = !Main_ActivityHelper.songListIsEnabled;
+
+                Log.d(TAG,"end play"+ButtonController.imageButtonPlay.getY());
+                Log.d(TAG,"end stop"+ButtonController.imageButtonStop.getY());
+                Log.d(TAG,"end stop opacity"+ButtonController.imageButtonStop.getAlpha());
             }
         });
     }
@@ -238,18 +253,12 @@ public class Main_Activity extends AppCompatActivity {
                 Log.d(TAG, ""+ThemeController.currentTheme);
                 switch (ThemeController.currentTheme) {
                     case ThemeController.THEME_PURPLE:
-                        themeController.setThemeGreenfield(relativeLayout);
-                        break;
-                    case ThemeController.THEME_GREENFIELD:
                         themeController.setThemeSkyblue(relativeLayout);
                         break;
                     case ThemeController.THEME_SKYBLUE:
                         themeController.setThemeMarine(relativeLayout);
                         break;
                     case ThemeController.THEME_MARINE:
-                        themeController.setThemeFreeLove(relativeLayout);
-                        break;
-                    case ThemeController.THEME_FREELOVE:
                         themeController.setThemePurple(relativeLayout);
                         break;
                     default:
