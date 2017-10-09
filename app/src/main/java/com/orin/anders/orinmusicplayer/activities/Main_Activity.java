@@ -69,8 +69,8 @@ public class Main_Activity extends AppCompatActivity {
         ButtonController.imageButtonPlaybackMode = (ImageButton) findViewById(R.id.imageButtonPlaybackMode);
 
         orinNotification = new OrinNotification(this);
-        viewMover = new ViewMover(this, this);
         animations = new Animations(this, this);
+        viewMover = new ViewMover(this, this);
         songListView = (ListView) findViewById(R.id.song_list);
         songList = new ArrayList<>();
         relativeLayout = (RelativeLayout) findViewById(R.id.main_layout);
@@ -215,8 +215,6 @@ public class Main_Activity extends AppCompatActivity {
                 */
 
                 //Opens a songlist within the same activity
-                Log.d(TAG,"play"+ButtonController.imageButtonPlay.getY());
-                Log.d(TAG,"stop"+ButtonController.imageButtonStop.getY());
                 animations.fadeView(songListView, 200);
                 animations.fadeView(ButtonController.imageButtonSwitchtheme, 200);
 
@@ -225,10 +223,6 @@ public class Main_Activity extends AppCompatActivity {
                 else viewMover.slideUpPlaybackButtons();
 
                 Main_ActivityHelper.songListIsEnabled = !Main_ActivityHelper.songListIsEnabled;
-
-                Log.d(TAG,"end play"+ButtonController.imageButtonPlay.getY());
-                Log.d(TAG,"end stop"+ButtonController.imageButtonStop.getY());
-                Log.d(TAG,"end stop opacity"+ButtonController.imageButtonStop.getAlpha());
             }
         });
     }
