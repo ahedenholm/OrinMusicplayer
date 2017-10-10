@@ -215,9 +215,9 @@ public class Main_Activity extends AppCompatActivity {
                 */
 
                 //Opens a songlist within the same activity
-                animations.fadeView(songListView, 300);
-                animations.fadeView(ButtonController.imageButtonSwitchtheme, 300);
-                viewMover.openAndCloseSongList(150);
+                animations.fadeView(songListView, 200);
+                animations.fadeView(ButtonController.imageButtonSwitchtheme, 200);
+                viewMover.openAndCloseSongList(100);
             }
         });
     }
