@@ -12,6 +12,7 @@
     All other buttons align in turn to the play button.
     -->
 
+
     <ListView
         android:id="@+id/song_list"
         android:layout_width="match_parent"
@@ -22,6 +23,7 @@
         android:alpha="0"
         android:listSelector="@color/listSelected"
         />
+
     <ImageButton
         android:id="@+id/imageButtonSwitchtheme"
         android:layout_width="60dp"

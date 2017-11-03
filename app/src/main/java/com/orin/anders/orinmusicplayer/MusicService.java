@@ -115,6 +115,11 @@ public class MusicService extends Service implements
                         re.printStackTrace();
                     }
                 }
+                /*if (externalKeysListenerPlay.equals(intent.getAction())){
+                    playsong
+
+                }*/
+
             }
         };
     }

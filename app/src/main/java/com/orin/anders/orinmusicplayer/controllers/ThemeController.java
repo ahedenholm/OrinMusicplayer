@@ -12,10 +12,10 @@ import com.orin.anders.orinmusicplayer.R;
      */
 
 public class ThemeController {
-    public static final int THEME_GREENFIELD = 0;
+    public static final int THEME_MARINE = 0;
     public static final int THEME_PURPLE = 1;
     public static final int THEME_SKYBLUE = 2;
-    public static final int THEME_MARINE = 3;
+    public static final int THEME_GREENFIELD = 3;
     public static final int THEME_FREELOVE = 4;
     public static Integer currentTheme;
 
